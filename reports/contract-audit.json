@@ -1,0 +1,133 @@
+{
+  "checked_at_kst": "2026-10-22T16:56:18.392049+09:00",
+  "scope": "Real Backend context/map/guard + FakeLLM; schemas and static wiring; no live models",
+  "commits": {
+    "oneload-app": "d45f46689ea1643338d9fdf02da8984f65c6599e",
+    "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
+    "oneload_agent": "b5c5dde5a70364511d8c7d0efa92a493ccef4af6"
+  },
+  "contract_checks": [
+    {
+      "id": "INT-01",
+      "passed": true,
+      "evidence": {
+        "backend_parameters": [
+          "ctx",
+          "message",
+          "image",
+          "selected_poi_id"
+        ],
+        "r2_parameters": [
+          "ctx",
+          "message",
+          "image",
+          "selected_poi_id"
+        ],
+        "return_wrapper": "AgentResult"
+      }
+    },
+    {
+      "id": "INT-02",
+      "passed": true,
+      "evidence": {
+        "schema_enum_mismatches": []
+      }
+    },
+    {
+      "id": "INT-03",
+      "passed": true,
+      "evidence": {
+        "actual_train_type": "allstop"
+      }
+    },
+    {
+      "id": "INT-04",
+      "passed": true,
+      "evidence": {
+        "context_class": "Backend AgentContext/Slots",
+        "follow_up": "없어요",
+        "response": {
+          "status": "destination_set",
+          "intent": "payment_question",
+          "assistant_message": "(데모) 공항철도에는 직통열차와 일반열차가 있고, 타는 방법과 내는 방법이 다르다. [1] (데모) 일반열차는 교통카드를 찍고 타며, 카드가 없으면 1회용 교통카드를 산다. [2] 일반열차 표 사는 곳(으)로 안내할게요. B3에 있어요. 먼저 주변 안내판을 찍어서 지금 위치를 확인해 주세요.",
+          "items": [],
+          "tip": null,
+          "unverified_notes": [],
+          "slots": {
+            "train_type": "allstop",
+            "has_transit_card": "no"
+          },
+          "destination": {
+            "poi_id": "poi-allstop-tickets"
+          },
+          "suggested_replies": [],
+          "sources": [
+            {
+              "document_id": "doc-arex-train-types",
+              "title": "공항철도 열차 종류 (데모 문서)",
+              "source_url": null,
+              "verified_at": "2026-10-15"
+            },
+            {
+              "document_id": "doc-allstop-ticket",
+              "title": "일반열차 이용 (데모 문서)",
+              "source_url": null,
+              "verified_at": "2026-10-15"
+            }
+          ],
+          "next_action": "locate"
+        }
+      }
+    },
+    {
+      "id": "INT-05",
+      "passed": true,
+      "evidence": {
+        "map_mirror_identical": true,
+        "backend_candidates": [
+          "line4-gates"
+        ]
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "INT-06",
+      "severity": "P0",
+      "description": "Frontend still executes local mock flows",
+      "evidence": [
+        "oneload-app/src/store.tsx",
+        "oneload-app/README.md"
+      ]
+    },
+    {
+      "id": "INT-07",
+      "severity": "P0",
+      "description": "Backend production entry point uses RuleAgent/NoVision",
+      "evidence": {
+        "file": "oneload-backend/app/main.py",
+        "r2_injected_probe_is_not_production_wiring": true
+      }
+    },
+    {
+      "id": "INT-08",
+      "severity": "P0",
+      "description": "R2 raises a different VisionUnavailable class; Backend handler cannot catch it",
+      "evidence": {
+        "r2_exception": "hangil_r2.backend.contracts",
+        "backend_exception": "app.ai.contracts",
+        "identity_matches": false,
+        "http_reproduction": "run_backend_tests.py --with-r2 / INT-08-vision-down"
+      }
+    },
+    {
+      "id": "DATA-01",
+      "severity": "release_gate",
+      "description": "Example panoramas and draft map/knowledge need official and field verification",
+      "evidence": {
+        "map_id": "seoul-station",
+        "example_panorama_count": 6
+      }
+    }
+  ]
+}

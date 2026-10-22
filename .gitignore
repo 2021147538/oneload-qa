@@ -1,0 +1,15 @@
+# Local environments and generated evidence
+.venv
+.work/
+.cache/
+.ruff_cache/
+.pnpm-store/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+.env
+.env.*
+eval/photos/
+results/*
+!results/README.md

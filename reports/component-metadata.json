@@ -1,0 +1,34 @@
+{
+  "executed_at_kst": "2026-10-22T16:56:17.626924+09:00",
+  "dataset_version": "r6-component-v2",
+  "dataset_sha256": "1daa313834008bf7c26dec28d9cb302e92ddddd9b28d8c5e15cc28d5f6a13da3",
+  "runner_sha256": "ebb6e16ed81877e2ac6e195c3e88bf685f23746f7f9930e941ff16231c82fa63",
+  "commits": {
+    "oneload_agent": "b5c5dde5a70364511d8c7d0efa92a493ccef4af6",
+    "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342"
+  },
+  "python": "3.12.14",
+  "model_mode": "fake",
+  "model_name": "FakeLLM",
+  "prompt_version": "v3",
+  "prompt_hashes": {
+    "compose_v3.md": "54d00b954626a3fc34d58e4d85557439f373c1a60705ef91014c52f6d2966c66",
+    "scene_v3.md": "c6ed932a243743575b3fb074e2ad89ffc6523ca1dbf8d45337a86d905a2d8e20",
+    "understand_v3.md": "c55a664f335a690db6d26a4d4d32379f4d56f3b15531ccdbc9cff72c5e4c360c"
+  },
+  "fixture_hashes": {
+    "mocks/knowledge.json": "2f22d1191c2098a3d8e32d106fdd1222d99bd2889e1b7e2f528572537feed8a6",
+    "mocks/maps/seoul-station.json": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043",
+    "mocks/timetable.json": "abe8668e3678316288237f21eaa57e5d281c297620de31bd86aaf377bc50df1a"
+  },
+  "backend_map_sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043",
+  "tools": "R2 MockKnowledgeSearch; real Backend map/context/guard; no production RAG",
+  "scenario_count": 20,
+  "turn_count": 21,
+  "auto_scenarios_passed": 20,
+  "auto_turns_passed": 21,
+  "human_review_pending": 21,
+  "final_quality_score": null,
+  "p95_latency_ms_nearest_rank": 0.9,
+  "latency_scope": "component and selected model mode; not browser/API latency"
+}

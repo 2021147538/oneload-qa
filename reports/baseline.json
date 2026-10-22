@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-22",
+  "commits": {
+    "oneload-app": "d45f46689ea1643338d9fdf02da8984f65c6599e",
+    "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
+    "oneload_agent": "b5c5dde5a70364511d8c7d0efa92a493ccef4af6"
+  },
+  "backend": {
+    "suite": {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "environment": "disposable PostgreSQL 17; RuleAgent and FakeVision; no production DB",
+    "run": {
+      "started_at_kst": "2026-10-22T16:56:21.197676+09:00",
+      "repository": "oneload-backend",
+      "commit": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
+      "python": "3.12.14",
+      "exit_code": 0,
+      "database": "disposable PostgreSQL 17; loopback; removed after run",
+      "ai_mode": "RuleAgent and test FakeVision; no live LLM/VLM"
+    }
+  },
+  "agent": {
+    "suite": {
+      "tests": 37,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "model": "FakeLLM",
+    "checkout": "Tested remote origin/main in an isolated local clone; original local checkout preserved"
+  },
+  "component": {
+    "dataset_version": "r6-component-v2",
+    "dataset_sha256": "1daa313834008bf7c26dec28d9cb302e92ddddd9b28d8c5e15cc28d5f6a13da3",
+    "auto_scenarios_passed": 20,
+    "scenario_count": 20,
+    "auto_turns_passed": 21,
+    "turn_count": 21,
+    "human_review_pending": 21,
+    "final_quality_score": null
+  },
+  "integration": {
+    "passed": 10,
+    "total": 11,
+    "failed": [
+      "INT-08-vision-down"
+    ],
+    "fixture": "FakeLLM, MockKnowledgeSearch, synthetic JPEG; explicit R2 injection"
+  },
+  "frontend": {
+    "commit": "d45f46689ea1643338d9fdf02da8984f65c6599e",
+    "scope": "retained results from the same unchanged commit",
+    "build_exit_code": 0,
+    "lint_exit_code": 0,
+    "lint_warnings": 1,
+    "browser_e2e_executed": false
+  },
+  "real_llm_calls": 0,
+  "field_photo_count": 0,
+  "production_ai_quality_measured": false,
+  "qa_checks": {
+    "ruff_check": "passed",
+    "ruff_format": "passed"
+  }
+}

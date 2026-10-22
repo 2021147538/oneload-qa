@@ -1,0 +1,246 @@
+"""Probe real R2/Backend boundaries; invoked only by the disposable DB runner."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+import uuid
+from datetime import UTC, datetime
+from pathlib import Path
+from urllib.parse import urlparse
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--project-root", type=Path, required=True)
+    ap.add_argument("--output", type=Path, required=True)
+    args = ap.parse_args()
+    url = urlparse(os.environ.get("DATABASE_URL", ""))
+    if (
+        url.hostname != "127.0.0.1"
+        or url.path != "/hangil_r6_test"
+        or url.username != "hangil_r6"
+        or os.environ.get("R6_DISPOSABLE_DB") != "1"
+    ):
+        ap.error(
+            "Use run_backend_tests.py --with-r2; a disposable loopback DB is required"
+        )
+    root = args.project_root.resolve()
+    sys.path[:0] = [str(root / "oneload-backend"), str(root / "oneload_agent")]
+    from app.ai.rule_agent import RuleAgent
+    from app.main import create_app
+    from fastapi.testclient import TestClient
+    from hangil_r2 import FakeLLM, LLMAgent, LLMVision, MockKnowledgeSearch
+
+    checks = []
+    jpeg = b"\xff\xd8\xff\xe0" + b"\x00" * 64
+
+    def check(id_, expected, actual):
+        checks.append(
+            {
+                "id": id_,
+                "passed": actual == expected,
+                "expected": expected,
+                "actual": actual,
+            }
+        )
+        print(f"{id_}: {'PASS' if actual == expected else 'FAIL'}")
+
+    class Api:
+        def __init__(self, http):
+            self.http = http
+            response = self.post(
+                "/sessions",
+                {
+                    "language": "ko",
+                    "map_id": "seoul-station",
+                    "client": {"platform": "web", "app_version": "r6-fake-integration"},
+                },
+                auth=False,
+            )
+            body = response.json()
+            self.sid, self.token, self.version = (
+                body["session_id"],
+                body["session_token"],
+                body["map_version"],
+            )
+
+        def post(self, path, body=None, auth=True, **kw):
+            headers = {"Idempotency-Key": str(uuid.uuid4())}
+            if auth:
+                headers["Authorization"] = "Bearer " + self.token
+                path = "/sessions/" + self.sid + path
+            return self.http.post("/api/v1" + path, headers=headers, json=body, **kw)
+
+        def say(self, message):
+            response = self.post("/messages", {"message": message})
+            if response.status_code != 200:
+                raise RuntimeError("Message HTTP " + str(response.status_code))
+            return response.json()
+
+        def photo(self):
+            return self.post(
+                "/localizations",
+                data={"map_version": self.version},
+                files={"image": ("synthetic.jpg", jpeg, "image/jpeg")},
+            )
+
+    llm = FakeLLM(
+        scene={
+            "image_quality": "usable",
+            "texts": [
+                {"text": "공항철도", "kind": "line_name"},
+                {"text": "4호선", "kind": "line_number"},
+            ],
+        }
+    )
+    vision = LLMVision(llm)
+    agent = LLMAgent(
+        llm, search_knowledge=MockKnowledgeSearch(), vision=vision, fallback=RuleAgent()
+    )
+    with TestClient(
+        create_app(agent=agent, vision=vision), raise_server_exceptions=False
+    ) as http:
+        api = Api(http)
+        vague = api.say("공항 가는 티켓 어디서 사?")
+        check("API-01-train-clarification", "needs_clarification", vague["status"])
+        card = api.say("일반열차")
+        check(
+            "API-02-card-clarification",
+            {"status": "needs_clarification", "train_type": "allstop"},
+            {"status": card["status"], "train_type": card["slots"]["train_type"]},
+        )
+        ticket = api.say("없어요")
+        check(
+            "API-03-persisted-slots",
+            {"poi": "poi-allstop-tickets", "card": "no", "state": "needs_location"},
+            {
+                "poi": ticket["destination"]["poi_id"],
+                "card": ticket["slots"]["has_transit_card"],
+                "state": ticket["session"]["state"],
+            },
+        )
+        located = api.photo()
+        check("API-04-photo-boundary", 200, located.status_code)
+        body = located.json()
+        check(
+            "API-05-location-candidate",
+            {"status": "needs_confirmation", "first": "line4-gates"},
+            {
+                "status": body["status"],
+                "first": body["candidates"][0]["node_id"]
+                if body["candidates"]
+                else None,
+            },
+        )
+        confirmed = api.post(
+            "/location-confirmations",
+            {
+                "expected_revision": body["session"]["revision"],
+                "method": "photo_candidate",
+                "localization_id": body["localization_id"],
+                "selected_node_id": "line4-gates",
+            },
+        )
+        check(
+            "API-06-confirmation",
+            {"http": 200, "state": "ready_to_navigate"},
+            {
+                "http": confirmed.status_code,
+                "state": confirmed.json().get("session", {}).get("state"),
+            },
+        )
+        route = api.post(
+            "/routes",
+            {
+                "expected_revision": confirmed.json()["session"]["revision"],
+                "destination_poi_id": "poi-allstop-tickets",
+                "map_version": api.version,
+            },
+        )
+        r = route.json()
+        check(
+            "API-07-registered-route",
+            {"http": 200, "start": "line4-gates", "goal": "allstop-tickets"},
+            {
+                "http": route.status_code,
+                "start": r["path_node_ids"][0],
+                "goal": r["path_node_ids"][-1],
+            },
+        )
+        for event, target in [
+            ("navigation_started", "navigating"),
+            ("arrived", "arrived"),
+        ]:
+            response = api.post(
+                "/navigation-events",
+                {
+                    "route_id": r["route_id"],
+                    "events": [
+                        {
+                            "event_id": str(uuid.uuid4()),
+                            "type": event,
+                            "client_timestamp": datetime.now(UTC).isoformat(),
+                        }
+                    ],
+                },
+            )
+            check(
+                "API-08-" + event,
+                {"http": 200, "state": target},
+                {
+                    "http": response.status_code,
+                    "state": response.json().get("session", {}).get("state"),
+                },
+            )
+
+    down = FakeLLM(down=True)
+    with TestClient(
+        create_app(
+            agent=LLMAgent(
+                down, search_knowledge=MockKnowledgeSearch(), fallback=RuleAgent()
+            ),
+            vision=LLMVision(down),
+        ),
+        raise_server_exceptions=False,
+    ) as http:
+        api = Api(http)
+        response = api.say("직통열차")
+        check("API-09-llm-down-fallback", "destination_set", response["status"])
+        response = api.photo()
+        try:
+            code = response.json().get("error", {}).get("code")
+        except ValueError:
+            code = None
+        check(
+            "INT-08-vision-down",
+            {"http": 503, "error_code": "AI_SERVICE_UNAVAILABLE"},
+            {"http": response.status_code, "error_code": code},
+        )
+
+    report = {
+        "executed_at_utc": datetime.now(UTC).isoformat(),
+        "commits": {
+            name: subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=root / name, text=True
+            ).strip()
+            for name in ("oneload-backend", "oneload_agent")
+        },
+        "scope": "Real Backend API + R2 modules; FakeLLM, mock knowledge, synthetic JPEG; disposable DB",
+        "checks": checks,
+        "passed": sum(c["passed"] for c in checks),
+        "total": len(checks),
+        "production_ai_quality_measured": False,
+    }
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    return 0 if all(c["passed"] for c in checks) else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

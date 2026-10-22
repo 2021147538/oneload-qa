@@ -1,0 +1,131 @@
+{
+  "executed_at_utc": "2026-10-22T07:56:26.464473+00:00",
+  "commits": {
+    "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
+    "oneload_agent": "b5c5dde5a70364511d8c7d0efa92a493ccef4af6"
+  },
+  "scope": "Real Backend API + R2 modules; FakeLLM, mock knowledge, synthetic JPEG; disposable DB",
+  "checks": [
+    {
+      "id": "API-01-train-clarification",
+      "passed": true,
+      "expected": "needs_clarification",
+      "actual": "needs_clarification"
+    },
+    {
+      "id": "API-02-card-clarification",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification",
+        "train_type": "allstop"
+      },
+      "actual": {
+        "status": "needs_clarification",
+        "train_type": "allstop"
+      }
+    },
+    {
+      "id": "API-03-persisted-slots",
+      "passed": true,
+      "expected": {
+        "poi": "poi-allstop-tickets",
+        "card": "no",
+        "state": "needs_location"
+      },
+      "actual": {
+        "poi": "poi-allstop-tickets",
+        "card": "no",
+        "state": "needs_location"
+      }
+    },
+    {
+      "id": "API-04-photo-boundary",
+      "passed": true,
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "id": "API-05-location-candidate",
+      "passed": true,
+      "expected": {
+        "status": "needs_confirmation",
+        "first": "line4-gates"
+      },
+      "actual": {
+        "status": "needs_confirmation",
+        "first": "line4-gates"
+      }
+    },
+    {
+      "id": "API-06-confirmation",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "state": "ready_to_navigate"
+      },
+      "actual": {
+        "http": 200,
+        "state": "ready_to_navigate"
+      }
+    },
+    {
+      "id": "API-07-registered-route",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "start": "line4-gates",
+        "goal": "allstop-tickets"
+      },
+      "actual": {
+        "http": 200,
+        "start": "line4-gates",
+        "goal": "allstop-tickets"
+      }
+    },
+    {
+      "id": "API-08-navigation_started",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "state": "navigating"
+      },
+      "actual": {
+        "http": 200,
+        "state": "navigating"
+      }
+    },
+    {
+      "id": "API-08-arrived",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "state": "arrived"
+      },
+      "actual": {
+        "http": 200,
+        "state": "arrived"
+      }
+    },
+    {
+      "id": "API-09-llm-down-fallback",
+      "passed": true,
+      "expected": "destination_set",
+      "actual": "destination_set"
+    },
+    {
+      "id": "INT-08-vision-down",
+      "passed": false,
+      "expected": {
+        "http": 503,
+        "error_code": "AI_SERVICE_UNAVAILABLE"
+      },
+      "actual": {
+        "http": 500,
+        "error_code": null
+      }
+    }
+  ],
+  "passed": 10,
+  "total": 11,
+  "production_ai_quality_measured": false
+}

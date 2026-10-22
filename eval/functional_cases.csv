@@ -1,0 +1,17 @@
+﻿id,type,trigger,acceptance,current_evidence_scope,actual_result,verdict,evidence_path,fix_and_retest
+TC-01,정상,세션 생성·인증,"토큰으로 본인 세션 접근, 상태·revision 반환",Backend 기존 테스트,,NOT_RUN,,
+TC-02,정상,영어 직통열차 대표 흐름,질문→선택→사진 후보→사용자 확인→경로→시작→도착→승강장,Backend FakeVision 테스트 통과 / 웹 통합 미실행,,NOT_RUN,,
+TC-03,정상,일반열차 교통카드 보유·미보유,슬롯 유지 후 승인된 다른 목적지로 분기,"Backend+R2: 일반→없어요 API 통과, 카드 있음은 컴포넌트 검사 / 웹 미실행",슬롯 유지·일반열차 발매기 설정과 경로·도착까지 합성 입력 통과,PARTIAL,reports/integration-probe.json; reports/component-results.csv,
+TC-04,예외,사진 no_match,"재촬영·수동 선택 제공, 자동 확정 금지",Backend FakeVision 테스트,,NOT_RUN,,
+TC-05,예외,후보 아닌 위치 선택,"선택 거부, 상태 훼손 없음",Backend 기존 테스트,,NOT_RUN,,
+TC-06,오류,빈 질문·잘못된 필드,전송 방지 또는 명세 오류 응답,API·화면 확인 필요,,NOT_RUN,,
+TC-07,오류,파일 형식·크기·지도 버전,415/413/409 공통 오류 응답,Backend 기존 테스트,,NOT_RUN,,
+TC-08,오류,오래된 revision,409 충돌 후 재동기화,Backend API 통과 / 화면 미실행,,NOT_RUN,,
+TC-09,오류,같은 멱등성 키 재전송·다른 body,동일 결과 재생·다른 body 거부,Backend 기존 테스트,,NOT_RUN,,
+TC-10,오류,무인증·다른 세션·만료 토큰,401/403 및 복구 안내,Backend API 통과 / 화면 미실행,,NOT_RUN,,
+TC-11,예외,AI·Vision 장애,"오류·재시도·수동 선택, 수동 목적지에 LLM 필수 아님",Backend+R2 FakeLLM 장애 주입 API 검사 / 웹 복구 미실행,LLM RuleAgent fallback 통과; Vision 장애 기대503 실제500,FAIL,reports/integration-probe.json: INT-08-vision-down,R2·Backend VisionUnavailable 공통화/변환 후 같은 기대값으로 재시험
+TC-12,예외,길을 잃음·위치 재확인·재탐색,최신 위치에서 등록 경로 재생성·시작 이벤트 후 이동,서버·화면 통합 필요,,NOT_RUN,,
+TC-13,정상,거리뷰 방향·파노라마 없음,"north_yaw+heading 방향 검증, 사진 없음 대체",Backend 경로 계산 통과 / 실기기 시각 검증 미실행,,NOT_RUN,,
+TC-14,예외,취소 뒤 지연 응답·중복/역순 이벤트,이전 응답이 목적지·상태를 복구하지 않음,추가 보완안 채택 범위 확정 필요,,NOT_RUN,,
+TC-15,정상,출처·확인 전 정보·예시 사진,"출처 표시, unverified 분리, 타 역사 샘플 표시",화면·RAG 통합 검증 필요,,NOT_RUN,,
+TC-16,예외,모바일 카메라 거부·자이로 미지원·좁은 화면,"파일 선택·노선 안내 대체, 주요 버튼 사용 가능",휴대폰 수동 검증 미실행,,NOT_RUN,,
