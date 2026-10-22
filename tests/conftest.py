@@ -9,7 +9,11 @@ import pytest
 
 QA_ROOT = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = Path(os.environ.get("QA_PROJECT_ROOT", QA_ROOT.parent)).resolve()
-sys.path[:0] = [str(QA_ROOT / "scripts"), str(PROJECT_ROOT / "oneload-backend")]
+sys.path[:0] = [
+    str(QA_ROOT / "scripts"),
+    str(PROJECT_ROOT / "oneload-backend"),
+    str(PROJECT_ROOT / "oneload_agent"),
+]
 
 
 @pytest.fixture

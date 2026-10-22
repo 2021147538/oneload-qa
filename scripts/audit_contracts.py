@@ -14,6 +14,37 @@ from zoneinfo import ZoneInfo
 from qa_inputs import InputError, digest, load_live_map, source_commits
 
 
+def probe_vision_failure(
+    vision, backend_exception: type[Exception]
+) -> tuple[bool, dict]:
+    """Check the exception actually thrown, using Backend's except semantics."""
+    evidence = {
+        "input": "synthetic bytes; no live model",
+        "expected_exception": f"{backend_exception.__module__}.{backend_exception.__qualname__}",
+        "http_reproduction": "run_backend_tests.py --with-r2 / INT-08-vision-down",
+    }
+    try:
+        vision.extract(b"synthetic")
+    except backend_exception as exc:
+        caught = True
+        evidence["outcome"] = "expected_exception"
+        evidence["actual_exception"] = (
+            f"{type(exc).__module__}.{type(exc).__qualname__}"
+        )
+    except Exception as exc:  # noqa: BLE001 - Unexpected types must fail with evidence.
+        caught = False
+        evidence["outcome"] = "unexpected_exception"
+        evidence["actual_exception"] = (
+            f"{type(exc).__module__}.{type(exc).__qualname__}"
+        )
+    else:
+        caught = False
+        evidence["outcome"] = "no_exception"
+        evidence["actual_exception"] = None
+    evidence["backend_caught"] = caught
+    return caught, evidence
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--project-root", type=Path, required=True)
@@ -160,18 +191,10 @@ def main() -> int:
                 "r2_injected_probe_is_not_production_wiring": True,
             },
         )
-    if not issubclass(r2.VisionUnavailable, backend.VisionUnavailable):
-        add(
-            "INT-08",
-            "P0",
-            "R2 raises a different VisionUnavailable class; Backend handler cannot catch it",
-            {
-                "r2_exception": r2.VisionUnavailable.__module__,
-                "backend_exception": backend.VisionUnavailable.__module__,
-                "identity_matches": False,
-                "http_reproduction": "run_backend_tests.py --with-r2 / INT-08-vision-down",
-            },
-        )
+    caught, evidence = probe_vision_failure(
+        LLMVision(FakeLLM(down=True)), backend.VisionUnavailable
+    )
+    check("INT-08", caught, evidence)
     graph = map_.model_dump(mode="json")
     if any(p.get("is_example") for p in graph.get("panoramas", [])):
         add(
@@ -187,7 +210,7 @@ def main() -> int:
         )
     report = {
         "checked_at_kst": datetime.now(ZoneInfo("Asia/Seoul")).isoformat(),
-        "scope": "Real Backend context/map/guard + FakeLLM; schemas and static wiring; no live models",
+        "scope": "Real Backend context/map/guard + FakeLLM; actual Vision failure, schemas and static wiring; no live models",
         "commits": commits,
         "map": map_info,
         "contract_checks": checks,

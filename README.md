@@ -10,15 +10,17 @@
 
 | 검증 | 결과 | 의미 |
 |---|---|---|
-| QA 회귀 테스트 | 6/6 통과 | 지도 누락·명시적 선택·스키마 변경·사진 누락 처리 |
+| QA 회귀 테스트 | 11/11 통과 | 지도 입력 6건·실제 사진 장애 예외 판정 5건 |
 | 데이터 검사 | 3/3 통과 | Backend 모델·참조, 스키마 사본 일치, 사진 파일 존재 |
-| Agent 기존 테스트 | 37/37 통과 | FakeLLM 기반 |
+| Agent 기존 테스트 | 43/43 통과 | FakeLLM 기반 |
 | Backend 기존 테스트 | 44/44 통과 | 일회용 PostgreSQL, 고정 시험 fixture |
 | R6 컴포넌트 평가 v2 | 20/20 시나리오·21/21 턴 자동 검사 통과 | oneload-data 지도·실제 Backend context/guard + 모의 AI |
-| R2↔Backend API 연결 | 19/20 확인 통과, 1개 실패 | 사진 인식 장애에서 기대 503, 실제 500 |
+| R2↔Backend API 연결 | 20/20 확인 통과 | 사진 장애에서 503 / AI_SERVICE_UNAVAILABLE 확인 |
 | 실제 AI·사진 정확도 | 미측정 | 실제 모델·공식 RAG·현장 사진 평가 전 |
 
-이번 결과는 Backend a82b7be와 oneload-data 606f648의 분리 구조를 기준으로 다시 실행했습니다.
+2026-10-23에 Agent 250271e·Backend a82b7be·oneload-data 606f648 기준으로 다시 실행했습니다.
+[QA #2](https://github.com/team-onetruck/oneload-qa/issues/2)의 INT-08 거짓 실패를 수정했습니다.
+사진 장애를 실제로 발생시켜 Backend가 잡는 예외를 확인하며 잘못된 예외·장애 누락도 회귀 검사합니다.
 Frontend는 모의 구현이고 Backend 기본 실행은 RuleAgent/NoVision입니다.
 API 연결 검사는 QA에서 R2를 주입한 결과이며 서비스 전체 연결 완료로 집계하지 않습니다.
 
@@ -90,7 +92,7 @@ QA 회귀 테스트 → 데이터 검사 → Agent 시험 → 계약 감사 → 
 누락되거나 다른 버전의 증거가 섞이면 공개 보고서를 갱신하지 않습니다.
 --reports는 --with-backend와 함께 사용하며, 매 실행 새 출력 폴더를 지정합니다.
 
-현재 INT-08과 실제 연결 전 항목 때문에 전체 종료 코드는 1입니다.
+INT-08은 통과했고, 실제 연결 전 항목 INT-06/07 때문에 전체 종료 코드는 1입니다.
 자세한 단계별 종료 코드와 실제 실패 항목은 reports/baseline.json에 있습니다.
 실행 원본은 results/, 공개용 구조화 증거는 reports/에 기록합니다.
 

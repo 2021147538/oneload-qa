@@ -1,10 +1,10 @@
 {
-  "date": "2026-10-22",
-  "executed_at_kst": "2026-10-22T17:35:31.412660+09:00",
+  "date": "2026-10-23",
+  "executed_at_kst": "2026-10-23T08:38:04.526457+09:00",
   "commits": {
     "oneload-app": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
     "oneload-backend": "a82b7befa6509c28c843a0dc84af46d75143a047",
-    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6",
+    "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
     "oneload-infra": "3dcccd8dfae1c6650887f198316317438b3d5fde"
   },
@@ -13,7 +13,7 @@
     {
       "name": "qa-tests",
       "exit_code": 0,
-      "elapsed_s": 0.759
+      "elapsed_s": 1.098
     },
     {
       "name": "data-validation",
@@ -23,22 +23,22 @@
     {
       "name": "agent-tests",
       "exit_code": 0,
-      "elapsed_s": 1.097
+      "elapsed_s": 1.066
     },
     {
       "name": "contract-audit",
       "exit_code": 1,
-      "elapsed_s": 0.743
+      "elapsed_s": 0.718
     },
     {
       "name": "component-eval",
       "exit_code": 0,
-      "elapsed_s": 0.751
+      "elapsed_s": 0.735
     },
     {
       "name": "backend-and-integration",
-      "exit_code": 1,
-      "elapsed_s": 5.935
+      "exit_code": 0,
+      "elapsed_s": 5.81
     }
   ],
   "map": {
@@ -50,7 +50,7 @@
   },
   "qa": {
     "suite": {
-      "tests": 6,
+      "tests": 11,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -83,7 +83,7 @@
   },
   "agent": {
     "suite": {
-      "tests": 37,
+      "tests": 43,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -99,7 +99,7 @@
       "skipped": 0
     },
     "run": {
-      "started_at_kst": "2026-10-22T17:35:25.587504+09:00",
+      "started_at_kst": "2026-10-23T08:37:58.824013+09:00",
       "repository": "oneload-backend",
       "commit": "a82b7befa6509c28c843a0dc84af46d75143a047",
       "python": "3.12.14",
@@ -124,23 +124,22 @@
     "final_quality_score": null
   },
   "integration": {
-    "passed": 19,
+    "passed": 20,
     "total": 20,
-    "failed": [
-      "INT-08-vision-down"
-    ],
+    "failed": [],
     "fixture": "FakeLLM, MockKnowledgeSearch, synthetic JPEG; explicit R2 injection"
   },
   "frontend": {
     "commit": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
     "status": "not_run",
-    "browser_e2e_executed": false
+    "browser_e2e_executed": false,
+    "scope": "retained results from the same unchanged commit"
   },
   "real_llm_calls": 0,
   "field_photo_count": 0,
   "production_ai_quality_measured": false,
   "runner_hashes": {
-    "audit_contracts.py": "dbf34c027664287f033d1413b3076238eb3737605eff45ab94f6212fbb435ef4",
+    "audit_contracts.py": "9d5e53c151b4464106d081c685630efa240028a8af30801ad8b3265b5defd471",
     "evaluate_agent.py": "2e3033eda3c946bc0321c2754e4180e07c67aa730c51029efd9d3416fd14002b",
     "probe_integration.py": "9f9f0f267976255f6ff78925446eb66c85c22421b05ac6d3ebde8fda6c9079fd",
     "qa_inputs.py": "b6abd0f0739ff425191d60a6f014c62c1ab1df3c93a0a55179a0470fd000fef3",

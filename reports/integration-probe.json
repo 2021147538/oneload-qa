@@ -1,9 +1,9 @@
 {
-  "executed_at_utc": "2026-10-22T08:35:31.096433+00:00",
+  "executed_at_utc": "2026-10-22T23:38:04.227953+00:00",
   "commits": {
     "oneload-app": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
     "oneload-backend": "a82b7befa6509c28c843a0dc84af46d75143a047",
-    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6",
+    "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
     "oneload-infra": "3dcccd8dfae1c6650887f198316317438b3d5fde"
   },
@@ -246,18 +246,18 @@
     },
     {
       "id": "INT-08-vision-down",
-      "passed": false,
+      "passed": true,
       "expected": {
         "http": 503,
         "error_code": "AI_SERVICE_UNAVAILABLE"
       },
       "actual": {
-        "http": 500,
-        "error_code": null
+        "http": 503,
+        "error_code": "AI_SERVICE_UNAVAILABLE"
       }
     }
   ],
-  "passed": 19,
+  "passed": 20,
   "total": 20,
   "production_ai_quality_measured": false
 }

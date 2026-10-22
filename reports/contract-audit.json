@@ -1,10 +1,10 @@
 {
-  "checked_at_kst": "2026-10-22T17:35:24.680204+09:00",
-  "scope": "Real Backend context/map/guard + FakeLLM; schemas and static wiring; no live models",
+  "checked_at_kst": "2026-10-23T08:37:57.940575+09:00",
+  "scope": "Real Backend context/map/guard + FakeLLM; actual Vision failure, schemas and static wiring; no live models",
   "commits": {
     "oneload-app": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
     "oneload-backend": "a82b7befa6509c28c843a0dc84af46d75143a047",
-    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6",
+    "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
     "oneload-infra": "3dcccd8dfae1c6650887f198316317438b3d5fde"
   },
@@ -97,6 +97,18 @@
           "line4-gates"
         ]
       }
+    },
+    {
+      "id": "INT-08",
+      "passed": true,
+      "evidence": {
+        "input": "synthetic bytes; no live model",
+        "expected_exception": "app.ai.contracts.VisionUnavailable",
+        "http_reproduction": "run_backend_tests.py --with-r2 / INT-08-vision-down",
+        "outcome": "expected_exception",
+        "actual_exception": "app.ai.contracts.VisionUnavailable",
+        "backend_caught": true
+      }
     }
   ],
   "findings": [
@@ -116,17 +128,6 @@
       "evidence": {
         "file": "oneload-backend/app/main.py",
         "r2_injected_probe_is_not_production_wiring": true
-      }
-    },
-    {
-      "id": "INT-08",
-      "severity": "P0",
-      "description": "R2 raises a different VisionUnavailable class; Backend handler cannot catch it",
-      "evidence": {
-        "r2_exception": "hangil_r2.backend.contracts",
-        "backend_exception": "app.ai.contracts",
-        "identity_matches": false,
-        "http_reproduction": "run_backend_tests.py --with-r2 / INT-08-vision-down"
       }
     },
     {

@@ -43,9 +43,9 @@
   "commits": {
     "oneload-app": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
     "oneload-backend": "a82b7befa6509c28c843a0dc84af46d75143a047",
-    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6",
+    "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
     "oneload-infra": "3dcccd8dfae1c6650887f198316317438b3d5fde"
   },
-  "checked_at_kst": "2026-10-22T17:35:22.878726+09:00"
+  "checked_at_kst": "2026-10-23T08:37:56.188260+09:00"
 }

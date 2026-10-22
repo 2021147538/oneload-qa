@@ -9,7 +9,7 @@ TC-07,오류,파일 형식·크기·지도 버전,415/413/409 공통 오류 응�
 TC-08,오류,오래된 revision,409 충돌 후 재동기화,Backend API 통과 / 화면 미실행,,NOT_RUN,,
 TC-09,오류,같은 멱등성 키 재전송·다른 body,동일 결과 재생·다른 body 거부,Backend 기존 테스트,,NOT_RUN,,
 TC-10,오류,무인증·다른 세션·만료 토큰,401/403 및 복구 안내,Backend API 통과 / 화면 미실행,,NOT_RUN,,
-TC-11,예외,AI·Vision 장애,"오류·재시도·수동 선택, 수동 목적지에 LLM 필수 아님",Backend+R2 FakeLLM 장애 주입 API 검사 / 웹 복구 미실행,LLM RuleAgent fallback 통과; Vision 장애 기대503 실제500,FAIL,reports/integration-probe.json: INT-08-vision-down,R2·Backend VisionUnavailable 공통화/변환 후 같은 기대값으로 재시험
+TC-11,예외,AI·Vision 장애,"오류·재시도·수동 선택, 수동 목적지에 LLM 필수 아님",Backend+R2 FakeLLM 장애 주입 API 통과 / 웹 복구 미실행,LLM RuleAgent fallback 및 Vision 장애 503 AI_SERVICE_UNAVAILABLE 통과; 화면 복구는 미검증,PARTIAL,reports/integration-probe.json: INT-08-vision-down,API 예외 수정 재검증 완료; 재시도·수동 선택 화면은 실제 연동 후 검증
 TC-12,예외,길을 잃음·위치 재확인·재탐색,최신 위치에서 등록 경로 재생성·시작 이벤트 후 이동,서버·화면 통합 필요,,NOT_RUN,,
 TC-13,정상,거리뷰 방향·파노라마 없음,"north_yaw+heading 방향 검증, 사진 없음 대체",Backend 경로 계산 통과 / 실기기 시각 검증 미실행,,NOT_RUN,,
 TC-14,예외,취소 뒤 지연 응답·중복/역순 이벤트,이전 응답이 목적지·상태를 복구하지 않음,추가 보완안 채택 범위 확정 필요,,NOT_RUN,,
