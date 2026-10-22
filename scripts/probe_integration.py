@@ -197,6 +197,173 @@ def main() -> int:
                 },
             )
 
+    # FAQ Q7/Q8/Q9: exercise branches through real persisted sessions.
+    with TestClient(
+        create_app(agent=agent, vision=vision), raise_server_exceptions=False
+    ) as http:
+        api = Api(http)
+        api.say("일반열차")
+        card_yes = api.say("교통카드 있어요")
+        check(
+            "API-10-card-present",
+            {"poi": "poi-allstop-platform", "card": "yes"},
+            {
+                "poi": (card_yes.get("destination") or {}).get("poi_id"),
+                "card": card_yes["slots"]["has_transit_card"],
+            },
+        )
+        express = Api(http).say("Where do I buy an express ticket?")
+        check(
+            "API-11-express-english",
+            "poi-express-tickets",
+            (express.get("destination") or {}).get("poi_id"),
+        )
+        unsure = Api(http).say("잘 모르겠어요")
+        check(
+            "API-12-unsure-without-timetable",
+            {
+                "status": "needs_clarification",
+                "has_comparison_source": True,
+                "items": [],
+            },
+            {
+                "status": unsure["status"],
+                "has_comparison_source": any(
+                    x["document_id"] == "doc-arex-train-types"
+                    for x in unsure["sources"]
+                ),
+                "items": unsure["items"],
+            },
+        )
+        fare = Api(http).say("직통열차 요금 얼마야?")
+        check(
+            "API-13-fare-without-evidence",
+            {"status": "cannot_answer", "sources": [], "has_digits": False},
+            {
+                "status": fare["status"],
+                "sources": fare["sources"],
+                "has_digits": any(c.isdigit() for c in fare["assistant_message"]),
+            },
+        )
+        invalid = Api(http).post(
+            "/messages", {"message": "", "selected_poi_id": "poi-invented"}
+        )
+        body = invalid.json()
+        check(
+            "API-14-unregistered-poi",
+            {"http": 200, "status": "needs_clarification", "destination": None},
+            {
+                "http": invalid.status_code,
+                "status": body.get("status"),
+                "destination": body.get("destination"),
+            },
+        )
+
+    # The image supplied to /messages must reach LLMAgent.vision, not just /localizations.
+    photo_llm = FakeLLM(
+        scene={"image_quality": "usable", "facilities": ["ticket_machine"]}
+    )
+    photo_vision = LLMVision(photo_llm)
+    with TestClient(
+        create_app(
+            agent=LLMAgent(
+                photo_llm, search_knowledge=MockKnowledgeSearch(), vision=photo_vision
+            ),
+            vision=photo_vision,
+        ),
+        raise_server_exceptions=False,
+    ) as http:
+        api = Api(http)
+        api.say("직통열차")
+        response = api.post(
+            "/messages",
+            data={"message": "이거 뭐 눌러?"},
+            files={"image": ("machine.jpg", jpeg, "image/jpeg")},
+        )
+        body = response.json()
+        check(
+            "API-15-photo-question",
+            {"http": 200, "status": "answered", "has_ticket_source": True},
+            {
+                "http": response.status_code,
+                "status": body.get("status"),
+                "has_ticket_source": any(
+                    x["document_id"] == "doc-express-ticket"
+                    for x in body.get("sources", [])
+                ),
+            },
+        )
+
+    # FAQ Q8: no comparison evidence means no unsupported comparison.
+    with TestClient(
+        create_app(
+            agent=LLMAgent(FakeLLM(), search_knowledge=lambda q, lang, context: []),
+            vision=vision,
+        ),
+        raise_server_exceptions=False,
+    ) as http:
+        body = Api(http).say("잘 모르겠어요")
+        check(
+            "API-16-comparison-without-evidence",
+            {
+                "status": "needs_clarification",
+                "sources": [],
+                "items": [],
+                "has_unverified_note": True,
+            },
+            {
+                "status": body["status"],
+                "sources": body["sources"],
+                "items": body["items"],
+                "has_unverified_note": bool(body["unverified_notes"]),
+            },
+        )
+
+    # FAQ Q10: malformed scene output -> no_match, then explicit manual confirmation.
+    with TestClient(
+        create_app(agent=agent, vision=LLMVision(FakeLLM(broken=True))),
+        raise_server_exceptions=False,
+    ) as http:
+        api = Api(http)
+        api.say("직통열차")
+        response = api.photo()
+        body = response.json()
+        check(
+            "API-17-malformed-photo",
+            {
+                "http": 200,
+                "status": "no_match",
+                "candidates": [],
+                "action": "recapture",
+                "hint": True,
+            },
+            {
+                "http": response.status_code,
+                "status": body.get("status"),
+                "candidates": body.get("candidates"),
+                "action": body.get("next_action"),
+                "hint": bool(body.get("retake_hint")),
+            },
+        )
+        response = api.post(
+            "/location-confirmations",
+            {
+                "expected_revision": body["session"]["revision"],
+                "method": "manual",
+                "selected_node_id": "line4-gates",
+            },
+        )
+        confirmed = response.json()
+        check(
+            "API-18-manual-after-no-match",
+            {"http": 200, "state": "ready_to_navigate", "node": "line4-gates"},
+            {
+                "http": response.status_code,
+                "state": confirmed.get("session", {}).get("state"),
+                "node": confirmed.get("location", {}).get("node_id"),
+            },
+        )
+
     down = FakeLLM(down=True)
     with TestClient(
         create_app(

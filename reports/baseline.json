@@ -1,28 +1,34 @@
 {
   "date": "2026-10-22",
+  "executed_at_kst": "2026-10-22T17:09:53.127924+09:00",
   "commits": {
     "oneload-app": "d45f46689ea1643338d9fdf02da8984f65c6599e",
     "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
-    "oneload_agent": "b5c5dde5a70364511d8c7d0efa92a493ccef4af6"
+    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6"
   },
-  "backend": {
-    "suite": {
-      "tests": 44,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0
-    },
-    "environment": "disposable PostgreSQL 17; RuleAgent and FakeVision; no production DB",
-    "run": {
-      "started_at_kst": "2026-10-22T16:56:21.197676+09:00",
-      "repository": "oneload-backend",
-      "commit": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
-      "python": "3.12.14",
+  "overall_exit_code": 1,
+  "steps": [
+    {
+      "name": "agent-tests",
       "exit_code": 0,
-      "database": "disposable PostgreSQL 17; loopback; removed after run",
-      "ai_mode": "RuleAgent and test FakeVision; no live LLM/VLM"
+      "elapsed_s": 1.21
+    },
+    {
+      "name": "contract-audit",
+      "exit_code": 1,
+      "elapsed_s": 0.724
+    },
+    {
+      "name": "component-eval",
+      "exit_code": 0,
+      "elapsed_s": 0.793
+    },
+    {
+      "name": "backend-and-integration",
+      "exit_code": 1,
+      "elapsed_s": 5.764
     }
-  },
+  ],
   "agent": {
     "suite": {
       "tests": 37,
@@ -31,7 +37,25 @@
       "skipped": 0
     },
     "model": "FakeLLM",
-    "checkout": "Tested remote origin/main in an isolated local clone; original local checkout preserved"
+    "checkout": "Local synchronized main"
+  },
+  "backend": {
+    "suite": {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "run": {
+      "started_at_kst": "2026-10-22T17:09:47.388614+09:00",
+      "repository": "oneload-backend",
+      "commit": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
+      "python": "3.12.14",
+      "exit_code": 0,
+      "database": "disposable PostgreSQL 17; loopback; removed after run",
+      "ai_mode": "RuleAgent and test FakeVision; no live LLM/VLM"
+    },
+    "environment": "disposable PostgreSQL 17; no production DB"
   },
   "component": {
     "dataset_version": "r6-component-v2",
@@ -44,8 +68,8 @@
     "final_quality_score": null
   },
   "integration": {
-    "passed": 10,
-    "total": 11,
+    "passed": 19,
+    "total": 20,
     "failed": [
       "INT-08-vision-down"
     ],
@@ -62,8 +86,11 @@
   "real_llm_calls": 0,
   "field_photo_count": 0,
   "production_ai_quality_measured": false,
-  "qa_checks": {
-    "ruff_check": "passed",
-    "ruff_format": "passed"
+  "runner_hashes": {
+    "audit_contracts.py": "f86cdabce31a63cbfa0d92967d6791fa4d310d00359fc573d29e663eca26a200",
+    "evaluate_agent.py": "ebb6e16ed81877e2ac6e195c3e88bf685f23746f7f9930e941ff16231c82fa63",
+    "probe_integration.py": "6d39aec9648e554fe7e5b50a76cb6cf34db0f0e8be561b73a41ca5854f6cac55",
+    "run_backend_tests.py": "b040240f227219dd594442e171ebc36fea8c8254051f40a1478f239d7d6273b0",
+    "run_checks.py": "929f5f12e6e9cee8e7cd041b090876bf46f7b947986de128fd38aef87a601fe5"
   }
 }

@@ -1,8 +1,8 @@
 ﻿id,type,trigger,acceptance,current_evidence_scope,actual_result,verdict,evidence_path,fix_and_retest
 TC-01,정상,세션 생성·인증,"토큰으로 본인 세션 접근, 상태·revision 반환",Backend 기존 테스트,,NOT_RUN,,
 TC-02,정상,영어 직통열차 대표 흐름,질문→선택→사진 후보→사용자 확인→경로→시작→도착→승강장,Backend FakeVision 테스트 통과 / 웹 통합 미실행,,NOT_RUN,,
-TC-03,정상,일반열차 교통카드 보유·미보유,슬롯 유지 후 승인된 다른 목적지로 분기,"Backend+R2: 일반→없어요 API 통과, 카드 있음은 컴포넌트 검사 / 웹 미실행",슬롯 유지·일반열차 발매기 설정과 경로·도착까지 합성 입력 통과,PARTIAL,reports/integration-probe.json; reports/component-results.csv,
-TC-04,예외,사진 no_match,"재촬영·수동 선택 제공, 자동 확정 금지",Backend FakeVision 테스트,,NOT_RUN,,
+TC-03,정상,일반열차 교통카드 보유·미보유,슬롯 유지 후 승인된 다른 목적지로 분기,Backend+R2 일반열차 카드 있음/없음 API 통과 / 웹 미실행,"카드 있음→승강장, 없음→발매기; 슬롯 저장과 경로·도착 합성 입력 통과",PARTIAL,reports/integration-probe.json; reports/component-results.csv,
+TC-04,예외,사진 no_match,"재촬영·수동 선택 제공, 자동 확정 금지",Backend+R2 사진 결과 형식 오류·no_match·수동 확인 API 통과 / 웹 미실행,재촬영 안내·후보 없음·수동 위치 확정 후 ready_to_navigate,PARTIAL,"reports/integration-probe.json: API-17, API-18",
 TC-05,예외,후보 아닌 위치 선택,"선택 거부, 상태 훼손 없음",Backend 기존 테스트,,NOT_RUN,,
 TC-06,오류,빈 질문·잘못된 필드,전송 방지 또는 명세 오류 응답,API·화면 확인 필요,,NOT_RUN,,
 TC-07,오류,파일 형식·크기·지도 버전,415/413/409 공통 오류 응답,Backend 기존 테스트,,NOT_RUN,,

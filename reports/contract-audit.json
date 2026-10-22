@@ -1,10 +1,10 @@
 {
-  "checked_at_kst": "2026-10-22T16:56:18.392049+09:00",
+  "checked_at_kst": "2026-10-22T17:09:46.514452+09:00",
   "scope": "Real Backend context/map/guard + FakeLLM; schemas and static wiring; no live models",
   "commits": {
     "oneload-app": "d45f46689ea1643338d9fdf02da8984f65c6599e",
     "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
-    "oneload_agent": "b5c5dde5a70364511d8c7d0efa92a493ccef4af6"
+    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6"
   },
   "contract_checks": [
     {

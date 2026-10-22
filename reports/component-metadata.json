@@ -1,10 +1,10 @@
 {
-  "executed_at_kst": "2026-10-22T16:56:17.626924+09:00",
+  "executed_at_kst": "2026-10-22T17:09:47.293543+09:00",
   "dataset_version": "r6-component-v2",
   "dataset_sha256": "1daa313834008bf7c26dec28d9cb302e92ddddd9b28d8c5e15cc28d5f6a13da3",
   "runner_sha256": "ebb6e16ed81877e2ac6e195c3e88bf685f23746f7f9930e941ff16231c82fa63",
   "commits": {
-    "oneload_agent": "b5c5dde5a70364511d8c7d0efa92a493ccef4af6",
+    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6",
     "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342"
   },
   "python": "3.12.14",
@@ -29,6 +29,6 @@
   "auto_turns_passed": 21,
   "human_review_pending": 21,
   "final_quality_score": null,
-  "p95_latency_ms_nearest_rank": 0.9,
+  "p95_latency_ms_nearest_rank": 1.03,
   "latency_scope": "component and selected model mode; not browser/API latency"
 }

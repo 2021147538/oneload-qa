@@ -13,7 +13,7 @@
 | Agent 기존 테스트 | 37/37 통과 | FakeLLM 기반 |
 | Backend 기존 테스트 | 44/44 통과 | 일회용 PostgreSQL, 기본 Agent/Vision 대역 |
 | R6 컴포넌트 평가 v2 | 20/20 시나리오, 21/21 턴 자동 검사 통과 | 실제 Backend context·지도·guard + FakeLLM·모의 검색 |
-| R2↔Backend API 연결 | 11개 확인 중 10개 통과, 1개 실패 | 사진 인식 장애에서 503 대신 500 |
+| R2↔Backend API 연결 | 20개 확인 중 19개 통과, 1개 실패 | 사진 인식 장애에서 503 대신 500 |
 | 실제 AI·사진 정확도 | 미측정 | 실제 모델 호출·공식 RAG·현장 사진 평가 전 |
 
 Frontend는 모의 구현이고 Backend 기본 실행은 RuleAgent/NoVision입니다.
@@ -23,6 +23,8 @@ Frontend는 모의 구현이고 Backend 기본 실행은 RuleAgent/NoVision입�
 - [해결된 규격 차이와 남은 통합 문제](docs/integration_findings.md)
 - [저장소 구조](docs/repository-status.md)
 - [R6 테스트 계획](docs/test_plan.md)
+- [최신 Agent FAQ와 QA 검증 연결](docs/faq-qa-traceability.md)
+- [Git 동기화 처리 기록](docs/git-sync.md)
 - [서비스 평가 초안 20문항](eval/service_gold.csv)
 - [기능 인수조건 16건](eval/functional_cases.csv)
 - [사진 정답 목록: 현재 0건](eval/photo_manifest.csv)
@@ -48,6 +50,20 @@ uv pip install --python .venv/bin/python -r requirements-runtime.lock.txt
 
 기준 실행 환경은 Python 3.12.14입니다. 런타임 고정 목록은 실제 검증 환경을 기록하며,
 팀 전체의 배포 의존성 파일을 대체하지 않습니다.
+
+### 전체 점검과 공개용 증거 갱신
+
+~~~sh
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/run_checks.py --project-root .. --with-backend --output results/full-run-001 --reports reports
+~~~
+
+Agent 테스트 → 계약 검사 → 컴포넌트 평가 → 일회용 DB의 Backend·R2 API 검사를 차례로 실행합니다.
+개별 단계의 실패가 있어도 나머지 결과를 수집하고, 실패 종료 코드를 유지합니다.
+공개 증거를 만들 때는 실행 전후 소스 작업 트리가 clean인지 검사합니다.
+서로 다른 커밋·결과 수·실행기 해시가 섞이거나 증거가 누락되면 공개 보고서를 갱신하지 않습니다.
+현재 알려진 INT-08과 실제 연결 전 항목 때문에 전체 종료 코드는 1입니다.
+실행 원본은 지정한 새 폴더, 구조화된 공개 증거는 reports/에 기록합니다.
+전체 검사에서 실제 모델 호출은 없습니다. run_checks.py의 --reports는 --with-backend와 함께 사용합니다.
 
 ### Agent 기존 테스트
 

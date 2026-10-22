@@ -1,6 +1,6 @@
 # 현재 통합 점검 결과
 
-기준: Agent b5c5dde, Backend 2502e65, Frontend d45f466 (2026-10-22).
+기준: Agent 7b7501f, Backend 2502e65, Frontend d45f466 (2026-10-22).
 [계약 검사](../reports/contract-audit.json)와 [실제 API 연결 검사](../reports/integration-probe.json)를 함께 봅니다.
 
 ## 이전 규격 차이의 재검증
@@ -41,10 +41,11 @@ QA 작업에서 팀원의 원본 코드를 변경하거나 오류를 숨기는 �
 
 ## 연결 때 함께 확인할 사항
 
-- R2 인계 문서의 예시는 LLMAgent(..., vision=...) 인수가 빠져 있습니다.
+- R2 FAQ Q1·인계 문서의 예시는 LLMAgent(..., vision=...) 인수가 빠져 있습니다.
   /localizations용 app.state.vision과 사진 질문용 LLMAgent.vision을 모두 연결해야 합니다.
 - /messages의 15초 처리 예산을 실제 모델로 측정합니다. 이해·문장 생성에 사진 읽기가 추가되고,
   호출당 6초 timeout과 재시도가 있어 전체 요청 예산을 별도로 보장해야 합니다.
 - R3 검색 계약의 scope·검증일·열차별 문서 필터와 요금 근거 유무를 합의합니다.
 - 실제 사진 입력, no_match, 503→수동 선택, revision 충돌은 모바일 화면까지 확인합니다.
+- 새 FAQ Q10의 503 복구 설명은 INT-08 때문에 아직 충족하지 못합니다.
 - R2 docs/handoff.md의 테스트 수 33건은 현재 실제 실행 37건과 다릅니다. 보고서에는 실행 증거의 수를 사용합니다.

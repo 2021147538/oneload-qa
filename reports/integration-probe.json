@@ -1,8 +1,8 @@
 {
-  "executed_at_utc": "2026-10-22T07:56:26.464473+00:00",
+  "executed_at_utc": "2026-10-22T08:09:52.826204+00:00",
   "commits": {
     "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
-    "oneload_agent": "b5c5dde5a70364511d8c7d0efa92a493ccef4af6"
+    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6"
   },
   "scope": "Real Backend API + R2 modules; FakeLLM, mock knowledge, synthetic JPEG; disposable DB",
   "checks": [
@@ -107,6 +107,128 @@
       }
     },
     {
+      "id": "API-10-card-present",
+      "passed": true,
+      "expected": {
+        "poi": "poi-allstop-platform",
+        "card": "yes"
+      },
+      "actual": {
+        "poi": "poi-allstop-platform",
+        "card": "yes"
+      }
+    },
+    {
+      "id": "API-11-express-english",
+      "passed": true,
+      "expected": "poi-express-tickets",
+      "actual": "poi-express-tickets"
+    },
+    {
+      "id": "API-12-unsure-without-timetable",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification",
+        "has_comparison_source": true,
+        "items": []
+      },
+      "actual": {
+        "status": "needs_clarification",
+        "has_comparison_source": true,
+        "items": []
+      }
+    },
+    {
+      "id": "API-13-fare-without-evidence",
+      "passed": true,
+      "expected": {
+        "status": "cannot_answer",
+        "sources": [],
+        "has_digits": false
+      },
+      "actual": {
+        "status": "cannot_answer",
+        "sources": [],
+        "has_digits": false
+      }
+    },
+    {
+      "id": "API-14-unregistered-poi",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification",
+        "destination": null
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "destination": null
+      }
+    },
+    {
+      "id": "API-15-photo-question",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "status": "answered",
+        "has_ticket_source": true
+      },
+      "actual": {
+        "http": 200,
+        "status": "answered",
+        "has_ticket_source": true
+      }
+    },
+    {
+      "id": "API-16-comparison-without-evidence",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification",
+        "sources": [],
+        "items": [],
+        "has_unverified_note": true
+      },
+      "actual": {
+        "status": "needs_clarification",
+        "sources": [],
+        "items": [],
+        "has_unverified_note": true
+      }
+    },
+    {
+      "id": "API-17-malformed-photo",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "status": "no_match",
+        "candidates": [],
+        "action": "recapture",
+        "hint": true
+      },
+      "actual": {
+        "http": 200,
+        "status": "no_match",
+        "candidates": [],
+        "action": "recapture",
+        "hint": true
+      }
+    },
+    {
+      "id": "API-18-manual-after-no-match",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "state": "ready_to_navigate",
+        "node": "line4-gates"
+      },
+      "actual": {
+        "http": 200,
+        "state": "ready_to_navigate",
+        "node": "line4-gates"
+      }
+    },
+    {
       "id": "API-09-llm-down-fallback",
       "passed": true,
       "expected": "destination_set",
@@ -125,7 +247,7 @@
       }
     }
   ],
-  "passed": 10,
-  "total": 11,
+  "passed": 19,
+  "total": 20,
   "production_ai_quality_measured": false
 }

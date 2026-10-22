@@ -1,4 +1,4 @@
-# oneload_agent b5c5dde runtime/test pins; combined QA environment uses requirements-runtime.lock.txt
+# oneload_agent 7b7501f runtime/test pins; combined QA environment uses requirements-runtime.lock.txt
 langgraph==1.2.16
 pydantic==2.14.1
 langchain-openai==1.7.2
