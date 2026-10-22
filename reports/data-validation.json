@@ -1,0 +1,51 @@
+{
+  "checks": [
+    {
+      "id": "DATA-schema",
+      "passed": true,
+      "description": "Data schema equals the current Backend MapData schema"
+    },
+    {
+      "id": "DATA-map-seoul-station",
+      "passed": true,
+      "description": "Backend schema and cross-reference validation"
+    },
+    {
+      "id": "DATA-photos-seoul-station",
+      "passed": true,
+      "missing_panorama_ids": []
+    }
+  ],
+  "maps": [
+    {
+      "source_repository": "oneload-data",
+      "path": "maps/seoul-station.json",
+      "map_id": "seoul-station",
+      "version": "2026-10-22.1",
+      "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043",
+      "nodes": 10,
+      "edges": 9,
+      "pois": 4,
+      "panoramas": 6,
+      "example_panoramas": 6
+    }
+  ],
+  "asset_sha256": {
+    "panos/hamburg_hbf.webp": "2ed638fdf4df85b3c3cc4308eae21c64723380b567d95dadab0a8b706995e008",
+    "panos/subway_entrance.webp": "86208e5b4f42b3c06d967f4baa5561bcc7b9a8aa04032c1a028a9da72bb37379",
+    "panos/metro_noord.webp": "b7ae8f4e51d3b1d114cf32e84f18a6deaa05ca83a00d48181f78bd52b88a4c6c",
+    "panos/metro_vijzelgracht.webp": "ed5f398eb4b7637f4d97fdf372dfb55746c9d013447531db4b82e2ec82825433"
+  },
+  "passed": 3,
+  "total": 3,
+  "validation_scope": "Backend MapData and reference validation; schema copy equality; local photo files",
+  "field_photo_accuracy_measured": false,
+  "commits": {
+    "oneload-app": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
+    "oneload-backend": "a82b7befa6509c28c843a0dc84af46d75143a047",
+    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6",
+    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+    "oneload-infra": "3dcccd8dfae1c6650887f198316317438b3d5fde"
+  },
+  "checked_at_kst": "2026-10-22T17:35:22.878726+09:00"
+}

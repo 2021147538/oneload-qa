@@ -5,17 +5,19 @@ from __future__ import annotations
 import argparse
 import inspect
 import json
-import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import get_args
 from zoneinfo import ZoneInfo
 
+from qa_inputs import InputError, digest, load_live_map, source_commits
+
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--project-root", type=Path, required=True)
+    ap.add_argument("--map-dir", type=Path)
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args()
     root = args.project_root.resolve()
@@ -23,11 +25,15 @@ def main() -> int:
     from app.ai import contracts as backend
     from app.ai.guard import guard
     from app.domain import localization as loc
-    from app.domain.mapdata import MapStore
     from hangil_r2 import FakeLLM, LLMAgent, LLMVision, MockKnowledgeSearch
     from hangil_r2.backend import contracts as r2
     from hangil_r2.backend import localization_types as r2loc
 
+    try:
+        map_, map_info = load_live_map(root, args.map_dir)
+        commits = source_commits(root)
+    except InputError as exc:
+        ap.error(str(exc))
     checks, findings = [], []
 
     def check(id_, passed, evidence):
@@ -54,7 +60,6 @@ def main() -> int:
 
     bparams = list(inspect.signature(backend.Agent.handle_message).parameters)[1:]
     aparams = list(inspect.signature(LLMAgent.handle_message).parameters)[1:]
-    map_ = MapStore.load(root / "oneload-backend/data/maps").get("seoul-station")
     ctx = backend.AgentContext(
         language="ko",
         map=map_,
@@ -120,14 +125,15 @@ def main() -> int:
         FakeLLM(scene={"image_quality": "usable", "texts": [{"text": "4호선"}]})
     ).extract(b"synthetic")
     candidates = loc.match_location(features, map_, loc.Hints(), "ko")
-    same_map = (root / "oneload-backend/data/maps/seoul-station.json").read_bytes() == (
+    # A survey update may legitimately differ from the frozen Agent fixture.
+    same_map = map_info["sha256"] == digest(
         root / "oneload_agent/mocks/maps/seoul-station.json"
-    ).read_bytes()
+    )
     check(
         "INT-05",
-        bool(candidates) and same_map,
+        bool(candidates),
         {
-            "map_mirror_identical": same_map,
+            "live_map_matches_agent_fixture": same_map,
             "backend_candidates": [c.node_id for c in candidates],
         },
     )
@@ -166,9 +172,7 @@ def main() -> int:
                 "http_reproduction": "run_backend_tests.py --with-r2 / INT-08-vision-down",
             },
         )
-    graph = json.loads(
-        (root / "oneload-backend/data/maps/seoul-station.json").read_text()
-    )
+    graph = map_.model_dump(mode="json")
     if any(p.get("is_example") for p in graph.get("panoramas", [])):
         add(
             "DATA-01",
@@ -184,12 +188,8 @@ def main() -> int:
     report = {
         "checked_at_kst": datetime.now(ZoneInfo("Asia/Seoul")).isoformat(),
         "scope": "Real Backend context/map/guard + FakeLLM; schemas and static wiring; no live models",
-        "commits": {
-            name: subprocess.check_output(
-                ["git", "rev-parse", "HEAD"], cwd=root / name, text=True
-            ).strip()
-            for name in ("oneload-app", "oneload-backend", "oneload_agent")
-        },
+        "commits": commits,
+        "map": map_info,
         "contract_checks": checks,
         "findings": findings,
     }

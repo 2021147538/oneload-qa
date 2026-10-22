@@ -1,34 +1,86 @@
 {
   "date": "2026-10-22",
-  "executed_at_kst": "2026-10-22T17:09:53.127924+09:00",
+  "executed_at_kst": "2026-10-22T17:35:31.412660+09:00",
   "commits": {
-    "oneload-app": "d45f46689ea1643338d9fdf02da8984f65c6599e",
-    "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
-    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6"
+    "oneload-app": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
+    "oneload-backend": "a82b7befa6509c28c843a0dc84af46d75143a047",
+    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6",
+    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+    "oneload-infra": "3dcccd8dfae1c6650887f198316317438b3d5fde"
   },
   "overall_exit_code": 1,
   "steps": [
     {
+      "name": "qa-tests",
+      "exit_code": 0,
+      "elapsed_s": 0.759
+    },
+    {
+      "name": "data-validation",
+      "exit_code": 0,
+      "elapsed_s": 0.144
+    },
+    {
       "name": "agent-tests",
       "exit_code": 0,
-      "elapsed_s": 1.21
+      "elapsed_s": 1.097
     },
     {
       "name": "contract-audit",
       "exit_code": 1,
-      "elapsed_s": 0.724
+      "elapsed_s": 0.743
     },
     {
       "name": "component-eval",
       "exit_code": 0,
-      "elapsed_s": 0.793
+      "elapsed_s": 0.751
     },
     {
       "name": "backend-and-integration",
       "exit_code": 1,
-      "elapsed_s": 5.764
+      "elapsed_s": 5.935
     }
   ],
+  "map": {
+    "source_repository": "oneload-data",
+    "path": "maps/seoul-station.json",
+    "map_id": "seoul-station",
+    "version": "2026-10-22.1",
+    "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043"
+  },
+  "qa": {
+    "suite": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "data": {
+    "passed": 3,
+    "total": 3,
+    "maps": [
+      {
+        "source_repository": "oneload-data",
+        "path": "maps/seoul-station.json",
+        "map_id": "seoul-station",
+        "version": "2026-10-22.1",
+        "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043",
+        "nodes": 10,
+        "edges": 9,
+        "pois": 4,
+        "panoramas": 6,
+        "example_panoramas": 6
+      }
+    ],
+    "asset_sha256": {
+      "panos/hamburg_hbf.webp": "2ed638fdf4df85b3c3cc4308eae21c64723380b567d95dadab0a8b706995e008",
+      "panos/subway_entrance.webp": "86208e5b4f42b3c06d967f4baa5561bcc7b9a8aa04032c1a028a9da72bb37379",
+      "panos/metro_noord.webp": "b7ae8f4e51d3b1d114cf32e84f18a6deaa05ca83a00d48181f78bd52b88a4c6c",
+      "panos/metro_vijzelgracht.webp": "ed5f398eb4b7637f4d97fdf372dfb55746c9d013447531db4b82e2ec82825433"
+    },
+    "validation_scope": "Backend MapData and reference validation; schema copy equality; local photo files"
+  },
   "agent": {
     "suite": {
       "tests": 37,
@@ -47,11 +99,15 @@
       "skipped": 0
     },
     "run": {
-      "started_at_kst": "2026-10-22T17:09:47.388614+09:00",
+      "started_at_kst": "2026-10-22T17:35:25.587504+09:00",
       "repository": "oneload-backend",
-      "commit": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
+      "commit": "a82b7befa6509c28c843a0dc84af46d75143a047",
       "python": "3.12.14",
       "exit_code": 0,
+      "unit_fixture": {
+        "path": "tests/fixtures/maps/seoul-station.json",
+        "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043"
+      },
       "database": "disposable PostgreSQL 17; loopback; removed after run",
       "ai_mode": "RuleAgent and test FakeVision; no live LLM/VLM"
     },
@@ -76,21 +132,20 @@
     "fixture": "FakeLLM, MockKnowledgeSearch, synthetic JPEG; explicit R2 injection"
   },
   "frontend": {
-    "commit": "d45f46689ea1643338d9fdf02da8984f65c6599e",
-    "scope": "retained results from the same unchanged commit",
-    "build_exit_code": 0,
-    "lint_exit_code": 0,
-    "lint_warnings": 1,
+    "commit": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
+    "status": "not_run",
     "browser_e2e_executed": false
   },
   "real_llm_calls": 0,
   "field_photo_count": 0,
   "production_ai_quality_measured": false,
   "runner_hashes": {
-    "audit_contracts.py": "f86cdabce31a63cbfa0d92967d6791fa4d310d00359fc573d29e663eca26a200",
-    "evaluate_agent.py": "ebb6e16ed81877e2ac6e195c3e88bf685f23746f7f9930e941ff16231c82fa63",
-    "probe_integration.py": "6d39aec9648e554fe7e5b50a76cb6cf34db0f0e8be561b73a41ca5854f6cac55",
-    "run_backend_tests.py": "b040240f227219dd594442e171ebc36fea8c8254051f40a1478f239d7d6273b0",
-    "run_checks.py": "929f5f12e6e9cee8e7cd041b090876bf46f7b947986de128fd38aef87a601fe5"
+    "audit_contracts.py": "dbf34c027664287f033d1413b3076238eb3737605eff45ab94f6212fbb435ef4",
+    "evaluate_agent.py": "2e3033eda3c946bc0321c2754e4180e07c67aa730c51029efd9d3416fd14002b",
+    "probe_integration.py": "9f9f0f267976255f6ff78925446eb66c85c22421b05ac6d3ebde8fda6c9079fd",
+    "qa_inputs.py": "b6abd0f0739ff425191d60a6f014c62c1ab1df3c93a0a55179a0470fd000fef3",
+    "run_backend_tests.py": "0849301ed7bc5bdc3be545236be1c89bb458c97250ae689251fe2e89a4900ae6",
+    "run_checks.py": "eb3a230bd4f9bed85d8cc42df4ad1e8df6528cb6dc0d0d86139d5788fc2529d2",
+    "validate_data.py": "7d648fef59d9361abf691c49a5ad35d3da553dce695df6dbcc881707a7feecd9"
   }
 }

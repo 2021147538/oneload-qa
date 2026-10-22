@@ -24,3 +24,10 @@ FAQ의 구현 설명을 검사 대상으로 사용하며, 완료 여부는 실�
 모든 API 검사는 실제 Backend+R2 코드, 일회용 DB, FakeLLM, 모의 검색, 합성 JPEG로 실행했습니다.
 [API 결과](../reports/integration-probe.json)와 [통합 문제](integration_findings.md)를 함께 봅니다.
 FAQ 연결 예시에서 LLMAgent.vision 주입이 빠져 있으므로 사진 질문 처리에는 이를 별도로 연결해야 합니다.
+
+## 공유 데이터 분리 후 재검증
+
+현재 API·컴포넌트 결과는 Backend a82b7be와 oneload-data 606f648 기준입니다.
+실제 공유 지도 경로와 고정 시험 fixture 경로를 구분했습니다.
+QA 자체 감사는 새 경로로 정상 실행하며, Agent의 check_backend_compat.py는
+[Agent #3](https://github.com/team-onetruck/oneload_agent/issues/3)의 별도 수정 대상입니다.

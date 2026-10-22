@@ -8,13 +8,14 @@ import hashlib
 import json
 import math
 import os
-import subprocess
 import sys
 import time
 from dataclasses import replace
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
+
+from qa_inputs import InputError, load_live_map, source_commits
 
 
 def digest(path: Path) -> str:
@@ -24,6 +25,7 @@ def digest(path: Path) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--project-root", type=Path, required=True)
+    ap.add_argument("--map-dir", type=Path)
     ap.add_argument("--cases", type=Path, required=True)
     ap.add_argument("--output", type=Path, required=True)
     ap.add_argument("--mode", choices=["fake", "openai"], default="fake")
@@ -31,6 +33,12 @@ def main() -> int:
     args = ap.parse_args()
     root = args.project_root.resolve()
     repo, backend = root / "oneload_agent", root / "oneload-backend"
+    sys.path[:0] = [str(backend), str(repo)]
+    try:
+        map_, map_info = load_live_map(root, args.map_dir)
+        commits = source_commits(root)
+    except InputError as exc:
+        ap.error(str(exc))
     scenarios = json.loads(args.cases.read_text(encoding="utf-8"))
     ids = [case["id"] for case in scenarios]
     if not ids or len(ids) != len(set(ids)):
@@ -55,7 +63,6 @@ def main() -> int:
     sys.path[:0] = [str(backend), str(repo)]
     from app.ai.contracts import AgentContext, Slots
     from app.ai.guard import guard
-    from app.domain.mapdata import MapStore
     from hangil_r2 import (
         FakeLLM,
         LLMAgent,
@@ -64,7 +71,6 @@ def main() -> int:
         ToolUnavailable,
     )
 
-    map_ = MapStore.load(backend / "data/maps").get("seoul-station")
     rows = []
     for scenario in scenarios:
         retrieved = set()
@@ -196,12 +202,8 @@ def main() -> int:
         "dataset_version": "r6-component-v2",
         "dataset_sha256": digest(args.cases),
         "runner_sha256": digest(Path(__file__)),
-        "commits": {
-            name: subprocess.check_output(
-                ["git", "rev-parse", "HEAD"], cwd=root / name, text=True
-            ).strip()
-            for name in ("oneload_agent", "oneload-backend")
-        },
+        "commits": commits,
+        "map": map_info,
         "python": sys.version.split()[0],
         "model_mode": args.mode,
         "model_name": os.getenv("OPENAI_MODEL", "gpt-4o-mini")
@@ -216,7 +218,6 @@ def main() -> int:
             str(p.relative_to(repo)): digest(p)
             for p in sorted((repo / "mocks").rglob("*.json"))
         },
-        "backend_map_sha256": digest(backend / "data/maps/seoul-station.json"),
         "tools": "R2 MockKnowledgeSearch; real Backend map/context/guard; no production RAG",
         "scenario_count": len(ids),
         "turn_count": len(rows),

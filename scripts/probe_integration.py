@@ -5,17 +5,19 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import subprocess
 import sys
 import uuid
 from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
+from qa_inputs import InputError, load_live_map, resolve_map_dir, source_commits
+
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--project-root", type=Path, required=True)
+    ap.add_argument("--map-dir", type=Path)
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args()
     url = urlparse(os.environ.get("DATABASE_URL", ""))
@@ -30,6 +32,13 @@ def main() -> int:
         )
     root = args.project_root.resolve()
     sys.path[:0] = [str(root / "oneload-backend"), str(root / "oneload_agent")]
+    try:
+        directory = resolve_map_dir(root, args.map_dir)
+        _, map_info = load_live_map(root, directory)
+        commits = source_commits(root)
+    except InputError as exc:
+        ap.error(str(exc))
+    os.environ["MAP_DIR"] = str(directory)
     from app.ai.rule_agent import RuleAgent
     from app.main import create_app
     from fastapi.testclient import TestClient
@@ -390,12 +399,8 @@ def main() -> int:
 
     report = {
         "executed_at_utc": datetime.now(UTC).isoformat(),
-        "commits": {
-            name: subprocess.check_output(
-                ["git", "rev-parse", "HEAD"], cwd=root / name, text=True
-            ).strip()
-            for name in ("oneload-backend", "oneload_agent")
-        },
+        "commits": commits,
+        "map": map_info,
         "scope": "Real Backend API + R2 modules; FakeLLM, mock knowledge, synthetic JPEG; disposable DB",
         "checks": checks,
         "passed": sum(c["passed"] for c in checks),

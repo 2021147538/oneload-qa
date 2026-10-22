@@ -16,6 +16,15 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from qa_inputs import (
+    SOURCE_REPOS,
+    InputError,
+    inspect_data,
+    load_live_map,
+    resolve_map_dir,
+    source_commits,
+)
+
 
 def load_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
@@ -35,6 +44,7 @@ def suite(path: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--project-root", type=Path, required=True)
+    ap.add_argument("--map-dir", type=Path)
     ap.add_argument("--output", type=Path, required=True)
     ap.add_argument(
         "--with-backend",
@@ -54,7 +64,7 @@ def main() -> int:
     root, out = args.project_root.resolve(), args.output.resolve()
     qa = Path(__file__).resolve().parent.parent
     scripts = qa / "scripts"
-    for name in ("oneload_agent", "oneload-backend", "oneload-app"):
+    for name in SOURCE_REPOS:
         if not (root / name / ".git").exists():
             ap.error("Expected sibling Git repository: " + name)
         if (
@@ -64,6 +74,13 @@ def main() -> int:
             ).strip()
         ):
             ap.error("Public evidence requires a clean source checkout: " + name)
+    sys.path.insert(0, str(root / "oneload-backend"))
+    try:
+        directory = resolve_map_dir(root, args.map_dir)
+        _, initial_map = load_live_map(root, directory)
+        initial_commits = source_commits(root)
+    except InputError as exc:
+        ap.error(str(exc))
     if out.exists() and any(out.iterdir()):
         ap.error("Use a new output directory; existing evidence is not overwritten")
     out.mkdir(parents=True, exist_ok=True)
@@ -71,6 +88,8 @@ def main() -> int:
         os.environ,
         PYTHONDONTWRITEBYTECODE="1",
         PYTEST_ADDOPTS="",
+        MAP_DIR=str(directory),
+        QA_PROJECT_ROOT=str(root),
         LANGSMITH_TRACING="false",
         LANGCHAIN_TRACING_V2="false",
     )
@@ -107,6 +126,34 @@ def main() -> int:
 
     py = sys.executable
     run(
+        "qa-tests",
+        [
+            py,
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            str(qa / "tests"),
+            "--junitxml=" + str(out / "qa-junit.xml"),
+        ],
+        qa,
+    )
+    run(
+        "data-validation",
+        [
+            py,
+            str(scripts / "validate_data.py"),
+            "--project-root",
+            str(root),
+            "--map-dir",
+            str(directory),
+            "--output",
+            str(out / "data-validation.json"),
+        ],
+        qa,
+    )
+    run(
         "agent-tests",
         [
             py,
@@ -124,6 +171,8 @@ def main() -> int:
         [
             py,
             str(scripts / "audit_contracts.py"),
+            "--map-dir",
+            str(directory),
             "--project-root",
             str(root),
             "--output",
@@ -136,6 +185,8 @@ def main() -> int:
         [
             py,
             str(scripts / "evaluate_agent.py"),
+            "--map-dir",
+            str(directory),
             "--project-root",
             str(root),
             "--cases",
@@ -155,6 +206,8 @@ def main() -> int:
             [
                 py,
                 str(scripts / "run_backend_tests.py"),
+                "--map-dir",
+                str(directory),
                 "--project-root",
                 str(root),
                 "--with-r2",
@@ -168,6 +221,8 @@ def main() -> int:
     manifest = {
         "executed_at_kst": datetime.now(ZoneInfo("Asia/Seoul")).isoformat(),
         "steps": steps,
+        "commits": initial_commits,
+        "map": initial_map,
         "overall_exit_code": overall,
         "live_model_calls": 0,
         "with_backend": args.with_backend,
@@ -180,21 +235,21 @@ def main() -> int:
 
     # A known upstream failure is publishable. Missing or malformed evidence is not.
     try:
+        data_validation = load_json(out / "data-validation.json")
         audit = load_json(out / "contract-audit.json")
         component = load_json(out / "component/metadata.json")
         probe = load_json(out / "backend/integration-probe.json")
         backend_run = load_json(out / "backend/backend-run.json")
+        qa_suite = suite(out / "qa-junit.xml")
         agent_suite, backend_suite = (
             suite(out / "agent-junit.xml"),
             suite(out / "backend/backend-junit.xml"),
         )
-        commits = {
-            name: subprocess.check_output(
-                ["git", "rev-parse", "HEAD"], cwd=root / name, text=True
-            ).strip()
-            for name in ("oneload-app", "oneload-backend", "oneload_agent")
-        }
-        if commits != audit["commits"]:
+        commits = source_commits(root)
+        if commits != initial_commits or any(
+            report["commits"] != commits
+            for report in (audit, component, probe, data_validation)
+        ):
             raise ValueError("Source commits changed during checks")
         if any(
             subprocess.check_output(
@@ -203,12 +258,17 @@ def main() -> int:
             for name in commits
         ):
             raise ValueError("Source working tree changed during checks")
-        for name in ("oneload-backend", "oneload_agent"):
-            if (
-                commits[name] != probe["commits"][name]
-                or commits[name] != component["commits"][name]
-            ):
-                raise ValueError("Mixed commit evidence")
+        _, current_map = load_live_map(root, directory)
+        if current_map != initial_map or any(
+            report["map"] != current_map for report in (audit, component, probe)
+        ):
+            raise ValueError("Mixed live-map evidence")
+        current_data = inspect_data(root, directory)
+        if any(
+            data_validation[key] != current_data[key]
+            for key in ("checks", "maps", "asset_sha256")
+        ):
+            raise ValueError("Map schema or photo files changed during checks")
         if (
             hashlib.sha256((scripts / "evaluate_agent.py").read_bytes()).hexdigest()
             != component["runner_sha256"]
@@ -249,6 +309,15 @@ def main() -> int:
         "commits": commits,
         "overall_exit_code": overall,
         "steps": steps,
+        "map": current_map,
+        "qa": {"suite": qa_suite},
+        "data": {
+            "passed": data_validation["passed"],
+            "total": data_validation["total"],
+            "maps": data_validation["maps"],
+            "asset_sha256": data_validation["asset_sha256"],
+            "validation_scope": data_validation["validation_scope"],
+        },
         "agent": {
             "suite": agent_suite,
             "model": "FakeLLM",
@@ -294,6 +363,7 @@ def main() -> int:
     for source, name in (
         (out / "baseline.json", "baseline.json"),
         (out / "contract-audit.json", "contract-audit.json"),
+        (out / "data-validation.json", "data-validation.json"),
         (out / "component/metadata.json", "component-metadata.json"),
         (out / "component/results.csv", "component-results.csv"),
         (out / "backend/integration-probe.json", "integration-probe.json"),

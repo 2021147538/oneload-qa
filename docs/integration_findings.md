@@ -1,6 +1,6 @@
 # 현재 통합 점검 결과
 
-기준: Agent 7b7501f, Backend 2502e65, Frontend d45f466 (2026-10-22).
+기준: Agent 7b7501f, Backend a82b7be, Data 606f648, Frontend bc2d9f1 (2026-10-22).
 [계약 검사](../reports/contract-audit.json)와 [실제 API 연결 검사](../reports/integration-probe.json)를 함께 봅니다.
 
 ## 이전 규격 차이의 재검증
@@ -11,7 +11,7 @@
 | INT-02 | 해결 확인 | AgentResponse·Slots·Source·위치 특징 스키마와 상태·의도 enum 일치 |
 | INT-03 | 해결 확인 | 일반열차 슬롯은 allstop으로 통일 |
 | INT-04 | 해결 확인 | 실제 Backend Slots로 일반열차 → 없어요 대화 및 슬롯 저장 통과 |
-| INT-05 | 해결 확인 | 서울역 지도 사본 일치, R2 VisionFeatures를 Backend matcher에 전달해 후보 생성 |
+| INT-05 | 해결 확인 | 공유 지도에서 R2 VisionFeatures→Backend matcher 후보 생성. 고정 fixture와의 차이는 별도 기록 |
 
 현재 Agent는 이전에 사용하던 pending_intent/pending_topic을 요구하지 않습니다.
 옛 계약을 다시 매핑하는 작업보다 현재 공개 계약을 유지하며 연결하는 것이 우선입니다.
@@ -49,3 +49,14 @@ QA 작업에서 팀원의 원본 코드를 변경하거나 오류를 숨기는 �
 - 실제 사진 입력, no_match, 503→수동 선택, revision 충돌은 모바일 화면까지 확인합니다.
 - 새 FAQ Q10의 503 복구 설명은 INT-08 때문에 아직 충족하지 못합니다.
 - R2 docs/handoff.md의 테스트 수 33건은 현재 실제 실행 37건과 다릅니다. 보고서에는 실행 증거의 수를 사용합니다.
+
+## 코드·데이터 분리 후 경로 문제
+
+[QA #1](https://github.com/team-onetruck/oneload-qa/issues/1)은 이번 수정에서 대응했습니다.
+QA는 oneload-data/maps를 사용하고 누락 입력을 먼저 검사합니다.
+[Agent #3](https://github.com/team-onetruck/oneload_agent/issues/3)은 Agent의 별도 호환성 도구에 남아 있습니다.
+실제 공유 지도와 Backend·Agent 시험 fixture는 목적이 다르므로 파일 차이만으로 계약 실패를 만들지 않습니다.
+실제 지도 입력·버전·해시는 reports/data-validation.json과 각 단계 메타데이터로 확인합니다.
+
+[Agent #1](https://github.com/team-onetruck/oneload_agent/issues/1)과
+[Agent #2](https://github.com/team-onetruck/oneload_agent/issues/2)는 기존 확인 문제입니다.

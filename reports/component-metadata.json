@@ -1,11 +1,21 @@
 {
-  "executed_at_kst": "2026-10-22T17:09:47.293543+09:00",
+  "executed_at_kst": "2026-10-22T17:35:25.437760+09:00",
   "dataset_version": "r6-component-v2",
   "dataset_sha256": "1daa313834008bf7c26dec28d9cb302e92ddddd9b28d8c5e15cc28d5f6a13da3",
-  "runner_sha256": "ebb6e16ed81877e2ac6e195c3e88bf685f23746f7f9930e941ff16231c82fa63",
+  "runner_sha256": "2e3033eda3c946bc0321c2754e4180e07c67aa730c51029efd9d3416fd14002b",
   "commits": {
+    "oneload-app": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
+    "oneload-backend": "a82b7befa6509c28c843a0dc84af46d75143a047",
     "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6",
-    "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342"
+    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+    "oneload-infra": "3dcccd8dfae1c6650887f198316317438b3d5fde"
+  },
+  "map": {
+    "source_repository": "oneload-data",
+    "path": "maps/seoul-station.json",
+    "map_id": "seoul-station",
+    "version": "2026-10-22.1",
+    "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043"
   },
   "python": "3.12.14",
   "model_mode": "fake",
@@ -21,7 +31,6 @@
     "mocks/maps/seoul-station.json": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043",
     "mocks/timetable.json": "abe8668e3678316288237f21eaa57e5d281c297620de31bd86aaf377bc50df1a"
   },
-  "backend_map_sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043",
   "tools": "R2 MockKnowledgeSearch; real Backend map/context/guard; no production RAG",
   "scenario_count": 20,
   "turn_count": 21,
@@ -29,6 +38,6 @@
   "auto_turns_passed": 21,
   "human_review_pending": 21,
   "final_quality_score": null,
-  "p95_latency_ms_nearest_rank": 1.03,
+  "p95_latency_ms_nearest_rank": 0.92,
   "latency_scope": "component and selected model mode; not browser/API latency"
 }

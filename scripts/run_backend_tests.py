@@ -17,10 +17,13 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from qa_inputs import InputError, digest, load_live_map, resolve_map_dir
+
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--project-root", type=Path, required=True)
+    ap.add_argument("--map-dir", type=Path)
     ap.add_argument("--output", type=Path, required=True)
     ap.add_argument(
         "--with-r2",
@@ -31,6 +34,18 @@ def main() -> int:
     repo = args.project_root.resolve() / "oneload-backend"
     if not (repo / "tests/conftest.py").is_file():
         ap.error("oneload-backend/tests/conftest.py not found")
+    root = args.project_root.resolve()
+    sys.path.insert(0, str(repo))
+    try:
+        directory = (
+            resolve_map_dir(root, args.map_dir)
+            if args.with_r2
+            else repo / "tests/fixtures/maps"
+        )
+        if args.with_r2:
+            load_live_map(root, directory)
+    except InputError as exc:
+        ap.error(str(exc))
     out = args.output.resolve()
     if out.exists() and any(out.iterdir()):
         ap.error("Use a new output directory; existing evidence is not overwritten")
@@ -85,6 +100,7 @@ def main() -> int:
             os.environ,
             DATABASE_URL=url,
             TEST_DATABASE_URL=url,
+            MAP_DIR=str(directory),
             PYTHONDONTWRITEBYTECODE="1",
             PYTEST_ADDOPTS="",
             LANGSMITH_TRACING="false",
@@ -120,6 +136,12 @@ def main() -> int:
                     "commit": commit,
                     "python": sys.version.split()[0],
                     "exit_code": result.returncode,
+                    "unit_fixture": {
+                        "path": "tests/fixtures/maps/seoul-station.json",
+                        "sha256": digest(
+                            repo / "tests/fixtures/maps/seoul-station.json"
+                        ),
+                    },
                     "database": "disposable PostgreSQL 17; loopback; removed after run",
                     "ai_mode": "RuleAgent and test FakeVision; no live LLM/VLM",
                 },
@@ -140,6 +162,8 @@ def main() -> int:
                     str(args.project_root.resolve()),
                     "--output",
                     str(out / "integration-probe.json"),
+                    "--map-dir",
+                    str(directory),
                 ],
                 check=False,
                 cwd=repo,

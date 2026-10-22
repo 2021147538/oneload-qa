@@ -1,10 +1,19 @@
 {
-  "checked_at_kst": "2026-10-22T17:09:46.514452+09:00",
+  "checked_at_kst": "2026-10-22T17:35:24.680204+09:00",
   "scope": "Real Backend context/map/guard + FakeLLM; schemas and static wiring; no live models",
   "commits": {
-    "oneload-app": "d45f46689ea1643338d9fdf02da8984f65c6599e",
-    "oneload-backend": "2502e65ffeb0adf1ca09e5bb2acbac34592dd342",
-    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6"
+    "oneload-app": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
+    "oneload-backend": "a82b7befa6509c28c843a0dc84af46d75143a047",
+    "oneload_agent": "7b7501f8606dd5a5948892c881382e032c65a0e6",
+    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+    "oneload-infra": "3dcccd8dfae1c6650887f198316317438b3d5fde"
+  },
+  "map": {
+    "source_repository": "oneload-data",
+    "path": "maps/seoul-station.json",
+    "map_id": "seoul-station",
+    "version": "2026-10-22.1",
+    "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043"
   },
   "contract_checks": [
     {
@@ -83,7 +92,7 @@
       "id": "INT-05",
       "passed": true,
       "evidence": {
-        "map_mirror_identical": true,
+        "live_map_matches_agent_fixture": true,
         "backend_candidates": [
           "line4-gates"
         ]
