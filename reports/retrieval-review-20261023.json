@@ -1,0 +1,3434 @@
+{
+  "executed_at_utc": "2026-10-23T02:15:53.199756+00:00",
+  "dataset_version": "r6-retrieval-v1",
+  "dataset_sha256": "8da449f038239d25607ad1bb8fa93223c331eb1160f2b221c946df29f75fca95",
+  "runner_sha256": "045ee5f125d3ce405e0e9becdd486b8ea70f42c6e72cbdd96c6fee4d2c3ecca1",
+  "rag_inputs_sha256": "62354525af7dcea3e8ef75f7c6fe0ce433a9b707ed76894cb1a373ab3d2f5dd0",
+  "rag": {
+    "repository": "oneload-rag",
+    "commit": "47ab39f1748c92318bfc29e79ba39b5f94b6f159",
+    "working_tree_clean": true,
+    "backend": "MemorySearch",
+    "min_score": 0.35,
+    "k": 3,
+    "relative_cutoff": 0.5,
+    "community": false,
+    "document_ids": [
+      "doc-allstop-ticket",
+      "doc-arex-train-types",
+      "doc-climate-card-short-term",
+      "doc-deposit-refund",
+      "doc-express-ticket",
+      "doc-fare-arex-allstop",
+      "doc-fare-arex-express",
+      "doc-fare-passes-cards",
+      "doc-foreigner-transit-cards",
+      "doc-seoul-help-desks",
+      "doc-seoul-transit-basics",
+      "doc-tmoney-card",
+      "doc-wowpass"
+    ],
+    "knowledge_sha256": {
+      "README.md": "69b16ad3992eda254ad1c170b92f01b66366c95ccbae6ceb1829c3d5df4d26d4",
+      "doc-allstop-ticket.md": "8a4e6897ba5a4b926fc8c59dc49933591389ada2856129711c2080eb55a42ec2",
+      "doc-arex-train-types.md": "ac8c3f318c040128ad32aa268f97994798c0408b2b94d5201b45218776c03cfe",
+      "doc-climate-card-short-term.md": "0986e43587da7bcf22fc60f219cc197de446e352f142f3713897e592ede8f161",
+      "doc-community-arex-payments.md": "dc53ba71f1ccfc2e45e0aa9d66e3028c37e0ed84c1a6d55163b1a95693fdb8f2",
+      "doc-community-seoul-station-tips.md": "8f0c9e74f39c8756d5996c01fad0db4e22741152526eb30606abc0b396394f1b",
+      "doc-deposit-refund.md": "717523cf79349a4955113a1bc3312d83d39fe588af2e80871726aee7d2679de1",
+      "doc-express-ticket.md": "44de8b84375a07b960d78a1166274aa0a760e439c349e3e59686b61a00770deb",
+      "doc-fare-arex-allstop.md": "06722c12bbfb00a33aa00a1dfc15395939e80b5356bc8f519ca869b7b036d8c5",
+      "doc-fare-arex-express.md": "6dc1ca6cc6c7d1e3cf8b9cfc192ca11cabb55effdc2e3107bdd00dc86a651ca7",
+      "doc-fare-passes-cards.md": "bc0d87a96b95de060189c3887fd7b06675542bbe03bb59ad369b22b9b7e83e67",
+      "doc-foreigner-transit-cards.md": "13679179d092c342275f6ab44cc3a3f7bffe4b3306f1b9350ca350c60f81b3d8",
+      "doc-seoul-help-desks.md": "8a4c5828dc86e0da6e69f303fe6f71161c3cf29cf59623ee6634b10f9fe2ab00",
+      "doc-seoul-transit-basics.md": "5a6ab67ce4e1f2cd570bf7c58abade12b42b0e0497b73b3219830872eb68daf2",
+      "doc-tmoney-card.md": "79d9fbb353f4e5703926c9b6a5396c16111e7110f8c30c2ddd3ef21f8ee0a90b",
+      "doc-wowpass.md": "eabcd090f1ee6a39707b5a5cdf516fd0cfdafcf8765692ed87162653ce0dec2e"
+    },
+    "code_sha256": {
+      "src/hangil_rag/__init__.py": "38878308f42458b5f638744f3871bebf1f2bf8fdac5d1d1af1fb9cd48bd1fd20",
+      "src/hangil_rag/ingest.py": "1db2f46ef30b1e6267e113e7a84457ad3141ec48afe588748f33d61ed690f2e5",
+      "src/hangil_rag/loader.py": "8b67ebe687d7ace619cbe7d874821c715e5bacf8c6c621a659a5b6b178575066",
+      "src/hangil_rag/mcp_server.py": "d2698aac11ce7ffdb7761222b0a8d83d62d7a838892f2a059cccc0cc57c47203",
+      "src/hangil_rag/schemas.py": "a5744e6c17ce2fef610d4df8023c16718913dca5f21af10a24e629180e1ee529",
+      "src/hangil_rag/search_memory.py": "f5f85750638d0dfd74edfbfaa9832cfe1897a1fb27f1855816bb7b061296529d",
+      "src/hangil_rag/search_pgvector.py": "bc9aac05ce52a02aa956a562528425b59e8c876304395285a370aed0483de723"
+    },
+    "live_model_calls": 0,
+    "live_embedding_calls": 0
+  },
+  "selection_policy": {
+    "candidates": [
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6
+    ],
+    "k": 3,
+    "relative_cutoff": 0.5,
+    "objective": "2*positive_top3 / (2*positive_top3 + positive_misses + 2*out_of_scope_nonempty)",
+    "tie_break": "fewer out-of-scope false positives, then lower min_score",
+    "release_gate": {
+      "positive_top3_recall_min": 0.9,
+      "out_of_scope_false_positives_max": 0
+    }
+  },
+  "selected_min_score": 0.35,
+  "decision": "production_threshold_not_approved",
+  "dev_sweep": [
+    {
+      "min_score": 0.1,
+      "positive_total": 10,
+      "top1": 7,
+      "top3": 9,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 0,
+      "false_positives": 6,
+      "objective": 0.5806451612903226,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-fare-arex-express",
+            "doc-arex-train-types",
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-express-ticket",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-fare-passes-cards"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-allstop-ticket",
+            "doc-deposit-refund"
+          ],
+          "passed": false
+        }
+      ]
+    },
+    {
+      "min_score": 0.15,
+      "positive_total": 10,
+      "top1": 7,
+      "top3": 9,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 1,
+      "false_positives": 5,
+      "objective": 0.6206896551724138,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-fare-arex-express",
+            "doc-arex-train-types",
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-express-ticket",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-fare-passes-cards"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-allstop-ticket",
+            "doc-deposit-refund"
+          ],
+          "passed": false
+        }
+      ]
+    },
+    {
+      "min_score": 0.2,
+      "positive_total": 10,
+      "top1": 7,
+      "top3": 9,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 1,
+      "false_positives": 5,
+      "objective": 0.6206896551724138,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-fare-arex-express",
+            "doc-arex-train-types",
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-express-ticket",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-allstop-ticket",
+            "doc-deposit-refund"
+          ],
+          "passed": false
+        }
+      ]
+    },
+    {
+      "min_score": 0.25,
+      "positive_total": 10,
+      "top1": 7,
+      "top3": 9,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 1,
+      "false_positives": 5,
+      "objective": 0.6206896551724138,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-fare-arex-express",
+            "doc-arex-train-types",
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-express-ticket"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        }
+      ]
+    },
+    {
+      "min_score": 0.3,
+      "positive_total": 10,
+      "top1": 7,
+      "top3": 9,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 2,
+      "false_positives": 4,
+      "objective": 0.6666666666666666,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-fare-arex-express",
+            "doc-arex-train-types",
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        }
+      ]
+    },
+    {
+      "min_score": 0.35,
+      "positive_total": 10,
+      "top1": 7,
+      "top3": 9,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 5,
+      "false_positives": 1,
+      "objective": 0.8571428571428571,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-deposit-refund"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "min_score": 0.4,
+      "positive_total": 10,
+      "top1": 7,
+      "top3": 9,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 5,
+      "false_positives": 1,
+      "objective": 0.8571428571428571,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-deposit-refund"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks",
+            "doc-climate-card-short-term"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "min_score": 0.45,
+      "positive_total": 10,
+      "top1": 6,
+      "top3": 8,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 5,
+      "false_positives": 1,
+      "objective": 0.8,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-deposit-refund"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "min_score": 0.5,
+      "positive_total": 10,
+      "top1": 5,
+      "top3": 7,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 5,
+      "false_positives": 1,
+      "objective": 0.7368421052631579,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "min_score": 0.55,
+      "positive_total": 10,
+      "top1": 3,
+      "top3": 5,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 6,
+      "false_positives": 0,
+      "objective": 0.6666666666666666,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-seoul-help-desks"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "min_score": 0.6,
+      "positive_total": 10,
+      "top1": 2,
+      "top3": 3,
+      "out_of_scope_total": 6,
+      "out_of_scope_empty": 6,
+      "false_positives": 0,
+      "objective": 0.46153846153846156,
+      "rows": [
+        {
+          "id": "R6-01",
+          "question": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-express-ticket"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-02",
+          "question": "What is the adult price for the nonstop airport express?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-03",
+          "question": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-04",
+          "question": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R6-05",
+          "question": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-06",
+          "question": "Is the deposit on a single-use subway ticket refundable?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-07",
+          "question": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R6-08",
+          "question": "Which floor at Seoul Station sells express tickets?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-09",
+          "question": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-10",
+          "question": "Which airport train stops at intermediate stations?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R6-11",
+          "question": "서울역에서 저녁 먹을 식당을 예약해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-12",
+          "question": "Book a restaurant near Seoul Station",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-13",
+          "question": "인천공항 내일 날씨 알려주세요",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-14",
+          "question": "Will it rain at the airport tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-15",
+          "question": "서울에서 출발하는 항공권 가격을 조회해 줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R6-16",
+          "question": "Find me a cheap flight ticket to Tokyo",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "holdout": {
+    "positive_total": 10,
+    "top1": 7,
+    "top3": 10,
+    "out_of_scope_total": 6,
+    "out_of_scope_empty": 4,
+    "false_positives": 2,
+    "objective": 0.8333333333333334,
+    "rows": [
+      {
+        "id": "R6-17",
+        "question": "티머니 잔액을 충전할 때 현금이 필요한가요?",
+        "gold": [
+          "doc-tmoney-card"
+        ],
+        "retrieved": [
+          "doc-tmoney-card",
+          "doc-wowpass",
+          "doc-fare-passes-cards"
+        ],
+        "passed": true
+      },
+      {
+        "id": "R6-18",
+        "question": "Where can I add money to my T-money card?",
+        "gold": [
+          "doc-tmoney-card"
+        ],
+        "retrieved": [
+          "doc-fare-passes-cards",
+          "doc-tmoney-card",
+          "doc-foreigner-transit-cards"
+        ],
+        "passed": true
+      },
+      {
+        "id": "R6-19",
+        "question": "기후동행카드로 인천공항에서 서울역까지 탈 수 있나요?",
+        "gold": [
+          "doc-climate-card-short-term"
+        ],
+        "retrieved": [
+          "doc-climate-card-short-term",
+          "doc-fare-passes-cards",
+          "doc-seoul-transit-basics"
+        ],
+        "passed": true
+      },
+      {
+        "id": "R6-20",
+        "question": "Can a Climate Card be recharged at an AREX station?",
+        "gold": [
+          "doc-climate-card-short-term"
+        ],
+        "retrieved": [
+          "doc-climate-card-short-term",
+          "doc-seoul-help-desks",
+          "doc-fare-arex-allstop"
+        ],
+        "passed": true
+      },
+      {
+        "id": "R6-21",
+        "question": "와우패스 결제 잔액과 티머니 잔액은 같은 건가요?",
+        "gold": [
+          "doc-wowpass"
+        ],
+        "retrieved": [
+          "doc-wowpass",
+          "doc-foreigner-transit-cards"
+        ],
+        "passed": true
+      },
+      {
+        "id": "R6-22",
+        "question": "Do WOWPASS shopping funds also pay for subway travel?",
+        "gold": [
+          "doc-wowpass"
+        ],
+        "retrieved": [
+          "doc-fare-passes-cards",
+          "doc-foreigner-transit-cards",
+          "doc-wowpass"
+        ],
+        "passed": true
+      },
+      {
+        "id": "R6-23",
+        "question": "버스에서 지하철로 환승할 때 하차 태그가 필요한가요?",
+        "gold": [
+          "doc-seoul-transit-basics"
+        ],
+        "retrieved": [
+          "doc-seoul-transit-basics"
+        ],
+        "passed": true
+      },
+      {
+        "id": "R6-24",
+        "question": "Must I tap my transit card when leaving the bus for a transfer?",
+        "gold": [
+          "doc-seoul-transit-basics"
+        ],
+        "retrieved": [
+          "doc-climate-card-short-term",
+          "doc-seoul-transit-basics",
+          "doc-foreigner-transit-cards"
+        ],
+        "passed": true
+      },
+      {
+        "id": "R6-25",
+        "question": "서울역에서 여권을 잃어버렸을 때 도움 받을 곳은?",
+        "gold": [
+          "doc-seoul-help-desks"
+        ],
+        "retrieved": [
+          "doc-seoul-help-desks"
+        ],
+        "passed": true
+      },
+      {
+        "id": "R6-26",
+        "question": "Who at Seoul Station can help with a lost bag?",
+        "gold": [
+          "doc-seoul-help-desks"
+        ],
+        "retrieved": [
+          "doc-seoul-help-desks",
+          "doc-climate-card-short-term",
+          "doc-seoul-transit-basics"
+        ],
+        "passed": true
+      },
+      {
+        "id": "R6-27",
+        "question": "서울역 근처 호텔 객실 가격 알려줘",
+        "gold": [],
+        "retrieved": [
+          "doc-express-ticket",
+          "doc-seoul-help-desks"
+        ],
+        "passed": false
+      },
+      {
+        "id": "R6-28",
+        "question": "Reserve a hotel room near the airport station",
+        "gold": [],
+        "retrieved": [],
+        "passed": true
+      },
+      {
+        "id": "R6-29",
+        "question": "지금 서울역 직통열차 빈 좌석이 몇 개 남았나요?",
+        "gold": [],
+        "retrieved": [
+          "doc-express-ticket"
+        ],
+        "passed": false
+      },
+      {
+        "id": "R6-30",
+        "question": "How many seats are available on the next express train right now?",
+        "gold": [],
+        "retrieved": [],
+        "passed": true
+      },
+      {
+        "id": "R6-31",
+        "question": "명동까지 가는 버스 번호와 정류장 알려주세요",
+        "gold": [],
+        "retrieved": [],
+        "passed": true
+      },
+      {
+        "id": "R6-32",
+        "question": "Which bus route should I take to Gyeongbokgung Palace?",
+        "gold": [],
+        "retrieved": [],
+        "passed": true
+      }
+    ]
+  },
+  "r3_legacy": {
+    "dataset_sha256": "a1ad5e8d1d0933ebeddb4cd1d86d5fd446edab578bbb6d1035311edc764a79c6",
+    "default_0_25": {
+      "positive_total": 40,
+      "top1": 32,
+      "top3": 38,
+      "out_of_scope_total": 4,
+      "out_of_scope_empty": 3,
+      "false_positives": 1,
+      "objective": 0.95,
+      "rows": [
+        {
+          "id": "R01",
+          "question": "How do I pay?",
+          "gold": [
+            "doc-express-ticket",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R02",
+          "question": "공항철도는 어떻게 결제해?",
+          "gold": [
+            "doc-express-ticket",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R03",
+          "question": "What is the difference between Express and All-stop?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R04",
+          "question": "직통열차 일반열차 차이",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-allstop-ticket",
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R05",
+          "question": "How long does the Express take to the airport?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-express-ticket",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R06",
+          "question": "일반열차는 인천공항까지 몇 분 걸려요?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R07",
+          "question": "Where do I buy an Express ticket?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R08",
+          "question": "직통열차 승차권 구매 방법",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R09",
+          "question": "일반열차 승차권 구매 방법",
+          "gold": [
+            "doc-allstop-ticket"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R10",
+          "question": "How do I ride the All-stop train?",
+          "gold": [
+            "doc-allstop-ticket"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R11",
+          "question": "Can I buy a single-journey ticket with my foreign credit card?",
+          "gold": [
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics",
+            "doc-tmoney-card"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R12",
+          "question": "What should I press on the ticket machine?",
+          "gold": [
+            "doc-express-ticket",
+            "doc-allstop-ticket"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-climate-card-short-term",
+            "doc-deposit-refund"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R13",
+          "question": "서울역에 도착했는데 공항철도 표를 어디서 사요?",
+          "gold": [
+            "doc-express-ticket",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R14",
+          "question": "What is a transit card?",
+          "gold": [
+            "doc-tmoney-card",
+            "doc-seoul-transit-basics",
+            "doc-allstop-ticket"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-climate-card-short-term",
+            "doc-fare-passes-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R15",
+          "question": "교통카드는 어디서 충전해?",
+          "gold": [
+            "doc-tmoney-card"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-foreigner-transit-cards",
+            "doc-tmoney-card"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R16",
+          "question": "How do I get my deposit back?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop",
+            "doc-fare-passes-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R17",
+          "question": "보증금 환급은 어떻게 해?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R18",
+          "question": "Why was I charged an extra 500 won?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-passes-cards"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R19",
+          "question": "직통열차 요금 얼마야?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-fare-arex-express",
+            "doc-arex-train-types",
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R20",
+          "question": "How much is the fare right now?",
+          "gold": [
+            "doc-fare-arex-express",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-fare-arex-express",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R21",
+          "question": "How much from Seoul Station to Incheon Airport Terminal 2 by All-stop train?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R22",
+          "question": "공덕에서 김포공항까지 얼마예요?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types",
+            "doc-climate-card-short-term"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R23",
+          "question": "How much is a 3-day Climate Card?",
+          "gold": [
+            "doc-fare-passes-cards"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-fare-passes-cards",
+            "doc-foreigner-transit-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R24",
+          "question": "기후동행카드 단기권은 어디서 사요?",
+          "gold": [
+            "doc-climate-card-short-term"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-fare-passes-cards",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R25",
+          "question": "Can I use the Climate Card to go to Incheon Airport?",
+          "gold": [
+            "doc-climate-card-short-term"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-seoul-transit-basics",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R26",
+          "question": "기후동행카드 공항철도역에서 충전돼요?",
+          "gold": [
+            "doc-climate-card-short-term"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-fare-passes-cards",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R27",
+          "question": "I have a WOWPASS. How do I ride the subway?",
+          "gold": [
+            "doc-wowpass"
+          ],
+          "retrieved": [
+            "doc-wowpass",
+            "doc-fare-passes-cards",
+            "doc-foreigner-transit-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R28",
+          "question": "와우패스 티머니 잔액 환불은 어디서 해요?",
+          "gold": [
+            "doc-wowpass",
+            "doc-tmoney-card"
+          ],
+          "retrieved": [
+            "doc-wowpass",
+            "doc-fare-passes-cards",
+            "doc-tmoney-card"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R29",
+          "question": "Where can I buy Mpass?",
+          "gold": [
+            "doc-foreigner-transit-cards",
+            "doc-fare-passes-cards"
+          ],
+          "retrieved": [
+            "doc-fare-passes-cards",
+            "doc-foreigner-transit-cards",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R30",
+          "question": "코리아투어카드 아직 쓸 수 있어요?",
+          "gold": [
+            "doc-foreigner-transit-cards"
+          ],
+          "retrieved": [
+            "doc-foreigner-transit-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R31",
+          "question": "How do I transfer from bus to subway?",
+          "gold": [
+            "doc-seoul-transit-basics"
+          ],
+          "retrieved": [
+            "doc-seoul-transit-basics",
+            "doc-climate-card-short-term",
+            "doc-foreigner-transit-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R32",
+          "question": "환승 할인 받으려면 어떻게 해요?",
+          "gold": [
+            "doc-seoul-transit-basics"
+          ],
+          "retrieved": [
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R33",
+          "question": "내릴 때 카드를 안 찍으면 어떻게 돼요?",
+          "gold": [
+            "doc-seoul-transit-basics"
+          ],
+          "retrieved": [
+            "doc-seoul-transit-basics",
+            "doc-climate-card-short-term",
+            "doc-deposit-refund"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R34",
+          "question": "카드 결제가 안 되는데 어디서 도움 받아요?",
+          "gold": [
+            "doc-seoul-help-desks"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-seoul-transit-basics",
+            "doc-tmoney-card"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R35",
+          "question": "Where can I get help at the station?",
+          "gold": [
+            "doc-seoul-help-desks"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-climate-card-short-term",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R36",
+          "question": "I lost my wallet.",
+          "gold": [
+            "doc-seoul-help-desks"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-deposit-refund",
+            "doc-seoul-help-desks"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R37",
+          "question": "지갑을 잃어버렸어요",
+          "gold": [
+            "doc-seoul-help-desks"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R38",
+          "question": "Can I check in for my flight at Seoul Station?",
+          "gold": [
+            "doc-seoul-help-desks",
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-express-ticket",
+            "doc-climate-card-short-term"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R39",
+          "question": "1호선으로 갈아타는 곳이 어디예요?",
+          "gold": [
+            "doc-allstop-ticket",
+            "doc-seoul-help-desks"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-seoul-help-desks",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R40",
+          "question": "Where is the Express platform at Seoul Station?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-seoul-help-desks"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R41",
+          "question": "What is the weather tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R42",
+          "question": "근처 맛집 추천해줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R43",
+          "question": "How do I get to Gyeongbokgung Palace?",
+          "gold": [],
+          "retrieved": [
+            "doc-seoul-help-desks"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R44",
+          "question": "명동 가는 버스 번호 알려줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        }
+      ]
+    },
+    "selected": {
+      "positive_total": 40,
+      "top1": 30,
+      "top3": 35,
+      "out_of_scope_total": 4,
+      "out_of_scope_empty": 4,
+      "false_positives": 0,
+      "objective": 0.9333333333333333,
+      "rows": [
+        {
+          "id": "R01",
+          "question": "How do I pay?",
+          "gold": [
+            "doc-express-ticket",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": false
+        },
+        {
+          "id": "R02",
+          "question": "공항철도는 어떻게 결제해?",
+          "gold": [
+            "doc-express-ticket",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R03",
+          "question": "What is the difference between Express and All-stop?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R04",
+          "question": "직통열차 일반열차 차이",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-allstop-ticket",
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R05",
+          "question": "How long does the Express take to the airport?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-express-ticket",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R06",
+          "question": "일반열차는 인천공항까지 몇 분 걸려요?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R07",
+          "question": "Where do I buy an Express ticket?",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R08",
+          "question": "직통열차 승차권 구매 방법",
+          "gold": [
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-express"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R09",
+          "question": "일반열차 승차권 구매 방법",
+          "gold": [
+            "doc-allstop-ticket"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R10",
+          "question": "How do I ride the All-stop train?",
+          "gold": [
+            "doc-allstop-ticket"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-arex-train-types",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R11",
+          "question": "Can I buy a single-journey ticket with my foreign credit card?",
+          "gold": [
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-seoul-transit-basics",
+            "doc-tmoney-card"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R12",
+          "question": "What should I press on the ticket machine?",
+          "gold": [
+            "doc-express-ticket",
+            "doc-allstop-ticket"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-climate-card-short-term",
+            "doc-deposit-refund"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R13",
+          "question": "서울역에 도착했는데 공항철도 표를 어디서 사요?",
+          "gold": [
+            "doc-express-ticket",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R14",
+          "question": "What is a transit card?",
+          "gold": [
+            "doc-tmoney-card",
+            "doc-seoul-transit-basics",
+            "doc-allstop-ticket"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-climate-card-short-term",
+            "doc-fare-passes-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R15",
+          "question": "교통카드는 어디서 충전해?",
+          "gold": [
+            "doc-tmoney-card"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-foreigner-transit-cards",
+            "doc-tmoney-card"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R16",
+          "question": "How do I get my deposit back?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop",
+            "doc-fare-passes-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R17",
+          "question": "보증금 환급은 어떻게 해?",
+          "gold": [
+            "doc-deposit-refund"
+          ],
+          "retrieved": [
+            "doc-deposit-refund"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R18",
+          "question": "Why was I charged an extra 500 won?",
+          "gold": [
+            "doc-deposit-refund",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R19",
+          "question": "직통열차 요금 얼마야?",
+          "gold": [
+            "doc-fare-arex-express"
+          ],
+          "retrieved": [
+            "doc-fare-arex-express",
+            "doc-arex-train-types",
+            "doc-express-ticket"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R20",
+          "question": "How much is the fare right now?",
+          "gold": [
+            "doc-fare-arex-express",
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R21",
+          "question": "How much from Seoul Station to Incheon Airport Terminal 2 by All-stop train?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-allstop-ticket",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R22",
+          "question": "공덕에서 김포공항까지 얼마예요?",
+          "gold": [
+            "doc-fare-arex-allstop"
+          ],
+          "retrieved": [
+            "doc-fare-arex-allstop",
+            "doc-arex-train-types"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R23",
+          "question": "How much is a 3-day Climate Card?",
+          "gold": [
+            "doc-fare-passes-cards"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-fare-passes-cards",
+            "doc-foreigner-transit-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R24",
+          "question": "기후동행카드 단기권은 어디서 사요?",
+          "gold": [
+            "doc-climate-card-short-term"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-fare-passes-cards",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R25",
+          "question": "Can I use the Climate Card to go to Incheon Airport?",
+          "gold": [
+            "doc-climate-card-short-term"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R26",
+          "question": "기후동행카드 공항철도역에서 충전돼요?",
+          "gold": [
+            "doc-climate-card-short-term"
+          ],
+          "retrieved": [
+            "doc-climate-card-short-term",
+            "doc-fare-passes-cards",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R27",
+          "question": "I have a WOWPASS. How do I ride the subway?",
+          "gold": [
+            "doc-wowpass"
+          ],
+          "retrieved": [
+            "doc-wowpass",
+            "doc-fare-passes-cards",
+            "doc-foreigner-transit-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R28",
+          "question": "와우패스 티머니 잔액 환불은 어디서 해요?",
+          "gold": [
+            "doc-wowpass",
+            "doc-tmoney-card"
+          ],
+          "retrieved": [
+            "doc-wowpass",
+            "doc-fare-passes-cards",
+            "doc-tmoney-card"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R29",
+          "question": "Where can I buy Mpass?",
+          "gold": [
+            "doc-foreigner-transit-cards",
+            "doc-fare-passes-cards"
+          ],
+          "retrieved": [
+            "doc-fare-passes-cards",
+            "doc-foreigner-transit-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R30",
+          "question": "코리아투어카드 아직 쓸 수 있어요?",
+          "gold": [
+            "doc-foreigner-transit-cards"
+          ],
+          "retrieved": [
+            "doc-foreigner-transit-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R31",
+          "question": "How do I transfer from bus to subway?",
+          "gold": [
+            "doc-seoul-transit-basics"
+          ],
+          "retrieved": [
+            "doc-seoul-transit-basics",
+            "doc-climate-card-short-term",
+            "doc-foreigner-transit-cards"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R32",
+          "question": "환승 할인 받으려면 어떻게 해요?",
+          "gold": [
+            "doc-seoul-transit-basics"
+          ],
+          "retrieved": [
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R33",
+          "question": "내릴 때 카드를 안 찍으면 어떻게 돼요?",
+          "gold": [
+            "doc-seoul-transit-basics"
+          ],
+          "retrieved": [
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R34",
+          "question": "카드 결제가 안 되는데 어디서 도움 받아요?",
+          "gold": [
+            "doc-seoul-help-desks"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-seoul-transit-basics",
+            "doc-tmoney-card"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R35",
+          "question": "Where can I get help at the station?",
+          "gold": [
+            "doc-seoul-help-desks"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-climate-card-short-term",
+            "doc-fare-arex-allstop"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R36",
+          "question": "I lost my wallet.",
+          "gold": [
+            "doc-seoul-help-desks"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R37",
+          "question": "지갑을 잃어버렸어요",
+          "gold": [
+            "doc-seoul-help-desks"
+          ],
+          "retrieved": [],
+          "passed": false
+        },
+        {
+          "id": "R38",
+          "question": "Can I check in for my flight at Seoul Station?",
+          "gold": [
+            "doc-seoul-help-desks",
+            "doc-express-ticket"
+          ],
+          "retrieved": [
+            "doc-seoul-help-desks",
+            "doc-express-ticket",
+            "doc-climate-card-short-term"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R39",
+          "question": "1호선으로 갈아타는 곳이 어디예요?",
+          "gold": [
+            "doc-allstop-ticket",
+            "doc-seoul-help-desks"
+          ],
+          "retrieved": [
+            "doc-allstop-ticket",
+            "doc-seoul-help-desks",
+            "doc-seoul-transit-basics"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R40",
+          "question": "Where is the Express platform at Seoul Station?",
+          "gold": [
+            "doc-arex-train-types"
+          ],
+          "retrieved": [
+            "doc-express-ticket",
+            "doc-arex-train-types",
+            "doc-seoul-help-desks"
+          ],
+          "passed": true
+        },
+        {
+          "id": "R41",
+          "question": "What is the weather tomorrow?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R42",
+          "question": "근처 맛집 추천해줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R43",
+          "question": "How do I get to Gyeongbokgung Palace?",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        },
+        {
+          "id": "R44",
+          "question": "명동 가는 버스 번호 알려줘",
+          "gold": [],
+          "retrieved": [],
+          "passed": true
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Synthetic R6 questions; same document corpus; small family-disjoint holdout",
+    "Any-gold top3 does not measure citation precision or factual answer quality",
+    "No live LLM, embeddings, pgvector, or production wiring tested",
+    "If release gate fails, fix retrieval/scope detection and create a NEW holdout; do not tune on this holdout"
+  ],
+  "input_stability_checked": true
+}

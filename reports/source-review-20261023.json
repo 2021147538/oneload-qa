@@ -1,0 +1,404 @@
+{
+  "checked_at_kst": "2026-10-23T11:22:04.445790+09:00",
+  "qa_base_commit": "91cefd2ea27bb6ff167e1c7dd02d034411dd6db9",
+  "scope": "Latest local/remote main comparison, static call-path review, existing GitHub CI evidence and repeated fixed retrieval regression. No local browser, real Backend browser E2E, deployment or paid model calls.",
+  "app": {
+    "repository": "team-onetruck/oneload-app",
+    "commit": "608a04cf08e01315cef430cc5e2e13e754cdcbc2",
+    "previous_observed_commit": "b111af653aecf2dc14177ab7392f8cf9b9316bd8",
+    "local_matches_remote_main": true,
+    "working_tree_clean": true,
+    "package_version": "0.0.0",
+    "ci": {
+      "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39888766395",
+      "headSha": "608a04cf08e01315cef430cc5e2e13e754cdcbc2",
+      "conclusion": "",
+      "status": "in_progress",
+      "jobs": [
+        {
+          "name": "verify",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39888766395/job/120203167609"
+        },
+        {
+          "name": "e2e",
+          "status": "in_progress",
+          "conclusion": "",
+          "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39888766395/job/120203167894"
+        }
+      ],
+      "verify": {
+        "status": "completed",
+        "conclusion": "success",
+        "test_files": 30,
+        "tests_passed": 342,
+        "lint_errors": 0,
+        "lint_warnings": 1,
+        "typecheck": "passed",
+        "header_check": "passed; 0 new files checked on main",
+        "job_id": 120203167609,
+        "count_evidence": "GitHub workflow job logs fetched via connector"
+      },
+      "e2e": {
+        "status": "in_progress_at_review",
+        "tests_passed": null,
+        "scope": "configured mock-mode welcome screen; latest run not completed at review"
+      }
+    },
+    "http_wired": [
+      "session creation",
+      "chat and selected POI",
+      "language update",
+      "photo localization with JPEG compression",
+      "explicit photo-candidate or manual location confirmation",
+      "503 vision unavailable to manual list",
+      "map graph cached per map"
+    ],
+    "local_flow_remaining": [
+      "route calculation via findRoute and temporary nodeBridge",
+      "navigation start/arrival events not sent to Backend"
+    ],
+    "int06": "open; remaining route/event UI and real server E2E",
+    "confirmed_issue": {
+      "number": 16,
+      "url": "https://github.com/team-onetruck/oneload-app/issues/16",
+      "kind": "documentation mismatch",
+      "summary": "README Demo controls claims photo-result selection affects both modes; source shows mock only"
+    },
+    "open_r3_request": "https://github.com/team-onetruck/oneload-app/issues/2",
+    "evidence_paths": [
+      "src/store.tsx",
+      "src/screens.tsx",
+      "src/features/localization/flow.ts",
+      "src/features/localization/flow.test.ts",
+      "src/features/map/graphCache.ts",
+      "src/features/session/nodeBridge.ts",
+      "README.md",
+      "src/api/multipart.ts",
+      "src/api/client.ts",
+      "src/api/idempotency.test.ts"
+    ],
+    "reviewed_intermediate_commit": "32f5f67fd52185a5fa706c9b77f3a3d439999f98",
+    "previous_complete_ci": {
+      "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39886749329",
+      "headSha": "32f5f67fd52185a5fa706c9b77f3a3d439999f98",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "e2e",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v7",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v7",
+              "conclusion": "success"
+            },
+            {
+              "name": "test:e2e 스크립트 확인",
+              "conclusion": "success"
+            },
+            {
+              "name": "corepack으로 pnpm 설치",
+              "conclusion": "success"
+            },
+            {
+              "name": "pnpm store 경로 확인",
+              "conclusion": "success"
+            },
+            {
+              "name": "pnpm store 캐시",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pnpm install --frozen-lockfile",
+              "conclusion": "success"
+            },
+            {
+              "name": "Playwright chromium 설치",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pnpm test:e2e",
+              "conclusion": "success"
+            },
+            {
+              "name": "실패 트레이스 올리기",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Post pnpm store 캐시",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v7",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v7",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "verify",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v7",
+              "conclusion": "success"
+            },
+            {
+              "name": "헤더 검사용 main 브랜치 준비",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v7",
+              "conclusion": "success"
+            },
+            {
+              "name": "corepack으로 pnpm 설치",
+              "conclusion": "success"
+            },
+            {
+              "name": "pnpm store 경로 확인",
+              "conclusion": "success"
+            },
+            {
+              "name": "pnpm store 캐시",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pnpm install --frozen-lockfile",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pnpm verify",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post pnpm store 캐시",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v7",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v7",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ],
+      "verify": {
+        "test_files": 28,
+        "tests_passed": 327,
+        "lint_errors": 0,
+        "lint_warnings": 1,
+        "header_check": "passed; 0 new files checked on main",
+        "typecheck": "passed"
+      },
+      "e2e": {
+        "tests_passed": 1,
+        "scope": "mock-mode mobile Chrome welcome-screen smoke only"
+      }
+    },
+    "latest_change": "PR #15: deterministic multipart boundary per Idempotency-Key so retry sends identical bytes; same-photo replay and changed-photo rejection regression tests. Photo UI remains as reviewed at 32f5f67.",
+    "pending_route_pr": {
+      "number": 17,
+      "url": "https://github.com/team-onetruck/oneload-app/pull/17",
+      "state": "open",
+      "merged": false,
+      "title": "feat: http 모드 길안내를 서버 경로와 navigation-events로 연결",
+      "note": "Author reports real Backend checks; not independently verified here and not part of main."
+    }
+  },
+  "rag": {
+    "repository": "team-onetruck/oneload-rag",
+    "commit": "47ab39f1748c92318bfc29e79ba39b5f94b6f159",
+    "previous_observed_commit": "4a967b3c6b291ec6e2df533b31d078745130bb7a",
+    "local_matches_remote_main": true,
+    "working_tree_clean": true,
+    "changes": [
+      "docs/backend-integration/README.md",
+      "docs/backend-integration/backend-ai-wiring.patch",
+      "docs/requests.md"
+    ],
+    "summary": "Compose-based options A (in-process) and B (separate Agent + RAG MCP); dependency URL changed to tagged tarball for image without git. Backend/Infra wiring not applied.",
+    "search_code_and_knowledge_same_as_previous": true,
+    "ci": {
+      "url": "https://github.com/team-onetruck/oneload-rag/actions/runs/39887381481",
+      "headSha": "47ab39f1748c92318bfc29e79ba39b5f94b6f159",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "test",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run astral-sh/setup-uv@v6",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run uv sync --frozen --all-extras",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run uv run ruff check .",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run uv run ruff format --check .",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Agent dependencies for the contract tests",
+              "conclusion": "success"
+            },
+            {
+              "name": "Tests (contract tests must run when the token is set)",
+              "conclusion": "success"
+            },
+            {
+              "name": "Failed tests as annotations",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "MCP server image builds and answers over HTTP",
+              "conclusion": "success"
+            },
+            {
+              "name": "Wheel ships the knowledge documents",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run astral-sh/setup-uv@v6",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Stop containers",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ],
+      "tests_passed": 88,
+      "tests_skipped": 0,
+      "contract_required": true,
+      "mcp_http_image_step": "success",
+      "wheel_documents_step": "success",
+      "sibling_commits": {
+        "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
+        "oneload-backend": "493884fd5841a1806657deb7b62c63d11b25423c",
+        "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce"
+      }
+    },
+    "patch_apply_check": {
+      "target": "oneload-backend",
+      "commit": "493884fd5841a1806657deb7b62c63d11b25423c",
+      "result": "passed; git apply --check only; not applied, built or deployed in this review"
+    },
+    "retrieval_regression": {
+      "dataset_version": "r6-retrieval-v1",
+      "new_holdout": false,
+      "note": "Previously exposed holdout reused as regression only; no threshold retuning/new performance claim",
+      "report": "reports/retrieval-review-20261023.json",
+      "selected_candidate_min_score": 0.35,
+      "dev_top3": "9/10",
+      "dev_oos_empty": "5/6",
+      "exposed_holdout_top3": "10/10",
+      "exposed_holdout_oos_empty": "4/6",
+      "r3_default_top1": "32/40",
+      "r3_default_top3": "38/40",
+      "r3_default_oos_empty": "3/4",
+      "decision": "production_threshold_not_approved"
+    },
+    "issue3": {
+      "state": "open",
+      "url": "https://github.com/team-onetruck/oneload-rag/issues/3",
+      "reproduced_queries": [
+        "서울역 근처 호텔 객실 가격 알려줘",
+        "지금 서울역 직통열차 빈 좌석이 몇 개 남았나요?"
+      ]
+    }
+  },
+  "int07": {
+    "state": "open",
+    "evidence": "oneload-backend/app/main.py still agent or RuleAgent(), vision or NoVision(); guide is proposal, not deployed wiring"
+  },
+  "baseline_preserved": {
+    "path": "reports/baseline.json",
+    "app_commit": "b111af653aecf2dc14177ab7392f8cf9b9316bd8",
+    "rag_injected_api_report": "reports/rag-integration-probe.json",
+    "rag_injected_api_commit": "4a967b3c6b291ec6e2df533b31d078745130bb7a",
+    "note": "Previous full QA / injected API evidence not replaced by source review or CI."
+  },
+  "live_llm_calls": 0,
+  "live_embedding_calls": 0,
+  "local_browser_e2e": false,
+  "deployment_executed": false
+}

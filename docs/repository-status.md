@@ -43,3 +43,7 @@ project/
 
 통합 지도는 oneload-data/maps/seoul-station.json(version2026-10-22.1)이다. Backend·Agent 고정 fixture와 다를 수 있으며 파일 차이만으로 계약 오류를 만들지 않는다. 관련 커밋·지도·사진·실행기 해시를 기록한다.
 기존 지도 경로 수정(QA #1), 사진 장애 거짓 실패 수정(QA #2)은 유지했다. QA #3은 서비스 정답·검색 평가·별도 RAG API를 보완했다. 자세한 판정은 [결과 설명](issue3-resolution.md), 이후 작업은 [인수인계](handoff.md)에 있다. 이전 Git 이력 복구는 [기록](git-sync.md)을 참고한다.
+
+## 이후 관찰: App608a04c / RAG47ab39f
+
+위 표는 표준 전체 검증 버전이다. 최신 관찰 App은 사진 위치·사용자 확정·503 직접 선택·지도 캐시와 사진 재전송 멱등성 수정을 추가했고 경로·이벤트 화면 연결은 PR#17 open으로 아직 로컬이다. RAG는 Compose 연결 안내/패치 URL만 갱신했으며 검색 코드·knowledge는 같다. 현재 관찰은 repos.lock.json, CI·검색 재현과 한계는 [후속 검토](../reports/source-review-20261023.json)에 기록했다. 기존 표준 기준선과 주입 API는 덮어쓰지 않았다.

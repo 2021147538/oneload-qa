@@ -1,6 +1,6 @@
 # 한길 R6 인수인계
 
-마지막 정리: 2026-10-23 11:04 KST 이후 QA #3 반영. 담당 이현무(R6 QA·평가).
+마지막 정리: 2026-10-23 11:22 KST — RAG·App 최신 main 재확인.
 변경 시 [AGENTS.md](../AGENTS.md)에 따라 이 문서와 증거·버전을 함께 갱신한다. 시작 프롬프트는 채팅으로만 제공하고 저장소에 올리지 않는다.
 
 ## 읽는 순서와 작업 원칙
@@ -21,16 +21,16 @@
 | 저장소 / 폴더 | 현재 확인 커밋 | 이번 검증 범위 |
 |---|---|---|
 | oneload-qa / qa | 이 문서 포함 커밋 | QA17건·검색 평가·실행기·문서 |
-| oneload-app | b111af6 | 소스·커밋 관찰, 표준 감사. HTTP 채팅/POI칩·언어 변경 연결. 사진 위치·경로 화면 로컬 흐름 잔존. 이번 UI/빌드/실서버 E2E 미실행 |
+| oneload-app | 608a04c | 사진 위치·확정 연결에 multipart 멱등 재전송 수정 추가. 최신 verify342건 통과/E2E 진행 중. 경로·이벤트 로컬, 화면 연결PR#17 open |
 | oneload-backend | 493884f | 기존44건·R2 주입 API20건·RAG 주입 API21건 |
 | oneload_agent | 250271e | 기존43건·컴포넌트20시나리오/21턴·API 주입 |
 | oneload-data | 606f648 | 모델·참조·스키마·사진 해시3건, 실제 지도 입력 |
 | oneload-infra | 8587d3b | 커밋 관찰만. Compose·Portainer 구조, 배포 미검증 |
-| oneload-rag | 4a967b3 | 공식 문서 MemorySearch 검색76질문(새32+기존44)·API21건. MCP·pgvector·실제 임베딩 이번 미검증 |
+| oneload-rag | 47ab39f | Compose 연동 안내·패치 URL만 변경, 검색 코드/문서 동일. CI88건·MCP HTTP 통과. 고정 검색셋 회귀 재실행, 주입 API21건은 이전4a967b3 증거 |
 
-Frontend·Infra 커밋을 표준 기준선에 기록했다고 화면·배포를 검증한 것은 아니다. `reports/app-review.json`은 이전 App8c88f89의 CI282건·mock 시작 화면1건을 담은 역사적 기록이다. 최신 b111af6에 그 결과를 재사용하지 않는다. App #11은 문서 수정으로 closed다.
+Frontend·Infra 커밋을 표준 기준선에 기록했다고 화면·배포를 검증한 것은 아니다. `reports/app-review.json`은 이전 App8c88f89의 CI282건·mock 시작 화면1건을 담은 역사적 기록이다. 최신608a04c에 그 결과를 재사용하지 않는다. 최신 CI는 아래 별도 기록을 따른다. App #11은 문서 수정으로 closed다.
 
-## 이번 완료와 증거
+## 마지막 전체 QA와 증거
 
 2026-10-23 11:04 KST, 표준 전체 실행:
 
@@ -61,7 +61,7 @@ QA #3 반영:
 |---|---|
 | QA #3 | Q10·근거 열 완료. 검색 출고 조건/INT-07 이후 검사가 남아 open 유지 |
 | RAG #3 | 범위밖 검색 오탐. 개선 후 새로운 holdout과 기존 회귀셋으로 확인 |
-| INT-06 | App 사진 위치·서버 경로·이벤트 화면 연결 및 실제 서버 전체 흐름 검증 필요 |
+| INT-06 | 사진 위치·확정 화면 연결은 반영. 서버 경로·이벤트 화면 연결 및 실제 서버 전체 흐름 검증 필요 |
 | INT-07 | Backend 기본 RuleAgent/NoVision. R4 운영 조립 후 기본 경로에서 재검증 필요. 주입21/21로 완료 처리하지 않음 |
 | DATA-01 | 실제 통로·방향·예시 파노라마 및 정답 현장 확인 필요 |
 | 서비스·사진 품질 | 서비스20건 사람 검토·실제 모델 비교·현장 사진·휴대폰 권한/네트워크/복구 미검증 |
@@ -69,7 +69,20 @@ QA #3 반영:
 
 과거 QA #1/#2·Agent #1/#2/#3·RAG #1/#2는 완료된 이력이다. 새 작업에서 현재 이슈 상태를 다시 읽는다. RAG #1/#2의 과거 f1ec584 재검증은82 passed/0 skipped와 HTTP6/6이며 당시 Backend a82b7be였다. [#1 근거](https://github.com/team-onetruck/oneload-rag/issues/1#issuecomment-6354507578), [#2 근거](https://github.com/team-onetruck/oneload-rag/issues/2#issuecomment-6354508557). 최신 전체 RAG/MCP 시험 결과로 바꾸어 소개하지 않는다.
 
-R3의 Backend 연결 패치는 과거 launchd 전제를 포함한 제안이다. 현재 Infra Compose 구성에 맞는지 검토해야 하며 QA 작업에서 적용·배포하지 않았다.
+R3의 최신47ab39f 연결 안내는 Compose8587d3b를 반영해 함수 조립(A)과 Agent 별도 서비스+MCP(B)를 정리했다. 구조 선택·Agent 패키지/HTTP adapter는 미완료다. 패치는 Backend493884f에서 적용 가능 여부만 확인했고 적용·빌드·배포하지 않았다.
+
+## 2026-10-23 RAG·App 후속 재확인
+
+[현재 소스·CI 검토](../reports/source-review-20261023.json) · [고정 검색셋 회귀](../reports/retrieval-review-20261023.json)
+
+- App32f5f67에서 추가된 사진 연결(최신608a04c에도 유지): 사진 `/localizations`, 사용자 선택 `/location-confirmations`, 503→직접 선택, 그래프 캐시가 실제 화면 호출 경로에 연결됐다. 경로는 `findRoute`·`nodeBridge`, 시작/도착 이벤트는 로컬이다. UI와 기능 API의 연결을 확인했지만 실제 서버 브라우저 흐름은 실행하지 않았다.
+- 이전32f5f67의 [완료 CI](https://github.com/team-onetruck/oneload-app/actions/runs/39886749329)는327건+mock 시작 화면1건 통과다. 추가608a04c는 multipart 경계값을 같은 멱등키로 고정해 사진 재전송 본문을 동일하게 만든다. [최신 CI](https://github.com/team-onetruck/oneload-app/actions/runs/39888766395)의 verify는30개 파일342개 시험·타입·헤더 통과, lint오류0/경고1이며 E2E는 확인 시 진행 중이다. 최신 E2E 통과로 이전1건을 재사용하지 않는다.
+- [RAG CI](https://github.com/team-onetruck/oneload-rag/actions/runs/39887381481):88 passed/0 skipped, 계약 필수, Docker MCP HTTP 요청·wheel 문서 확인 통과. CI가 확인한 Backend/Agent/Data 커밋도 보고서에 기록했다. 유료 모델 호출 검증이 아니다.
+- RAG47ab39f는 검색 코드·knowledge 해시가4a967b3와 같다. 기존 고정32+44질문 회귀에서 후보0.35 개발9/10·차단5/6, 노출된 holdout10/10·차단4/6으로 같은 실패를 재현했다. 새 holdout이나 개선 성능 측정으로 소개하지 않는다.
+- RAG #3은 open/댓글0 상태였고 호텔 가격·실시간 잔여석 오탐이 남아 있다. 임계값 운영 확정은 계속 보류한다. QA #3의 미완료 조건도 유지한다.
+- App README Demo controls의 사진 결과 선택 설명이 코드와 달라 [App #16](https://github.com/team-onetruck/oneload-app/issues/16)에 등록했다. 기존 카드·언어·출처 요청#2도 open이다.
+- 경로·이벤트 실제 화면 연결 [App PR#17](https://github.com/team-onetruck/oneload-app/pull/17)은 open이며 main 미반영이다. PR 작성자의 실서버 검증 설명은 참고이며 이번 QA가 직접 실행한 증거가 아니다.
+- 표준 기준선과 RAG 주입 API 보고서는 이전 실행 증거로 보존했다. 표준 감사의 INT-06 문구 중 사진 로컬 언급은 당시b111af6 기준이다. 최신 잔여 범위는 경로·이벤트이며 다음 전체 QA 때 감사 설명도 맞춰야 한다.
 
 ## 다음 작업
 

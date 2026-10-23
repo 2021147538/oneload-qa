@@ -23,11 +23,14 @@
 | 실제 AI·사진 정확도 | 미측정 | 실제 모델·답변 사실성·현장 사진 평가 전 |
 
 2026-10-23 11:04 KST: Backend 493884f·Agent 250271e·Data 606f648·App b111af6·Infra 8587d3b로 표준 검사를 갱신했습니다.
-App HTTP 채팅·언어 변경 연결이 추가됐지만 사진 위치·경로 화면은 로컬 흐름이 남습니다. Backend 기본 실행은 RuleAgent/NoVision이며 INT-06/07 때문에 전체 종료 코드는 1입니다.
+당시 App b111af6은 HTTP 채팅·언어 변경을 연결했지만 사진 위치·경로 화면은 로컬 흐름이 남았습니다. Backend 기본 실행은 RuleAgent/NoVision이며 INT-06/07 때문에 전체 종료 코드는 1입니다.
 QA #3에서는 Q10을 조건별 요금·출처·확인일로 변경하고 서비스20문항의 근거를 매핑했습니다. 사람 정답 검토는20건 모두 대기입니다.
 별도 실제 MemorySearch 주입 API **21/21**, 검색 평가32문항을 추가했습니다. 후보0.35는 범위밖 오탐이 남아 운영 임계값으로 승인하지 않았습니다.
 [QA #3 결과](docs/issue3-resolution.md) · [검색 증거](reports/retrieval-evaluation.json) · [RAG API 증거](reports/rag-integration-probe.json).
 컴포넌트 v2와 모의 검색 기준선은 독립 유지하며, 주입 검사 통과를 실제 모델 품질·운영 연결 완료로 집계하지 않습니다.
+
+현재 재확인: **App608a04c**는 사진 위치·사용자 확정·503 직접 선택·지도 캐시에 사진 재전송 멱등성 수정을 추가했습니다. 최신 verify342건 통과/E2E 진행 중이며, 이전32f5f67은327건+mock 시작 화면1건 통과입니다. 경로·이벤트 화면 연결은 PR#17 open으로 main 미반영이고 이번 실서버 E2E는 미실행입니다.
+**RAG47ab39f**은 Compose 연결 안내만 바뀌었고 CI88건·MCP HTTP 통과입니다. 검색 코드는 같아 기존 범위밖 오탐이 재현됐습니다. [후속 검토](reports/source-review-20261023.json)와 [인수인계](docs/handoff.md)를 따르며 위 표준 기준선의 검증 커밋을 바꾸지 않습니다.
 
 - [최신 결과와 버전](reports/latest-review.md)
 - [데이터 검사 증거](reports/data-validation.json)
