@@ -1,0 +1,54 @@
+{
+  "scope": "Actual historical Git source snapshots and current checkout; source review only, browser E2E NOT_RUN",
+  "historical_checks": [
+    {
+      "profile": "app-bc2d9f1",
+      "expected": "incomplete",
+      "actual": "incomplete",
+      "passed": true,
+      "reviewed_commit": "bc2d9f1af6fad4d76d0df6caa720243f487b309e"
+    },
+    {
+      "profile": "app-b111af6",
+      "expected": "incomplete",
+      "actual": "incomplete",
+      "passed": true,
+      "reviewed_commit": "b111af653aecf2dc14177ab7392f8cf9b9316bd8"
+    },
+    {
+      "profile": "app-b5d6835",
+      "expected": "wired",
+      "actual": "wired",
+      "passed": true,
+      "reviewed_commit": "b5d6835bcd4039ebd6b282bf907115b2453a4a17"
+    }
+  ],
+  "current": {
+    "method": "reviewed_runtime_source_fingerprints",
+    "runtime_browser_e2e": "NOT_RUN",
+    "functional_acceptance": "pending_independent_runtime_checks",
+    "snapshot_sha256": "6ba18657a8212138723a273b61dbabf0fc1aa5f56c08903f1e7eb3c627a7d29b",
+    "status": "wired",
+    "profile": "app-b5d6835",
+    "reviewed_commit": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+    "connected_features": [
+      "chat",
+      "localization",
+      "confirmation",
+      "routes",
+      "navigation_events"
+    ],
+    "missing_features": [],
+    "evidence": [
+      "store.tsx: HTTP say -> askServer -> sendChat -> httpAdapter.sendMessage",
+      "store.tsx: HTTP analyzePhoto -> locateOnServer -> sendPhoto -> httpAdapter.postLocalization; mock SCENARIOS remains in other branch",
+      "store.tsx: explicit confirmLocation -> confirmOnServer -> sendConfirmation -> httpAdapter.confirmLocation",
+      "store.tsx: confirmOnServer/startRoute -> routeOnServer -> sendRoute -> httpAdapter.createRoute; startMockRoute handles mock only",
+      "store.tsx: report -> deliverEvents -> postNavigationEvents for navigation_started/arrived/navigation_cancelled; reroute uses navigation-state",
+      "features/route/guide.ts and streetview.tsx use server steps/panoramas/arrow_yaw_deg; nodeBridge removed",
+      "Verified by source review; CI does not substitute for real Backend/mobile browser acceptance"
+    ],
+    "registry_sha256": "99492502904b1a5727b6926fef7d4195d094cf128123cd0841f8be9b6b2bce37"
+  },
+  "checked_at_kst": "2026-10-23T11:37:39.434875+09:00"
+}

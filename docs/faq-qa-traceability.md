@@ -28,8 +28,12 @@ API-15로 사진 질문 처리를 확인했으며 운영 기본 연결은 INT-07
 
 ## 공유 데이터 분리 후 재검증
 
-현재 API·컴포넌트 결과는 Backend 493884f와 oneload-data 606f648 기준입니다.
+현재 API·컴포넌트 결과는 Backend c9b8d8a와 oneload-data 606f648 기준입니다.
 실제 공유 지도 경로와 고정 시험 fixture 경로를 구분했습니다.
 QA 자체 감사와 Agent의 check_backend_compat.py는 공유 지도 경로를 사용합니다.
 [Agent #3](https://github.com/team-onetruck/oneload_agent/issues/3)은 250271e에서 수정됐습니다.
 이번 QA #2 수정은 Agent의 실제 예외 처리 변경을 감사에 반영하고 API 20/20 통과로 재확인했습니다.
+
+## QA #4 후속
+
+최신 전체 QA는28/28·Backend48/48이다. INT-06은 검토된 소스 호출 경로 기준 wired이며 실제 브라우저·모바일 인수는 별도 NOT_RUN이다. 검토하지 않은 새 런타임 소스는 review_required로 중단한다. [판정 방식](issue4-resolution.md)과 [실행 증거](../reports/frontend-wiring-review.json)를 따른다.

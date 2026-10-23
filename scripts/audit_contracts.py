@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import get_args
 from zoneinfo import ZoneInfo
 
+from frontend_wiring import inspect_frontend
 from qa_inputs import InputError, digest, load_live_map, source_commits
 
 
@@ -168,13 +169,35 @@ def main() -> int:
             "backend_candidates": [c.node_id for c in candidates],
         },
     )
-    store = (root / "oneload-app/src/store.tsx").read_text()
-    if "const AI_DELAY_MS" in store and "SCENARIOS[p.scenario]" in store:
+    try:
+        frontend = inspect_frontend(
+            root / "oneload-app",
+            Path(__file__).resolve().parents[1] / "eval/frontend_wiring.json",
+        )
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        ap.error("Invalid Frontend review registry: " + type(exc).__name__)
+    checks.append(
+        {
+            "id": "INT-06",
+            "passed": True
+            if frontend["status"] == "wired"
+            else False
+            if frontend["status"] == "incomplete"
+            else None,
+            "status": frontend["status"],
+            "validation_level": "reviewed_source_only",
+            "evidence": frontend,
+        }
+    )
+    if frontend["status"] != "wired":
+        incomplete = frontend["status"] == "incomplete"
         add(
             "INT-06",
-            "P0",
-            "Frontend photo localization and route screens still execute local mock flows",
-            ["oneload-app/src/store.tsx", "oneload-app/README.md"],
+            "P0" if incomplete else "review_required",
+            "Reviewed Frontend source has incomplete HTTP flows"
+            if incomplete
+            else "Frontend runtime source changed; call-path review required",
+            frontend,
         )
     source = (root / "oneload-backend/app/main.py").read_text()
     if (
@@ -221,10 +244,12 @@ def main() -> int:
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     for item in checks:
-        print(f"{item['id']}: {'PASS' if item['passed'] else 'FAIL'}")
+        print(
+            f"{item['id']}: {'REVIEW_REQUIRED' if item['passed'] is None else 'PASS' if item['passed'] else 'FAIL'}"
+        )
     for item in findings:
         print(f"{item['id']} [{item['severity']}] {item['description']}")
-    return 1 if any(f["severity"] == "P0" for f in findings) else 0
+    return 1 if any(f["severity"] in {"P0", "review_required"} for f in findings) else 0
 
 
 if __name__ == "__main__":

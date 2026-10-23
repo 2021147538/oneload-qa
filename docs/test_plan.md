@@ -1,4 +1,4 @@
-# R6 테스트 계획 v0.6
+# R6 테스트 계획 v0.7
 
 ## 담당 결과물
 
@@ -60,7 +60,7 @@ photo_manifest.csv에 실제 파일과 정답을 등록한다. 현재 사진 0�
 
 ## 실행 순서
 
-1. 최신 계약(INT-01~05·08 통과)을 유지하며 INT-06/07 실제 연결을 해결하고 재검증
+1. 최신 계약과 검토된 Frontend 소스(INT-06)를 유지하고, INT-07 운영 연결 및 실제 서버·모바일 흐름을 재검증
 2. 프론트에서 실제 Backend 호출이 발생하는지 확인
 3. 대표 시나리오, 수동 선택, no_match, 장애·복구 기능 테스트
 4. R3 공식 근거와 답사 자료로 service_gold 정답 확정
@@ -115,3 +115,8 @@ INT-08은 실제 Vision 장애를 발생시켜 Backend 예외 처리와 호환�
 - R6 임계값 검토용 잠정 출고 조건(팀 최종 서비스 목표 아님)은 개발·holdout 각각 양성 top3≥90%, 범위밖 오탐0. 후보0.35는 개발9/10·5/6차단, holdout10/10·4/6차단으로 불합격이다. 운영 확정값으로 사용하지 않는다.
 - `--with-rag` API는 명시적 MemorySearch 주입이며 실제 모델을 호출하지 않는다. 요금 근거·URL·확인일 전달과 검색0건 대조군을 포함해21개를 검사한다. 운영 entrypoint 연결(INT-07)은 별도로 재검증한다.
 - 새 범위밖 실패는 [RAG #3](https://github.com/team-onetruck/oneload-rag/issues/3)으로 추적한다. 개선 후에는 이미 관찰한 holdout으로 튜닝하지 않고 새로운 holdout을 추가한다.
+
+## QA #4: Frontend 감사 수준
+
+HTTP 호출 경로를 검토한 런타임 소스·의존성 해시를 frontend_wiring.json에 기록한다. 기존 bc2d9f1·b111af6은 incomplete, b5d6835는 wired다. 새 소스는 review_required이며 감사 종료코드는1이다. 이는 TypeScript 자동 제어흐름 분석기가 아니라 기존 검토 판정을 정확한 소스에 묶는 방식이다.
+문서·테스트 변경은 대상에서 제외하고 store·API 어댑터·의존성 변경/파일 누락/추가를 감지한다. runtime_browser_e2e는 계속 NOT_RUN이며 소스 판정으로 기능 TC를 PASS로 올리지 않는다. 기존 두 Git 스냅샷과 최신 버전을 실제 파일로 재구성해 판정하고, 주석·미사용 helper·어댑터 변경 등11개 회귀를 추가했다. 공개 보고서는 registry 해시가 실행 중 바뀌면 갱신하지 않는다.

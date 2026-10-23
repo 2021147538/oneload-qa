@@ -14,23 +14,21 @@
 
 | 검증 | 결과 | 의미 |
 |---|---|---|
-| QA 회귀 테스트 | 17/17 통과 | 지도·사진 장애 11건 + 검색 평가/근거 버전 회귀 6건 |
+| QA 회귀 테스트 | 28/28 통과 | 기존 17건 + Frontend 감사 회귀 11건 |
 | 데이터 검사 | 3/3 통과 | Backend 모델·참조, 스키마 사본 일치, 사진 파일 존재 |
 | Agent 기존 테스트 | 43/43 통과 | FakeLLM 기반 |
-| Backend 기존 테스트 | 44/44 통과 | 일회용 PostgreSQL, 고정 시험 fixture |
+| Backend 기존 테스트 | 48/48 통과 | 일회용 PostgreSQL, 고정 시험 fixture |
 | R6 컴포넌트 평가 v2 | 20/20 시나리오·21/21 턴 자동 검사 통과 | oneload-data 지도·실제 Backend context/guard + 모의 AI |
 | R2↔Backend API 연결 | 20/20 확인 통과 | 사진 장애에서 503 / AI_SERVICE_UNAVAILABLE 확인 |
 | 실제 AI·사진 정확도 | 미측정 | 실제 모델·답변 사실성·현장 사진 평가 전 |
 
-2026-10-23 11:04 KST: Backend 493884f·Agent 250271e·Data 606f648·App b111af6·Infra 8587d3b로 표준 검사를 갱신했습니다.
-당시 App b111af6은 HTTP 채팅·언어 변경을 연결했지만 사진 위치·경로 화면은 로컬 흐름이 남았습니다. Backend 기본 실행은 RuleAgent/NoVision이며 INT-06/07 때문에 전체 종료 코드는 1입니다.
-QA #3에서는 Q10을 조건별 요금·출처·확인일로 변경하고 서비스20문항의 근거를 매핑했습니다. 사람 정답 검토는20건 모두 대기입니다.
-별도 실제 MemorySearch 주입 API **21/21**, 검색 평가32문항을 추가했습니다. 후보0.35는 범위밖 오탐이 남아 운영 임계값으로 승인하지 않았습니다.
-[QA #3 결과](docs/issue3-resolution.md) · [검색 증거](reports/retrieval-evaluation.json) · [RAG API 증거](reports/rag-integration-probe.json).
-컴포넌트 v2와 모의 검색 기준선은 독립 유지하며, 주입 검사 통과를 실제 모델 품질·운영 연결 완료로 집계하지 않습니다.
-
-현재 재확인: **Appb5d6835**는 사진 위치·확정뿐 아니라 서버 경로·시작/도착/취소 이벤트·재탐색까지 연결했고, 사진 재전송 멱등성 수정도 포함합니다. 최신 CI363건+mock 시작 화면1건 통과입니다. 실제 서버·모바일 전체 인수는 이번에 실행하지 않았습니다. 기존 감사의 mock 문자열 기반 미연결 판정은 [QA #4](https://github.com/team-onetruck/oneload-qa/issues/4)로 추적합니다.
-**RAG47ab39f**은 Compose 연결 안내만 바뀌었고 CI88건·MCP HTTP 통과입니다. 검색 코드는 같아 기존 범위밖 오탐이 재현됐습니다. [후속 검토](reports/source-review-20261023.json)와 [인수인계](docs/handoff.md)를 따르며 위 표준 기준선의 검증 커밋을 바꾸지 않습니다.
+2026-10-23T11:36:08.880217+09:00 전체 QA: Backend c9b8d8a·Agent250271e·Data606f648·Appb5d6835·Infra8587d3b. Backend의 대화 복원·멱등성 변경도 포함해48건을 검증했습니다.
+[QA #4](https://github.com/team-onetruck/oneload-qa/issues/4)의 mock 문자열 기반 미연결 오판을 수정했습니다. 최신 App의 HTTP 호출 경로는 검토된 소스와 일치하며, **실제 브라우저·휴대폰 검증은 NOT_RUN**입니다.
+기존 미연결 버전은 계속 P0로 잡고 새 런타임 코드는 `review_required`로 중단합니다. [판정 원칙·갱신 절차](docs/issue4-resolution.md)를 따릅니다.
+현재 P0는 Backend 기본 RuleAgent/NoVision(INT-07)이며 전체 exit1입니다. 현장 데이터(DATA-01)도 남아 있습니다.
+별도 MemorySearch 주입 API21/21을 최신 Backendc9b8d8a·RAG47ab39f에서 확인했습니다. 실제 모델·임베딩 호출은0회입니다.
+[QA #3](docs/issue3-resolution.md)은 Q10·근거 열은 완료했지만 RAG 검색 오탐과 운영 연결이 남아 open을 유지합니다. 검색 후보0.35를 운영 승인값으로 바꾸지 않았습니다.
+App CI363건+mock 시작 화면1건, RAG CI88건·MCP HTTP의 이전 소스 검토는 [별도 기록](reports/source-review-20261023.json)에 있습니다. 이번 전체 QA와 검증 수준을 구분합니다.
 
 - [최신 결과와 버전](reports/latest-review.md)
 - [데이터 검사 증거](reports/data-validation.json)
@@ -103,7 +101,7 @@ QA 회귀 테스트 → 데이터 검사 → Agent 시험 → 계약 감사 → 
 누락되거나 다른 버전의 증거가 섞이면 공개 보고서를 갱신하지 않습니다.
 --reports는 --with-backend와 함께 사용하며, 매 실행 새 출력 폴더를 지정합니다.
 
-INT-08은 통과했고, 실제 연결 전 항목 INT-06/07 때문에 전체 종료 코드는 1입니다.
+INT-06은 검토된 소스 연결로 확인했고 INT-08은 통과했습니다. 남은 INT-07 때문에 전체 종료 코드는1입니다. 재검토되지 않은 App 코드도 review_required로 nonzero를 유지합니다.
 자세한 단계별 종료 코드와 실제 실패 항목은 reports/baseline.json에 있습니다.
 실행 원본은 results/, 공개용 구조화 증거는 reports/에 기록합니다.
 
@@ -156,3 +154,13 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/run_backend_tests.py --projec
 검색 실행기는 개발셋에서 임계값을 고른 뒤 holdout·기존 R3셋을 측정하고 입력 해시·커밋을 기록합니다. 출고 조건 미달이면 보고서를 남기고 exit1입니다. 현재0.35는 실험 후보이며 운영 확정값이 아닙니다.
 `--with-rag`는 `--with-r2`를 포함하고 RAG 누락 시 Docker 전에 중단합니다. 표준 `run_checks.py`는 계속 모의 검색을 사용합니다.
 새 출력 경로로 실행하고 검토한 JSON만 공개합니다. 검색 보고서와 주입 API 보고서는 표준 기준선에 합산하지 않습니다.
+
+## Frontend 소스 연결 감사
+
+`eval/frontend_wiring.json`은 실제 HTTP 호출 경로를 검토한 App 런타임 소스·의존성의 해시를 기록합니다. mock 코드가 있다는 이유로 미연결로 판정하지 않습니다.
+
+- 검토된 전체 연결: `wired`, 소스 검토만 통과. 실제 브라우저 인수는 NOT_RUN.
+- 검토된 미연결: `incomplete`, INT-06 P0.
+- 새 코드·의존성·파일 누락: `review_required`, nonzero. 연결/미연결로 단정하지 않음.
+
+새 App 런타임 코드가 들어오면 [갱신 절차](docs/issue4-resolution.md)에 따라 호출 경로를 검토하고 새 기록을 추가합니다. 문서·테스트만 바뀌면 기존 소스 검토를 유지합니다. 전체 보고서 공개 전 registry 해시도 다시 대조합니다.

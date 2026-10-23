@@ -1,16 +1,16 @@
 # 저장소 구조와 현재 버전
 
-2026-10-23 11:04 KST의 [표준 기준선](../reports/baseline.json)과 별도 [RAG API](../reports/rag-integration-probe.json)·[검색](../reports/retrieval-evaluation.json) 증거를 구분한다. 전체 SHA는 [repos.lock.json](../repos.lock.json)에 있다.
+2026-10-23 11:36 KST의 [표준 기준선](../reports/baseline.json)과 별도 [RAG API](../reports/rag-integration-probe.json)·[검색](../reports/retrieval-evaluation.json) 증거를 구분한다. 전체 SHA는 [repos.lock.json](../repos.lock.json)에 있다.
 
 | 저장소 / 폴더 | 커밋 | 역할·이번 범위 |
 |---|---|---|
-| oneload-app | b111af6 | HTTP 채팅·언어 변경 연결, 사진 위치·경로 로컬 흐름 잔존. UI/빌드 미실행 |
-| oneload-backend | 493884f | FastAPI·DB·경로·guard·위치, 기존44건+주입 API |
+| oneload-app | b5d6835 | 사진·확정·경로·이벤트 HTTP 연결, 소스 검토 wired. 이번 실제 브라우저 미실행 |
+| oneload-backend | c9b8d8a | 대화 복원·멱등성 포함48건+주입 API |
 | oneload_agent | 250271e | LLMAgent·Vision·프롬프트v3, 기존43건 |
 | oneload-data | 606f648 | 공유 지도·스키마·예시 파노라마 |
 | oneload-infra | 8587d3b | Compose·Portainer·Caddy, 배포 미실행 |
 | oneload-rag | 4a967b3 | 공식 근거·MemorySearch·MCP 추가. 이번 MemorySearch만 검사 |
-| oneload-qa / qa | 이 문서 포함 커밋 | QA17건·컴포넌트·검색·서비스 정답 초안·증거 |
+| oneload-qa / qa | 이 문서 포함 커밋 | QA28건·컴포넌트·검색·서비스 정답 초안·증거 |
 
 ```text
 project/
@@ -34,7 +34,7 @@ project/
     scripts/rag_inputs.py          명시적 공식 MemorySearch 프로필
     scripts/evaluate_retrieval.py  개발 선택·holdout·R3 진단
     scripts/run_backend_tests.py   자신이 만든 일회용 DB만 사용
-    tests/                        지도·장애·평가 회귀17건
+    tests/                        지도·장애·평가 회귀28건
     eval/                         서비스v2·컴포넌트v2·검색v1·기능TC·사진명세
     reports/                      검토된 공개 증거
     docs/handoff.md                시작점·미완료·재현
@@ -44,6 +44,6 @@ project/
 통합 지도는 oneload-data/maps/seoul-station.json(version2026-10-22.1)이다. Backend·Agent 고정 fixture와 다를 수 있으며 파일 차이만으로 계약 오류를 만들지 않는다. 관련 커밋·지도·사진·실행기 해시를 기록한다.
 기존 지도 경로 수정(QA #1), 사진 장애 거짓 실패 수정(QA #2)은 유지했다. QA #3은 서비스 정답·검색 평가·별도 RAG API를 보완했다. 자세한 판정은 [결과 설명](issue3-resolution.md), 이후 작업은 [인수인계](handoff.md)에 있다. 이전 Git 이력 복구는 [기록](git-sync.md)을 참고한다.
 
-## 이후 관찰: Appb5d6835 / RAG47ab39f
+## QA #4 반영
 
-위 표는 표준 전체 검증 버전이다. 최신 App은 사진·확정·서버 경로·안내 이벤트·재탐색과 사진 재전송 멱등성 수정을 포함한다. 모의 경로는 mock 모드에 남아 있고 nodeBridge는 제거됐다. 기존 QA 정적 감사의 mock 문자열 판정은 QA #4로 추적하며 실제 서버·모바일 인수는 별도다. RAG는 Compose 연결 안내/패치 URL만 갱신했고 검색 코드는 같다. 현재 관찰은 repos.lock.json, CI·검색 재현과 한계는 [후속 검토](../reports/source-review-20261023.json)에 있다. 표준 기준선·주입 API는 이전 실행 증거로 보존했다.
+Frontend 검토 기록(eval/frontend_wiring.json)과 실행 모듈(scripts/frontend_wiring.py)을 추가했다. 검토한 소스 연결만 확인하며 미검토 코드에는 review_required로 중단한다. 과거 미연결 버전은 계속 P0다. [해결 설명](issue4-resolution.md)과 [인수인계](handoff.md)를 따른다. 전체 기준선은 이번 실행으로 갱신했고 이전 소스/CI 관찰 보고서는 당시 기록으로 보존했다.

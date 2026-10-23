@@ -1,9 +1,9 @@
 {
   "date": "2026-10-23",
-  "executed_at_kst": "2026-10-23T11:04:14.352902+09:00",
+  "executed_at_kst": "2026-10-23T11:36:08.880217+09:00",
   "commits": {
-    "oneload-app": "b111af653aecf2dc14177ab7392f8cf9b9316bd8",
-    "oneload-backend": "493884fd5841a1806657deb7b62c63d11b25423c",
+    "oneload-app": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+    "oneload-backend": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
     "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
     "oneload-infra": "8587d3b65c80575f0b573b0d8a3b20322a61121a"
@@ -13,32 +13,32 @@
     {
       "name": "qa-tests",
       "exit_code": 0,
-      "elapsed_s": 1.381
+      "elapsed_s": 1.402
     },
     {
       "name": "data-validation",
       "exit_code": 0,
-      "elapsed_s": 0.161
+      "elapsed_s": 0.159
     },
     {
       "name": "agent-tests",
       "exit_code": 0,
-      "elapsed_s": 1.175
+      "elapsed_s": 1.34
     },
     {
       "name": "contract-audit",
       "exit_code": 1,
-      "elapsed_s": 0.826
+      "elapsed_s": 0.796
     },
     {
       "name": "component-eval",
       "exit_code": 0,
-      "elapsed_s": 0.84
+      "elapsed_s": 0.811
     },
     {
       "name": "backend-and-integration",
       "exit_code": 0,
-      "elapsed_s": 5.305
+      "elapsed_s": 6.333
     }
   ],
   "map": {
@@ -50,7 +50,7 @@
   },
   "qa": {
     "suite": {
-      "tests": 17,
+      "tests": 28,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -93,15 +93,15 @@
   },
   "backend": {
     "suite": {
-      "tests": 44,
+      "tests": 48,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "run": {
-      "started_at_kst": "2026-10-23T11:04:09.166602+09:00",
+      "started_at_kst": "2026-10-23T11:36:02.666391+09:00",
       "repository": "oneload-backend",
-      "commit": "493884fd5841a1806657deb7b62c63d11b25423c",
+      "commit": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
       "python": "3.12.14",
       "exit_code": 0,
       "unit_fixture": {
@@ -130,22 +130,30 @@
     "fixture": "FakeLLM, MockKnowledgeSearch, synthetic JPEG; explicit R2 injection"
   },
   "frontend": {
-    "commit": "b111af653aecf2dc14177ab7392f8cf9b9316bd8",
+    "commit": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
     "status": "not_run",
-    "browser_e2e_executed": false
+    "browser_e2e_executed": false,
+    "scope": "retained results from the same unchanged commit",
+    "source_wiring": {
+      "status": "wired",
+      "validation_level": "reviewed_source_only",
+      "registry_sha256": "99492502904b1a5727b6926fef7d4195d094cf128123cd0841f8be9b6b2bce37",
+      "runtime_browser_e2e": "NOT_RUN"
+    }
   },
   "real_llm_calls": 0,
   "field_photo_count": 0,
   "production_ai_quality_measured": false,
   "runner_hashes": {
-    "audit_contracts.py": "b0f3223fc1690efe50c6e14392df44237826bf54cca4008e7a8cdb963d21066a",
+    "audit_contracts.py": "eba6915d4cb49e5014fff26aa01ea0d8506a5cd59534a877c670c473650fbb29",
     "evaluate_agent.py": "2e3033eda3c946bc0321c2754e4180e07c67aa730c51029efd9d3416fd14002b",
     "evaluate_retrieval.py": "045ee5f125d3ce405e0e9becdd486b8ea70f42c6e72cbdd96c6fee4d2c3ecca1",
+    "frontend_wiring.py": "7875d0836be5158758b8d61c9469adb7cf9fdda1917c72746f9d470f090d157c",
     "probe_integration.py": "93f16dd92ded8f6eff5877b0c16bbb50e0c54ee7efd087fdb03fc52b87558044",
     "qa_inputs.py": "b6abd0f0739ff425191d60a6f014c62c1ab1df3c93a0a55179a0470fd000fef3",
     "rag_inputs.py": "62354525af7dcea3e8ef75f7c6fe0ce433a9b707ed76894cb1a373ab3d2f5dd0",
     "run_backend_tests.py": "fdc9fc71e60f2de09fd7159ac7b814f1f28ae5dbc4c8857d673a338f87066514",
-    "run_checks.py": "eb3a230bd4f9bed85d8cc42df4ad1e8df6528cb6dc0d0d86139d5788fc2529d2",
+    "run_checks.py": "7fa0aa61b744f6b978ca8a3cdb225c629deddfbd63051c0a8bb3e1e5a680e358",
     "validate_data.py": "7d648fef59d9361abf691c49a5ad35d3da553dce695df6dbcc881707a7feecd9"
   }
 }

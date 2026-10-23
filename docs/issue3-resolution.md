@@ -37,7 +37,7 @@ holdout에서 호텔 객실 가격 질문에 express-ticket/help-desks, 실시�
 
 ## 실제 RAG 주입 API 검사
 
-[API 21/21 증거](../reports/rag-integration-probe.json). Backend 493884f, Agent 250271e, Data 606f648, RAG 4a967b3. FakeLLM·합성 JPEG·일회용 PostgreSQL·공식 문서 MemorySearch(k=3,min_score=0.35)다.
+[API 21/21 증거](../reports/rag-integration-probe.json). Backend c9b8d8a, Agent 250271e, Data 606f648, RAG 47ab39f. FakeLLM·합성 JPEG·일회용 PostgreSQL·공식 문서 MemorySearch(k=3,min_score=0.35)다.
 
 - 요금 질문: answered + `doc-fare-arex-express` + URL·verified_at 전달.
 - 빈 검색 대조군: cannot_answer·출처 없음·금액 추측 없음.
@@ -56,3 +56,7 @@ holdout에서 호텔 객실 가격 질문에 express-ticket/help-desks, 실시�
 | INT-07 이후 R3 검색 재검사 | 주입 검사21/21·재현 명령 준비, 운영 연결 후 검사는 대기 |
 
 따라서 QA #3을 전체 해결로 닫지 않는다. R3 검색 보완과 R4 운영 조립이 반영되면 새로운 holdout·운영 기본 경로를 검사하고 마지막 두 조건을 갱신한다. 재현 명령은 README와 handoff에 있다.
+
+## QA 이슈 재점검 후
+
+QA #4 수정과 함께 최신 Backendc9b8d8a·RAG47ab39f에서 주입 API21/21을 다시 확인했다. INT-07 기본값은 여전히 RuleAgent/NoVision이며 RAG #3은 검색 보완 미반영 상태다. 따라서 남은 두 완료 조건은 그대로 대기한다. 이미 노출된 검색셋을 새 holdout으로 재사용하거나 근거 없는 임계값 승인으로 이슈를 닫지 않는다.

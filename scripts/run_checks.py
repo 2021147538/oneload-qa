@@ -263,6 +263,16 @@ def main() -> int:
             report["map"] != current_map for report in (audit, component, probe)
         ):
             raise ValueError("Mixed live-map evidence")
+        frontend_check = next(
+            c for c in audit["contract_checks"] if c["id"] == "INT-06"
+        )
+        if (
+            frontend_check["evidence"]["registry_sha256"]
+            != hashlib.sha256(
+                (qa / "eval/frontend_wiring.json").read_bytes()
+            ).hexdigest()
+        ):
+            raise ValueError("Frontend review registry changed during checks")
         current_data = inspect_data(root, directory)
         if any(
             data_validation[key] != current_data[key]
@@ -347,7 +357,15 @@ def main() -> int:
             "failed": [c["id"] for c in probe["checks"] if not c["passed"]],
             "fixture": "FakeLLM, MockKnowledgeSearch, synthetic JPEG; explicit R2 injection",
         },
-        "frontend": frontend,
+        "frontend": {
+            **frontend,
+            "source_wiring": {
+                "status": frontend_check["status"],
+                "validation_level": "reviewed_source_only",
+                "registry_sha256": frontend_check["evidence"]["registry_sha256"],
+                "runtime_browser_e2e": "NOT_RUN",
+            },
+        },
         "real_llm_calls": 0,
         "field_photo_count": 0,
         "production_ai_quality_measured": False,

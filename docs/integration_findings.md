@@ -1,6 +1,6 @@
 # 현재 통합 점검 결과
 
-기준: Agent 250271e, Backend 493884f, Data 606f648, Frontend b111af6 (2026-10-23).
+기준: Agent 250271e, Backend c9b8d8a, Data 606f648, Frontend b5d6835 (2026-10-23).
 [계약 검사](../reports/contract-audit.json)와 [실제 API 연결 검사](../reports/integration-probe.json)를 함께 봅니다.
 
 ## 해결 확인 항목
@@ -12,6 +12,7 @@
 | INT-03 | 해결 확인 | 일반열차 슬롯은 allstop으로 통일 |
 | INT-04 | 해결 확인 | 실제 Backend Slots로 일반열차 → 없어요 대화 및 슬롯 저장 통과 |
 | INT-05 | 해결 확인 | 공유 지도에서 R2 VisionFeatures→Backend matcher 후보 생성. 고정 fixture와의 차이는 별도 기록 |
+| INT-06 | 소스 연결 확인 | QA #4 수정. 검토한 HTTP 호출 경로·런타임 해시 일치. 실제 브라우저 인수는 별도 NOT_RUN |
 | INT-08 | 해결 확인 | 실제 Vision 장애를 Backend 예외로 포착하고 API가 503 / AI_SERVICE_UNAVAILABLE 반환 |
 
 현재 Agent는 이전에 사용하던 pending_intent/pending_topic을 요구하지 않습니다.
@@ -21,11 +22,10 @@
 
 | ID | 우선순위 | 재현·근거 | 필요한 작업 | 담당 협업 |
 |---|---|---|---|---|
-| INT-06 | P0 | 최신b5d6835에서 사진·경로·이벤트 HTTP 연결 반영. 기존 mock 문자열 감사는 오판(QA #4) | 정적 감사 수정과 실제 서버·모바일 전체 흐름 인수 | R4·R5 |
 | INT-07 | P0 | Backend app = create_app(), 내부 기본값 RuleAgent/NoVision | R2 패키지와 의존성 연결, 실제 Agent/Vision 주입, R3 검색 교체 | R2·R3·R4 |
 | DATA-01 | 출시 전 확인 | 지도 통로·거리·방향과 예시 파노라마, 모의 지식 자료 | 공식 근거·답사·개인정보 검토 후 평가 정답 확정 | R1·R3·R6 |
 
-INT-06/07이 남아 전체 실행 종료 코드는 1입니다.
+현재 P0는 INT-07이며 전체 실행 종료 코드는1입니다. 새 Frontend 런타임 소스가 미검토이면 review_required로 별도 중단합니다.
 QA의 R2 주입 API 20/20 통과는 운영 기본 연결·화면 완료를 뜻하지 않습니다.
 
 ## INT-08 수정과 QA #2 재검증
@@ -76,7 +76,7 @@ App b111af6은 세션 생성에 이어 HTTP 채팅·POI 칩·언어 변경을 �
 [변경 및 판정](issue3-resolution.md): service v2·근거20건·독립검색32문항·RAG API21건을 추가했습니다.
 범위밖 검색 오탐은 [RAG #3](https://github.com/team-onetruck/oneload-rag/issues/3)에 등록했습니다. 임계값 확정과 INT-07 이후 운영 경로 재검사는 남아 있습니다.
 
-## 최신 소스 재확인: Appb5d6835 / RAG47ab39f
+## QA #4 수정 후 현재 판정
 
-[재확인 기록](../reports/source-review-20261023.json). 사진·확정·경로·시작/도착/취소·재탐색 화면 연결이 main에 반영됐다. INT-06을 계속 "코드 미연결"이라고 설명하면 틀리며 [QA #4](https://github.com/team-onetruck/oneload-qa/issues/4)의 정적 감사 보완과 실제 서버·모바일 인수가 필요하다. 위 API 수치는11:04 실행 기준이며 이번 관찰로 새 통과 처리하지 않는다.
-RAG는 검색 코드·근거가 그대로여서 호텔 가격·잔여석 검색 오탐이 재현됐다. RAG #3/QA #3 미완료 조건은 유지한다. 최신 CI는 App363건+mock 시작 화면1건, RAG88건+MCP HTTP 점검 통과다. Backend 기본 RuleAgent/NoVision은 변하지 않았다.
+최신 Appb5d6835는 사진·확정·서버 경로·시작/도착/취소·재탐색의 HTTP 호출 경로를 연결했다. mock 문자열만으로 미연결이라고 판정하던 QA #4를 수정했다. [판정 절차](issue4-resolution.md)·[Git 스냅샷 증거](../reports/frontend-wiring-review.json)를 따른다. 실제 서버·휴대폰 전체 인수는 별도다.
+Backendc9b8d8a까지 포함해 QA28/28·Backend48/48·모의 API20/20·RAG 주입 API21/21을 재확인했다. 기본 Agent/Vision 조립은 바뀌지 않아 INT-07은 유지한다. RAG 검색 오탐/임계값 미승인도 QA #3·RAG #3으로 계속 추적한다.

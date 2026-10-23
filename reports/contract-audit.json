@@ -1,9 +1,9 @@
 {
-  "checked_at_kst": "2026-10-23T11:04:08.152071+09:00",
+  "checked_at_kst": "2026-10-23T11:36:01.688090+09:00",
   "scope": "Real Backend context/map/guard + FakeLLM; actual Vision failure, schemas and static wiring; no live models",
   "commits": {
-    "oneload-app": "b111af653aecf2dc14177ab7392f8cf9b9316bd8",
-    "oneload-backend": "493884fd5841a1806657deb7b62c63d11b25423c",
+    "oneload-app": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+    "oneload-backend": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
     "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
     "oneload-infra": "8587d3b65c80575f0b573b0d8a3b20322a61121a"
@@ -99,6 +99,39 @@
       }
     },
     {
+      "id": "INT-06",
+      "passed": true,
+      "status": "wired",
+      "validation_level": "reviewed_source_only",
+      "evidence": {
+        "method": "reviewed_runtime_source_fingerprints",
+        "runtime_browser_e2e": "NOT_RUN",
+        "functional_acceptance": "pending_independent_runtime_checks",
+        "snapshot_sha256": "6ba18657a8212138723a273b61dbabf0fc1aa5f56c08903f1e7eb3c627a7d29b",
+        "status": "wired",
+        "profile": "app-b5d6835",
+        "reviewed_commit": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+        "connected_features": [
+          "chat",
+          "localization",
+          "confirmation",
+          "routes",
+          "navigation_events"
+        ],
+        "missing_features": [],
+        "evidence": [
+          "store.tsx: HTTP say -> askServer -> sendChat -> httpAdapter.sendMessage",
+          "store.tsx: HTTP analyzePhoto -> locateOnServer -> sendPhoto -> httpAdapter.postLocalization; mock SCENARIOS remains in other branch",
+          "store.tsx: explicit confirmLocation -> confirmOnServer -> sendConfirmation -> httpAdapter.confirmLocation",
+          "store.tsx: confirmOnServer/startRoute -> routeOnServer -> sendRoute -> httpAdapter.createRoute; startMockRoute handles mock only",
+          "store.tsx: report -> deliverEvents -> postNavigationEvents for navigation_started/arrived/navigation_cancelled; reroute uses navigation-state",
+          "features/route/guide.ts and streetview.tsx use server steps/panoramas/arrow_yaw_deg; nodeBridge removed",
+          "Verified by source review; CI does not substitute for real Backend/mobile browser acceptance"
+        ],
+        "registry_sha256": "99492502904b1a5727b6926fef7d4195d094cf128123cd0841f8be9b6b2bce37"
+      }
+    },
+    {
       "id": "INT-08",
       "passed": true,
       "evidence": {
@@ -112,15 +145,6 @@
     }
   ],
   "findings": [
-    {
-      "id": "INT-06",
-      "severity": "P0",
-      "description": "Frontend photo localization and route screens still execute local mock flows",
-      "evidence": [
-        "oneload-app/src/store.tsx",
-        "oneload-app/README.md"
-      ]
-    },
     {
       "id": "INT-07",
       "severity": "P0",
