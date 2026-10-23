@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "observed_at_kst": "2026-10-23T09:45:33.498494+09:00",
+  "purpose": "Observed remote-main versions for handoff; not a claim that these revisions were tested together.",
+  "qa": {
+    "repository": "team-onetruck/oneload-qa",
+    "directory": "qa",
+    "url": "https://github.com/team-onetruck/oneload-qa.git",
+    "revision": "self",
+    "code_base_commit": "ec671cc949471d7b82a8baf923aa56c9e3a69d19",
+    "note": "self means the Git commit containing this manifest, avoiding a circular self-hash; code_base_commit identifies the QA code before the handoff documentation change."
+  },
+  "qa_baseline": "reports/baseline.json",
+  "rag_issue_review_evidence": [
+    "https://github.com/team-onetruck/oneload-rag/issues/1#issuecomment-6354507578",
+    "https://github.com/team-onetruck/oneload-rag/issues/2#issuecomment-6354508557"
+  ],
+  "repositories": [
+    {
+      "repository": "team-onetruck/oneload-app",
+      "directory": "oneload-app",
+      "url": "https://github.com/team-onetruck/oneload-app.git",
+      "observed_main_commit": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
+      "qa_baseline_commit": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
+      "rag_issue_review_commit": null
+    },
+    {
+      "repository": "team-onetruck/oneload-backend",
+      "directory": "oneload-backend",
+      "url": "https://github.com/team-onetruck/oneload-backend.git",
+      "observed_main_commit": "493884fd5841a1806657deb7b62c63d11b25423c",
+      "qa_baseline_commit": "a82b7befa6509c28c843a0dc84af46d75143a047",
+      "rag_issue_review_commit": "a82b7befa6509c28c843a0dc84af46d75143a047"
+    },
+    {
+      "repository": "team-onetruck/oneload_agent",
+      "directory": "oneload_agent",
+      "url": "https://github.com/team-onetruck/oneload_agent.git",
+      "observed_main_commit": "250271edb6c50e8cc71cd1443143e94cb9191a74",
+      "qa_baseline_commit": "250271edb6c50e8cc71cd1443143e94cb9191a74",
+      "rag_issue_review_commit": "250271edb6c50e8cc71cd1443143e94cb9191a74"
+    },
+    {
+      "repository": "team-onetruck/oneload-data",
+      "directory": "oneload-data",
+      "url": "https://github.com/team-onetruck/oneload-data.git",
+      "observed_main_commit": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+      "qa_baseline_commit": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+      "rag_issue_review_commit": "606f6485e4e83cdf673e61b29fbd5458bb998bce"
+    },
+    {
+      "repository": "team-onetruck/oneload-infra",
+      "directory": "oneload-infra",
+      "url": "https://github.com/team-onetruck/oneload-infra.git",
+      "observed_main_commit": "8587d3b65c80575f0b573b0d8a3b20322a61121a",
+      "qa_baseline_commit": "3dcccd8dfae1c6650887f198316317438b3d5fde",
+      "rag_issue_review_commit": null
+    },
+    {
+      "repository": "team-onetruck/oneload-rag",
+      "directory": "oneload-rag",
+      "url": "https://github.com/team-onetruck/oneload-rag.git",
+      "observed_main_commit": "2446979f35b3f6b0003ef21d8e485474cc625530",
+      "qa_baseline_commit": null,
+      "rag_issue_review_commit": "f1ec584634cdbc2eca5da0e1aa8eeff13e13cfc0"
+    }
+  ]
+}

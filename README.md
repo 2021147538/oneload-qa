@@ -6,7 +6,11 @@
 기준은 2026-10-22의 API·시퀀스 설계 v0.3, 시스템·AI 설계 v0.2입니다.
 현재 MVP는 모바일 웹의 2D 노선 안내와 360도 거리뷰이며 실시간 AR은 후속 범위입니다.
 
-## 현재 확인 결과
+다른 AI·컴퓨터에서 이어받을 때는 **[인수인계](docs/handoff.md)**부터 읽습니다. 시작 프롬프트는 인수인계 시 채팅으로만 제공합니다.
+작업자는 [AGENTS.md](AGENTS.md)의 인수인계 갱신 절차를 따릅니다. 설계 사본은 [참고 자료](docs/reference/README.md)에 있습니다.
+[repos.lock.json](repos.lock.json)은 최근 관찰 버전과 마지막 검증 버전을 구분합니다. 아래 결과는 과거 검증 커밋 기준이며 최신 소스 전체 조합의 통과를 뜻하지 않습니다.
+
+## 마지막 전체 QA 확인 결과
 
 | 검증 | 결과 | 의미 |
 |---|---|---|
@@ -37,7 +41,7 @@ API 연결 검사는 QA에서 R2를 주입한 결과이며 서비스 전체 연�
 
 ## 실행 준비
 
-관련 저장소 5개와 QA를 같은 부모 폴더에 둡니다. QA의 로컬 폴더 이름은 qa입니다.
+표준 QA 대상 5개와 QA를 같은 부모 폴더에 둡니다. 인수인계에는 별도 RAG 검사용 oneload-rag도 함께 준비합니다. QA의 로컬 폴더 이름은 qa입니다.
 
 ~~~text
 project/
@@ -46,6 +50,7 @@ project/
   oneload_agent/
   oneload-data/       # 실제 지도·예시 파노라마
   oneload-infra/      # 배포 설정; QA는 커밋만 기록
+  oneload-rag/        # R3 검색; 표준 QA와 별도 검증
   qa/                # oneload-qa 저장소
 ~~~
 
@@ -57,12 +62,14 @@ git clone https://github.com/team-onetruck/oneload-backend.git
 git clone https://github.com/team-onetruck/oneload_agent.git
 git clone https://github.com/team-onetruck/oneload-data.git
 git clone https://github.com/team-onetruck/oneload-infra.git
+git clone https://github.com/team-onetruck/oneload-rag.git
 git clone https://github.com/team-onetruck/oneload-qa.git qa
 cd qa
 uv venv --python 3.12 .venv
 uv pip install --python .venv/bin/python -r requirements-runtime.lock.txt
 ~~~
 
+가상환경은 컴퓨터마다 새로 만듭니다. 다른 컴퓨터의 .venv나 절대 경로 링크를 복사하지 않습니다.
 검증 환경은 Python 3.12.14입니다. 의존성 목록은 QA 환경 기록이며 팀의 배포 의존성을 대체하지 않습니다.
 
 ## 지도 선택과 기록
