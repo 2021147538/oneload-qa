@@ -12,6 +12,7 @@ from typing import get_args
 from zoneinfo import ZoneInfo
 
 from frontend_wiring import inspect_frontend
+from production_wiring import probe_entrypoint
 from qa_inputs import InputError, digest, load_live_map, source_commits
 
 
@@ -199,20 +200,38 @@ def main() -> int:
             else "Frontend runtime source changed; call-path review required",
             frontend,
         )
-    source = (root / "oneload-backend/app/main.py").read_text()
-    if (
-        "app = create_app()" in source
-        and "agent or RuleAgent()" in source
-        and "vision or NoVision()" in source
-    ):
+    production = probe_entrypoint(root / "oneload-backend/app/main.py")
+    checks.append(
+        {
+            "id": "INT-07",
+            "passed": False,
+            "status": "partial"
+            if production["agent_vision_conditionally_wired"]
+            else "incomplete",
+            "validation_level": "actual_entrypoint_with_fake_provider",
+            "evidence": production,
+        }
+    )
+    if not production["agent_vision_conditionally_wired"]:
         add(
             "INT-07",
             "P0",
-            "Backend production entry point uses RuleAgent/NoVision",
-            {
-                "file": "oneload-backend/app/main.py",
-                "r2_injected_probe_is_not_production_wiring": True,
-            },
+            "Backend entrypoint does not select shared R2 Agent/Vision when a key is present",
+            production,
+        )
+    elif production["production_knowledge_is_demo"]:
+        add(
+            "INT-07",
+            "P0",
+            "R2 Agent/Vision selection is wired; production knowledge still uses MockKnowledgeSearch",
+            production,
+        )
+    else:
+        add(
+            "INT-07",
+            "review_required",
+            "Agent/Vision selection is wired; production search needs independent provenance/API review",
+            production,
         )
     caught, evidence = probe_vision_failure(
         LLMVision(FakeLLM(down=True)), backend.VisionUnavailable

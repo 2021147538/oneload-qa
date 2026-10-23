@@ -12,6 +12,7 @@ import os
 import subprocess
 import sys
 import time
+import tomllib
 import uuid
 from datetime import datetime
 from pathlib import Path
@@ -49,6 +50,19 @@ def main() -> int:
     if not (repo / "tests/conftest.py").is_file():
         ap.error("oneload-backend/tests/conftest.py not found")
     root = args.project_root.resolve()
+    project_file = repo / "pyproject.toml"
+    dependencies = (
+        tomllib.loads(project_file.read_text())
+        .get("project", {})
+        .get("dependencies", [])
+        if project_file.is_file()
+        else []
+    )
+    if (
+        any(dep.startswith("oneload-agent") for dep in dependencies)
+        and not (root / "oneload_agent/hangil_r2/__init__.py").is_file()
+    ):
+        ap.error("Backend now requires sibling oneload_agent; no Docker started")
     sys.path.insert(0, str(repo))
     try:
         directory = (
@@ -119,6 +133,8 @@ def main() -> int:
             PYTEST_ADDOPTS="",
             LANGSMITH_TRACING="false",
             LANGCHAIN_TRACING_V2="false",
+            OPENAI_API_KEY="",
+            PYTHONPATH=os.pathsep.join((str(root / "oneload_agent"), str(repo))),
         )
         result = subprocess.run(
             [

@@ -92,6 +92,7 @@ def main() -> int:
         QA_PROJECT_ROOT=str(root),
         LANGSMITH_TRACING="false",
         LANGCHAIN_TRACING_V2="false",
+        OPENAI_API_KEY="",
     )
     steps = []
 

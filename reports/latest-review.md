@@ -1,37 +1,29 @@
-# 최신 소스·CI 관찰 — 2026-10-23 14:08 KST
+# 최신 QA — 2026-10-23 15:29 KST
 
-[구조화 증거](app-rag-update-20261023.json) · [최신 별도 감사](contract-audit-update-20261023.json)
+[현재 구현과 토론 맥락](../docs/current-implementation-20261023.md) · [소스·CI·검증 범위](current-system-review-20261023.json) · [배포 GET 확인](server-readonly-20261023.json)
 
-- App **e6af580**: mock 화면5건 추가로 E2E4→9(mock6+모의 HTTP3), CI 단위365·E2E9 통과. 브라우저 캐시 도입. 이번 main에서는 cache miss로 설치 경로를 통과했고 hit 시 시스템 설치 생략 경로는 미실행이다. 제품 런타임/의존성 해시는2666e44와 같아 기존 소스 판정 wired를 유지한다.
-- RAG **8c8e902**: docs/requests.md에 RQ-32 제안만 추가. Agent가 답변 가능 여부를 판단하고 인용 자료만 출처로 표시하자는 방향이다. 검색·지식·설정 변경은 없으며 CI100건·MCP HTTP·wheel 단계가 통과했다. 이 수치는 R6의 실제 모델 품질 측정이 아니다.
-- R6 후속 방향: 답변 단계의 근거 없는 수치·무관한 출처를 검색 재현율과 별도로 평가한다. 기존 검색 실패·잠정 기준·0.25를 합의 없이 변경하지 않는다. 제안은 구현·합의로 간주하지 않으며 RAG #3은 open이다.
-- QA38/38·skip0과 계약 감사를 재실행했다. INT-07·DATA-01은 유지된다. Backend/RAG API 전체·브라우저·실제 모델은 이번 재실행하지 않았다.
+App42455dc·Backendf9d790f·Agenta089746·Data606f648·Infra8f03327을 사용했다. 개발 pin7f116de와 Agent a089746의 패키지 코드는 같고 문서/CI가 다르다. 공용 배포는 Agent main을 체크아웃해 개발 pin을 덮어쓴다.
 
-아래는 보존한 직전 전체 기준선이다. 새로운 CI와 과거 Backend/API 수치를 같은 실행으로 합산하지 않는다.
+| 검사 | 결과 |
+|---|---|
+| QA | 42/42, skip0 |
+| 데이터 | 3/3 |
+| Agent | 43/43 |
+| Backend | 51/51 |
+| component v2 | 20/20시나리오·21/21턴 |
+| 모의 검색 API | 20/20 |
+| RAG8c8e902 MemorySearch0.25 주입 API | 21/21 |
+| Frontend 호출 경로 | ApiAdapter 단일 흐름의 새 profile42455dc, wired |
+| 운영 entrypoint | FakeLLM으로 실제 전역 app 조립 검사, Agent·Vision 조건부 연결/공유 확인 |
 
-## 직전 전체 QA — 2026-10-23 13:33 KST
+[기준선](baseline.json) · [감사](contract-audit.json) · [RAG 주입 API](rag-integration-probe.json)
 
-RAG #3 답글의 R6 신규 평가 요청을 수행했다. 새40문항을 검색 전 QA7f41130으로 고정했고 수정 전47ab39f/후e6c03f2를 같은0.25에서 각1회 비교했다. 원래 호텔 객실 가격·실시간 빈 좌석은 수정됐지만 **새 오탐3건과 정상 질문 누락3건으로 이슈는 open**이다. [절차·실패 질문](../docs/rag-issue3-revalidation.md).
+**INT-07은 부분 완료**다. 운영은 키가 있으면 LLMAgent·LLMVision, 없으면 RuleAgent·NoVision이다. 따라서 과거의 무조건 RuleAgent/NoVision 판정은 최신에 적용하지 않는다. 다만 검색이 MockKnowledgeSearch여서 R3 운영 연결은 미완료이고 전체 exit1이다. DATA-01과 사람 정답 검토도 남는다.
 
-| 대상 | 버전·범위 | 결과 |
-|---|---|---|
-| QA | 기존28+holdout6+패키지 자산4 | 38/38, skip0 |
-| 데이터 | 606f648 | 3/3 |
-| Agent | 54c321f·FakeLLM | 43/43 |
-| Backend | c9b8d8a·일회용 DB | 48/48 |
-| 컴포넌트 v2 | 기존 질문·기대값·SHA 유지 | 20시나리오·21턴 통과 |
-| 표준 R2↔Backend API | 모의 검색·합성 JPEG | 20/20 |
-| 별도 RAG API | e6c03f2·MemorySearch0.25·FakeLLM | 21/21 |
-| 새 R6 v2 검색 | 前47ab39f→後e6c03f2·min_score0.25 | top3 20/20→17/20, 범위밖 빈 결과5/20→17/20 |
-| Frontend 소스 | App2666e44·검토 profile | wired, 이번 실제 브라우저 NOT_RUN |
-| Infra | 8587d3b | 커밋 기록만, 배포 미실행 |
+App 최신 CI는 단위429·E2E11(mock7+모의 HTTP4), Agent CI는 자체/Backend 호환/API 시험·배포가 모두 통과했다. 공용 reusable 배포로 GH_TOKEN 전달 경로를 제거해 App #32·Agent #6을 닫았다. Backend 최신 CI도 시험·이미지·배포 성공이다. App 최신 배포39911399631의 서버 실행 커밋은 위 조합과 일치한다. 홈/언어 메뉴·기기 언어 감지도 반영됐다.
 
-[전체 기준선](baseline.json) · [계약 감사](contract-audit.json) · [모의 API](integration-probe.json) · [RAG API](rag-integration-probe.json) · [검색 전후 증거](rag-issue3-revalidation.json)
+배포 첫 화면/health/OpenAPI는 GET만 실행해200·DB ok·LLMAgent/LLMVision 표시를 확인했다. R2의 실제 OpenAI 메시지1회 확인 문서는 작성자 보고로 구분하며 이번 R6가 반복하지 않았다.
 
-Agent 패키지가 실제 읽는 PROMPT_DIR/MOCK_DIR에 맞춰 평가 실행기 경로·해시를 수정했다. 과거 repo/prompts/mocks를 가정하지 않고 선택한 checkout 내부 자산인지 확인한다. component v2 SHA와 질문·기대값은 그대로다.
+사용자 토론은 참고 맥락이다. 현재는 모의 고정 사진 결과와 Live 인식이 구분되고, 실제 안내는 단계 문구+도식형 노선+거리뷰다. 평면도·도착지 입구 전용 사진·완전한 가상 역을 구현하거나 인수조건을 확정한 것으로 쓰지 않는다.
 
-RAG 답글의 기존 수치도 재현했다. 수정 후 R6 개발/노출 holdout 각각 top3 10/10·범위밖6/6, R3기존38/40·4/4, R3노출 holdout16/16·11/12다. 이들은 새 독립 holdout 수치가 아니다. 새 v2도 이제 노출됐으며 다음 수정의 회귀용으로만 사용한다. 임계값 운영 확정은 보류한다.
-
-Frontend 감사의 [QA #4 수정 원칙](../docs/issue4-resolution.md)은 유지한다. App2666e44 CI365+E2E4는 [이전 관찰](app-review-2666e44.json)이며 이번 실행한 실제 브라우저 결과로 합산하지 않는다. RAGe6c03f2 [CI](https://github.com/team-onetruck/oneload-rag/actions/runs/39897084335)는 success지만 로컬 pgvector/MCP 전체 재시험은 아니다.
-
-남은 P0는 **INT-07: Backend 기본 RuleAgent/NoVision**이다. 전체 exit1을 유지하고 DATA-01 현장 정답도 대기한다. [QA #3](https://github.com/team-onetruck/oneload-qa/issues/3)은 마지막 두 조건이 미완료다. 실제 모델·임베딩 호출0회, 현장 사진 정답0건, 컴포넌트21턴 사람 검토 대기·최종 품질 점수null이다. 기능 TC의 PARTIAL/NOT_RUN을 자동 PASS로 바꾸지 않았다.
+실제 모델/임베딩 호출0회, 현장 사진 정답0건, component21턴 사람 검토 대기다. 이전 retrieval v2 top3 17/20·범위밖 빈 결과17/20은 노출된 과거 검색 증거로 유지했다. Agent #5/RQ-32와 RAG #3·QA #3은 미완료다. 최초 Backend 실행기 의존성 오류는 보완 후 새 일회용 DB로 재실행했으며 실패한 초기 시도를 제품 결함이나 통과 수치로 집계하지 않았다.

@@ -1,5 +1,11 @@
 # 저장소 구조와 현재 버전
 
+2026-10-23 15:29 KST 최신 구성·커밋·검증은 [현재 구현](current-implementation-20261023.md), [repos.lock.json](../repos.lock.json), [기준선](../reports/baseline.json)을 따른다. App42455dc·Backendf9d790f·Agenta089746·Data606f648·Infra8f03327·RAG8c8e902다. Backend 개발 pin7f116de와 Agenta089746은 패키지 코드/자산이 같고 CI/문서가 다르다. 공용 CI/배포가 Agent main을 사용한다.
+
+QA42/Agent43/Backend51·모의 API20·RAG 주입 API21을 재검증했다. 운영 Agent/Vision은 연결됐으나 검색이 demo여서 INT-07 partial이다. App mock은 ApiAdapter 구현이며 store/screens는 모드와 관계없이 같은 호출을 쓴다. R6는 실제 모델·사진 호출/배포를 하지 않았다.
+
+아래는 이전13:33 기준 구조와 관찰 이력이다. 과거 커밋/수치를 현재로 재라벨하지 않는다.
+
 2026-10-23 13:33 KST의 [표준 기준선](../reports/baseline.json)과 별도 [RAG API](../reports/rag-integration-probe.json)·[검색](../reports/rag-issue3-revalidation.json) 증거를 구분한다. 전체 SHA는 [repos.lock.json](../repos.lock.json)에 있다.
 
 | 저장소 / 폴더 | 커밋 | 역할·이번 범위 |

@@ -1,0 +1,218 @@
+{
+  "checked_at_kst": "2026-10-23T15:31:32.066477+09:00",
+  "scope": "Current repository/CI review, full FakeLLM QA and disposable-DB API checks, plus read-only deployed homepage/health/OpenAPI GETs. User discussion is contextual, not an approved requirement change.",
+  "commits": {
+    "oneload-app": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+    "oneload-backend": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
+    "oneload_agent": "a089746d925e7c7e80da66287fcc0af998ecbb58",
+    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+    "oneload-infra": "8f03327db463f09f7a26439280771002c7cf9fcc"
+  },
+  "rag_commit": "8c8e902013fc12a1790762b38a34e282930cb667",
+  "agent_checkout_vs_deployed_pin": "Local pyproject pin7f116de is overwritten with checked-out Agent main in CI/deploy; latest deploy and QA use a089746. Package runtime code/assets are unchanged relative to7f116de; later changes are CI/docs.",
+  "changes": {
+    "app": [
+      "Single ApiAdapter flow in store/screens; explicit mock adapter, default HTTP adapter",
+      "Live/Demo labels; HTTP reset labelled session reset",
+      "Backend OpenAPI types regenerated",
+      "Event outbox serializes in-flight route events and requeues failed batches with same event ids",
+      "Initial GH_TOKEN-based Backend deploy dispatch failed; replaced by shared reusable workflow with successful latest deploy",
+      "Latest42455dc adds hamburger menu with home/reset confirmation and ko/en selection; initial language follows supported device preference, otherwise English"
+    ],
+    "backend": [
+      "production_ai selects LLMAgent+shared LLMVision with key; missing-key RuleAgent/NoVision fallback retained",
+      "Agent dependency pinned to7f116de; production knowledge remains MockKnowledgeSearch",
+      "Backend test count48->51; CI builds/deploys both API and web image",
+      "Latestf9d790f CI uses Agent main and all callers use a shared oneload-infra reusable deploy"
+    ],
+    "agent": [
+      "CI tests Agent and Backend compatibility; shared reusable workflow deploys Agent main. Initial GH_TOKEN pin-dispatch failure is resolved.",
+      "fde3df6 records R2 author verification of one live OpenAI message; R6 did not repeat it; actual 17-question quality baseline and field Vision evaluation remain pending"
+    ],
+    "rag": [
+      "Unchanged8c8e902; RQ32 proposal and Agent issue5 remain pending; no new answerability/citation fix"
+    ],
+    "infra": [
+      "Web client built into Caddy image with API/panoramas on one origin",
+      "Latest8f03327 adds shared reusable workflow; host lockf serializes deployments, only Backend caller writes server settings; deployment rewrites Agent dependency to checked-out main"
+    ]
+  },
+  "ci": {
+    "app": {
+      "run": "https://github.com/team-onetruck/oneload-app/actions/runs/39911399631",
+      "head": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+      "overall": "success",
+      "verify": "success",
+      "unit_tests": 429,
+      "unit_files": 37,
+      "lint_errors": 0,
+      "lint_warnings": 1,
+      "e2e_tests": 11,
+      "mock_e2e": 7,
+      "intercepted_http_e2e": 4,
+      "deploy": "success; common reusable workflow"
+    },
+    "agent": {
+      "run": "https://github.com/team-onetruck/oneload_agent/actions/runs/39911201346",
+      "head": "a089746d925e7c7e80da66287fcc0af998ecbb58",
+      "overall": "success",
+      "agent_test": "success",
+      "backend_compatibility_api": "success",
+      "deploy": "success; common reusable workflow"
+    },
+    "backend": {
+      "run": "https://github.com/team-onetruck/oneload-backend/actions/runs/39911013138",
+      "head": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
+      "overall": "success",
+      "test": "success",
+      "image": "success",
+      "deploy": "success; common reusable workflow"
+    },
+    "rag": {
+      "run": "https://github.com/team-onetruck/oneload-rag/actions/runs/39903283724",
+      "overall": "success",
+      "prior_reviewed_tests": 100,
+      "new_local_full_suite_run": false
+    }
+  },
+  "qa": {
+    "baseline": "reports/baseline.json",
+    "qa_tests": 42,
+    "agent_tests": 43,
+    "backend_tests": 51,
+    "component_scenarios": 20,
+    "component_turns": 21,
+    "mock_api": 20,
+    "rag_injected_api": 21,
+    "overall_exit_code": 1,
+    "remaining_findings": [
+      {
+        "id": "INT-07",
+        "severity": "P0",
+        "description": "R2 Agent/Vision selection is wired; production knowledge still uses MockKnowledgeSearch",
+        "evidence": {
+          "method": "execute_actual_entrypoint_with_OpenAILLM_replaced_by_FakeLLM",
+          "entrypoint_sha256": "1c15e4cb575bc2e316f5b276cb3a0e31aa061689bc103a1757a2fe466ea678ee",
+          "branches": {
+            "missing_key": {
+              "agent": "RuleAgent",
+              "vision": "NoVision",
+              "same_vision": false,
+              "same_llm": false,
+              "llm": "NoneType",
+              "knowledge": "NoneType",
+              "fallback": "NoneType"
+            },
+            "key_present": {
+              "agent": "LLMAgent",
+              "vision": "LLMVision",
+              "same_vision": true,
+              "same_llm": true,
+              "llm": "FakeLLM",
+              "knowledge": "MockKnowledgeSearch",
+              "fallback": "RuleAgent"
+            }
+          },
+          "agent_vision_conditionally_wired": true,
+          "production_knowledge_is_demo": true,
+          "real_model_calls": 0,
+          "deployed_runtime_verified": false
+        }
+      },
+      {
+        "id": "DATA-01",
+        "severity": "release_gate",
+        "description": "Example panoramas and draft map/knowledge need official and field verification",
+        "evidence": {
+          "map_id": "seoul-station",
+          "example_panorama_count": 6
+        }
+      }
+    ],
+    "executed_at_kst": "2026-10-23T15:29:26.873101+09:00"
+  },
+  "production_wiring": {
+    "id": "INT-07",
+    "passed": false,
+    "status": "partial",
+    "validation_level": "actual_entrypoint_with_fake_provider",
+    "evidence": {
+      "method": "execute_actual_entrypoint_with_OpenAILLM_replaced_by_FakeLLM",
+      "entrypoint_sha256": "1c15e4cb575bc2e316f5b276cb3a0e31aa061689bc103a1757a2fe466ea678ee",
+      "branches": {
+        "missing_key": {
+          "agent": "RuleAgent",
+          "vision": "NoVision",
+          "same_vision": false,
+          "same_llm": false,
+          "llm": "NoneType",
+          "knowledge": "NoneType",
+          "fallback": "NoneType"
+        },
+        "key_present": {
+          "agent": "LLMAgent",
+          "vision": "LLMVision",
+          "same_vision": true,
+          "same_llm": true,
+          "llm": "FakeLLM",
+          "knowledge": "MockKnowledgeSearch",
+          "fallback": "RuleAgent"
+        }
+      },
+      "agent_vision_conditionally_wired": true,
+      "production_knowledge_is_demo": true,
+      "real_model_calls": 0,
+      "deployed_runtime_verified": false
+    }
+  },
+  "deployed_readonly_evidence": "reports/server-readonly-20261023.json",
+  "discussion_context": {
+    "status": "reference_only; no requirement/TC relaxation, no switch to dummy location or new virtual-station implementation",
+    "location": "Mock returns preset photo-scenario candidates; default HTTP sends compressed JPEG to server. Vision extracts text/features, deterministic matcher ranks registered nodes, user confirms; no automatic current-position tracking.",
+    "guidance": "Registered-node schematic line with floors, distances and server step text plus per-leg street view; not a geographic station floor-plan image.",
+    "photos": "Street view is associated with step origin; six source panoramas are explicitly examples. Dedicated verified destination-entrance photo and source/destination photo comparison are not implemented in Arrived screen.",
+    "conversation": "Ticket/train/card clarification, source-based procedure answers, photo-attached questions, route-to-chat return and lost/manual recovery exist. LangGraph routes understanding/slots/safety/clarification/answer/destination; deterministic Backend computes routes.",
+    "virtual_station": "No new full virtual station/AR simulator implemented; demo data and example panoramas are not field evidence."
+  },
+  "evaluation_state": {
+    "service_gold_human_review": "pending20",
+    "component_human_review": "pending21",
+    "field_photo_gold_count": 0,
+    "live_model_calls_by_R6": 0,
+    "live_embedding_calls_by_R6": 0,
+    "production_ai_quality_measured_by_R6": false,
+    "exposed_retrieval_v2": "Previous e6c03f2 result17/20 positive top3 and17/20 OOS empty retained; not rerun or relabelled as fresh holdout."
+  },
+  "execution_notes": [
+    "First backend test attempt failed collection because QA runtime could not import the newly-required sibling Agent; no public baseline was published from that attempt. Runner now preflights sibling dependency and explicitly uses selected checkout PYTHONPATH. A new disposable DB/full run and separate RAG API run then completed.",
+    "Production entrypoint probe replaces OpenAILLM with FakeLLM in both key branches and executes actual app assignment; unused factory declarations do not pass. Unknown non-mock search still requires independent provenance/API review.",
+    "No workflow/deployment/secret changes or paid model/photo requests were performed by R6."
+  ],
+  "backend_local_development_agent_pin": "7f116deac946479cdacaa5d9ade87d5e9829d051",
+  "deployed_agent": "a089746d925e7c7e80da66287fcc0af998ecbb58",
+  "resolved_deployment_history": [
+    {
+      "repository": "oneload-app",
+      "failed_run": 39909366596,
+      "issue": 32,
+      "state": "closed",
+      "fix": "0a29203 replaces GH_TOKEN dispatch with shared workflow; latest42455dc deploy succeeded",
+      "closure_comment": "https://github.com/team-onetruck/oneload-app/issues/32#issuecomment-6358948752"
+    },
+    {
+      "repository": "oneload_agent",
+      "failed_run": 39910538572,
+      "issue": 6,
+      "state": "closed",
+      "fix": "a089746 uses shared reusable deploy and latest run succeeded",
+      "closure_comment": "https://github.com/team-onetruck/oneload_agent/issues/6#issuecomment-6358949566"
+    }
+  ],
+  "latest_deploy_checkouts_from_App_run": {
+    "oneload-app": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+    "oneload-backend": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
+    "oneload_agent": "a089746d925e7c7e80da66287fcc0af998ecbb58",
+    "oneload-infra": "8f03327db463f09f7a26439280771002c7cf9fcc",
+    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce"
+  }
+}

@@ -12,27 +12,27 @@
 
 ## 마지막 전체 QA 확인 결과
 
-2026-10-23 13:33 KST, App2666e44·Backendc9b8d8a·Agent54c321f·Data606f648·Infra8587d3b에서 다시 실행했습니다.
+2026-10-23 15:29 KST, App42455dc·Backendf9d790f·Agenta089746·Data606f648·Infra8f03327에서 다시 실행했습니다. 로컬 개발 pin은 Agent7f116de지만 CI/배포가 체크아웃한 Agent main(a089746)으로 덮어씁니다. 패키지 동작 코드는 같습니다.
 
 | 검증 | 결과 | 의미 |
 |---|---|---|
-| QA 회귀 테스트 | 38/38 통과 | 기존28 + holdout 검증6 + Agent 패키지 자산4 |
+| QA 회귀 테스트 | 42/42 통과 | 기존38 + 운영 entrypoint3 + Backend 의존성 사전검사1 |
 | 데이터 검사 | 3/3 통과 | 모델·참조·스키마·파일 존재 |
 | Agent 기존 테스트 | 43/43 통과 | FakeLLM 기반 |
-| Backend 기존 테스트 | 48/48 통과 | 새 일회용 PostgreSQL |
+| Backend 기존 테스트 | 51/51 통과 | 새 일회용 PostgreSQL |
 | R6 컴포넌트 v2 | 20/20 시나리오·21/21 턴 | 실제 Backend context/guard + 모의 AI |
 | R2↔Backend API | 20/20 | 명시적 주입·모의 검색 |
-| 별도 RAG API | 21/21 | RAGe6c03f2·MemorySearch0.25·FakeLLM |
+| 별도 RAG API | 21/21 | RAG8c8e902·MemorySearch0.25·FakeLLM |
 | 새 R6 검색 holdout v2 | top3 17/20·범위밖 빈 결과17/20 | 오탐3·정상 질문 누락3, 기준 미달 |
 | 실제 AI·사진 정확도 | 미측정 | 사람 검토·현장 평가 대기 |
 
 [RAG #3 답글 재검증](docs/rag-issue3-revalidation.md): 새 질문40개를 QA7f41130으로 검색 전에 고정한 뒤 수정 전47ab39f/후e6c03f2를 각1회 비교했습니다. 원래 호텔 가격·빈 좌석2건은 수정됐지만 새 오탐과 누락이 남아 RAG #3과 QA #3을 open으로 유지합니다. 임계값은 양쪽 모두0.25로 고정했고 재조정하지 않았습니다.
 
 Agent 패키지의 실제 PROMPT_DIR/MOCK_DIR에 맞춰 평가 실행기의 자산 검사·해시 경로를 수정했습니다. component v2의 질문·정답·SHA는 유지했습니다.
-Frontend HTTP 연결 소스는 App2666e44에서 wired입니다. [QA #4 수정 원칙](docs/issue4-resolution.md)을 유지하며 **이번 실제 서버·휴대폰 브라우저 인수는 NOT_RUN**입니다. App CI365+E2E4는 [별도 관찰 기록](reports/app-review-2666e44.json)입니다.
-남은 P0는 Backend 기본 RuleAgent/NoVision(INT-07)이며 전체 exit1입니다. 현장 데이터(DATA-01)도 남아 있습니다. 실제 모델·임베딩 호출0회입니다.
+Frontend HTTP 연결 소스는 App42455dc의 ApiAdapter 단일 흐름·홈/언어 메뉴를 검토해 wired입니다. [QA #4 수정 원칙](docs/issue4-resolution.md)을 유지하며 **이번 실제 서버·휴대폰 브라우저 인수는 NOT_RUN**입니다. App CI429+E2E11과 공용 배포가 모두 통과했습니다. 초기 배포 전달 실패는 수정 확인 후 App #32·Agent #6을 닫았습니다. [최신 기록](reports/current-system-review-20261023.json)을 따릅니다.
+Backend 운영 Agent·Vision은 연결됐고 키가 없으면 RuleAgent/NoVision으로 대체합니다. 남은 INT-07은 운영 검색이 MockKnowledgeSearch인 점이며 전체 exit1입니다. 현장 데이터(DATA-01)도 남아 있습니다. 실제 모델·임베딩 호출0회입니다.
 
-최신 관찰(2026-10-23 14:08 KST): **Appe6af580**은 동작 코드 변경 없이 mock 화면 테스트5건·CI 브라우저 캐시를 추가했고 CI365+E2E9가 통과했습니다. **RAG8c8e902**는 RQ-32(Agent 답변 가능 여부·인용 출처 검증) 제안 문서만 추가했습니다. 검색·지식은 이전과 같아 기존 오탐3·정상 누락3 및 이슈 open을 유지합니다. QA38·소스 감사를 다시 확인했습니다. [변경·CI·검증 범위](reports/app-rag-update-20261023.json). 위 전체 기준선은13:33의 실제 실행 결과이며 재라벨하지 않았습니다.
+최신 구현은 [현재 구현 정리](docs/current-implementation-20261023.md)를 봅니다. 모의 모드는 사진별 고정 결과, Live는 실제 사진 특징→지도 후보→사용자 확정 경로입니다. 도식형 노선·단계 설명·거리뷰는 있으나 실제 역 평면도나 도착지 입구 사진 전용 기능은 아닙니다. 사용자 토론을 확정 요구로 반영하지 않았습니다. 배포 화면·health·OpenAPI GET 확인은200이며 LLMAgent/LLMVision 표시를 확인했습니다. 실제 대화·사진 모델 호출은 이번 R6가 실행하지 않았습니다.
 
 - [최신 결과와 버전](reports/latest-review.md)
 - [데이터 검사 증거](reports/data-validation.json)
@@ -105,7 +105,7 @@ QA 회귀 테스트 → 데이터 검사 → Agent 시험 → 계약 감사 → 
 누락되거나 다른 버전의 증거가 섞이면 공개 보고서를 갱신하지 않습니다.
 --reports는 --with-backend와 함께 사용하며, 매 실행 새 출력 폴더를 지정합니다.
 
-INT-06은 검토된 소스 연결로 확인했고 INT-08은 통과했습니다. 남은 INT-07 때문에 전체 종료 코드는1입니다. 재검토되지 않은 App 코드도 review_required로 nonzero를 유지합니다.
+INT-06은 검토된 소스 연결로 확인했고 INT-08은 통과했습니다. 운영 R3 검색이 아직 데모인 INT-07 때문에 전체 종료 코드는1입니다. 재검토되지 않은 App 코드도 review_required로 nonzero를 유지합니다.
 자세한 단계별 종료 코드와 실제 실패 항목은 reports/baseline.json에 있습니다.
 실행 원본은 results/, 공개용 구조화 증거는 reports/에 기록합니다.
 
@@ -129,7 +129,7 @@ PYTHONDONTWRITEBYTECODE=1 LANGSMITH_TRACING=false LANGCHAIN_TRACING_V2=false ../
 ~~~
 
 Backend 시험은 public schema를 삭제하므로 기존 DB URL로 직접 실행하지 않고 QA 실행기를 사용합니다.
-실행기는 무작위 이름·로컬 포트의 일회용 PostgreSQL을 만들고 자신이 만든 컨테이너만 제거합니다.
+실행기는 무작위 이름·로컬 포트의 일회용 PostgreSQL을 만들고 자신이 만든 컨테이너만 제거합니다. 현재 Backend의 oneload-agent 의존성을 사전 확인하고 선택한 형제 oneload_agent checkout을 시험 경로에 넣습니다. 자동 QA에서는 실제 OpenAI 키를 비워 둡니다.
 --with-r2를 빼면 Backend 고정 fixture 시험만 실행합니다.
 
 ## 평가 수준과 결과 관리

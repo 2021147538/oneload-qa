@@ -1,44 +1,44 @@
 {
   "date": "2026-10-23",
-  "executed_at_kst": "2026-10-23T13:33:51.819761+09:00",
+  "executed_at_kst": "2026-10-23T15:29:26.873101+09:00",
   "commits": {
-    "oneload-app": "2666e44a29facc48b5c04af5acecb3bff04779f4",
-    "oneload-backend": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
-    "oneload_agent": "54c321f7d86f55f5d3178744088b2c3827d73914",
+    "oneload-app": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+    "oneload-backend": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
+    "oneload_agent": "a089746d925e7c7e80da66287fcc0af998ecbb58",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
-    "oneload-infra": "8587d3b65c80575f0b573b0d8a3b20322a61121a"
+    "oneload-infra": "8f03327db463f09f7a26439280771002c7cf9fcc"
   },
   "overall_exit_code": 1,
   "steps": [
     {
       "name": "qa-tests",
       "exit_code": 0,
-      "elapsed_s": 1.363
+      "elapsed_s": 2.2
     },
     {
       "name": "data-validation",
       "exit_code": 0,
-      "elapsed_s": 0.15
+      "elapsed_s": 0.149
     },
     {
       "name": "agent-tests",
       "exit_code": 0,
-      "elapsed_s": 1.094
+      "elapsed_s": 1.349
     },
     {
       "name": "contract-audit",
       "exit_code": 1,
-      "elapsed_s": 0.786
+      "elapsed_s": 1.887
     },
     {
       "name": "component-eval",
       "exit_code": 0,
-      "elapsed_s": 0.937
+      "elapsed_s": 0.96
     },
     {
       "name": "backend-and-integration",
       "exit_code": 0,
-      "elapsed_s": 7.92
+      "elapsed_s": 7.44
     }
   ],
   "map": {
@@ -50,7 +50,7 @@
   },
   "qa": {
     "suite": {
-      "tests": 38,
+      "tests": 42,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -93,15 +93,15 @@
   },
   "backend": {
     "suite": {
-      "tests": 48,
+      "tests": 51,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "run": {
-      "started_at_kst": "2026-10-23T13:33:44.020409+09:00",
+      "started_at_kst": "2026-10-23T15:29:19.570800+09:00",
       "repository": "oneload-backend",
-      "commit": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
+      "commit": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
       "python": "3.12.14",
       "exit_code": 0,
       "unit_fixture": {
@@ -130,13 +130,13 @@
     "fixture": "FakeLLM, MockKnowledgeSearch, synthetic JPEG; explicit R2 injection"
   },
   "frontend": {
-    "commit": "2666e44a29facc48b5c04af5acecb3bff04779f4",
+    "commit": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
     "status": "not_run",
     "browser_e2e_executed": false,
     "source_wiring": {
       "status": "wired",
       "validation_level": "reviewed_source_only",
-      "registry_sha256": "2a8c6dc0269c13a96554659532e1aeeb470362e561392f128d9d4567b47eb180",
+      "registry_sha256": "074d32112c4d3332a54c25940cbaff65788b52cf3ec534fd5ea42b7f22c6d15e",
       "runtime_browser_e2e": "NOT_RUN"
     }
   },
@@ -144,16 +144,17 @@
   "field_photo_count": 0,
   "production_ai_quality_measured": false,
   "runner_hashes": {
-    "audit_contracts.py": "eba6915d4cb49e5014fff26aa01ea0d8506a5cd59534a877c670c473650fbb29",
+    "audit_contracts.py": "ff38733da3b05b1a61d0a8d446ed78cbe62eeb35566394ce3e392d8ede8dae00",
     "evaluate_agent.py": "09349d593b366ee4748c22a4fc4817fe79e78a719523054e93233ce841fb9f8d",
     "evaluate_retrieval.py": "045ee5f125d3ce405e0e9becdd486b8ea70f42c6e72cbdd96c6fee4d2c3ecca1",
     "frontend_wiring.py": "7875d0836be5158758b8d61c9469adb7cf9fdda1917c72746f9d470f090d157c",
     "probe_integration.py": "93f16dd92ded8f6eff5877b0c16bbb50e0c54ee7efd087fdb03fc52b87558044",
+    "production_wiring.py": "03c5ce06964d571c04f8e8a91753b1eee935ee45d63fcc36048c41555c3e2f94",
     "qa_inputs.py": "b6abd0f0739ff425191d60a6f014c62c1ab1df3c93a0a55179a0470fd000fef3",
     "rag_inputs.py": "e20f59ba94b507f8ce818b2ed0fd6d939d2bc39dd97b956326aa54c93a770aa1",
     "recheck_rag_issue3.py": "ed277a0270e2ad13da5d9c983b6bcdee6006c162427960f07f02ac4c63a0e223",
-    "run_backend_tests.py": "fdc9fc71e60f2de09fd7159ac7b814f1f28ae5dbc4c8857d673a338f87066514",
-    "run_checks.py": "7fa0aa61b744f6b978ca8a3cdb225c629deddfbd63051c0a8bb3e1e5a680e358",
+    "run_backend_tests.py": "049ba6fd6ceb0da12da6696975663eeae420eb2b9c1ba12902d56aaf4f437034",
+    "run_checks.py": "68d09c820ea2cd272761dd5ed2e01e3cb1f7ec19d3dc7976d988dc3a4557923b",
     "validate_data.py": "7d648fef59d9361abf691c49a5ad35d3da553dce695df6dbcc881707a7feecd9"
   }
 }

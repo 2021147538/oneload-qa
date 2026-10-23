@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "observed_at_kst": "2026-10-23T14:08:19.375583+09:00",
+  "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
   "purpose": "Observed remote-main versions; standard FakeLLM baseline and separate MemorySearch evidence have distinct scopes.",
   "qa": {
     "repository": "team-onetruck/oneload-qa",
     "directory": "qa",
     "url": "https://github.com/team-onetruck/oneload-qa.git",
     "revision": "self",
-    "code_base_commit": "7f41130e3d3bac6ebb340da31a71b0a3b45f2a4a",
-    "note": "self means this manifest commit; code_base_commit freezes the R6 v2 holdout before execution. Runner hashes and measured source commits are recorded separately."
+    "code_base_commit": "0ea1bebfb9f2f91ad14e0957230a18ffcd4c1a73",
+    "note": "self means this report commit; code_base_commit is the QA revision before this review. Frozen v2 remains 7f41130; actual runners are pinned by baseline hashes."
   },
   "qa_baseline": "reports/baseline.json",
   "rag_issue_review_evidence": [
@@ -20,30 +20,32 @@
       "repository": "team-onetruck/oneload-app",
       "directory": "oneload-app",
       "url": "https://github.com/team-onetruck/oneload-app.git",
-      "observed_main_commit": "e6af5802208a2c9ecc6c20f10b426368dddcd9bb",
-      "qa_baseline_commit": "2666e44a29facc48b5c04af5acecb3bff04779f4",
+      "observed_main_commit": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+      "qa_baseline_commit": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
       "rag_issue_review_commit": null,
-      "observed_at_kst": "2026-10-23T14:08:19.375583+09:00",
-      "review_evidence": "reports/app-rag-update-20261023.json",
+      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
+      "review_evidence": "reports/current-system-review-20261023.json",
       "historical_review_evidence": "reports/app-review.json"
     },
     {
       "repository": "team-onetruck/oneload-backend",
       "directory": "oneload-backend",
       "url": "https://github.com/team-onetruck/oneload-backend.git",
-      "observed_main_commit": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
-      "qa_baseline_commit": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
+      "observed_main_commit": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
+      "qa_baseline_commit": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
       "rag_issue_review_commit": "a82b7befa6509c28c843a0dc84af46d75143a047",
-      "observed_at_kst": "2026-10-23T13:35:29.426244+09:00"
+      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
+      "review_evidence": "reports/current-system-review-20261023.json"
     },
     {
       "repository": "team-onetruck/oneload_agent",
       "directory": "oneload_agent",
       "url": "https://github.com/team-onetruck/oneload_agent.git",
-      "observed_main_commit": "54c321f7d86f55f5d3178744088b2c3827d73914",
-      "qa_baseline_commit": "54c321f7d86f55f5d3178744088b2c3827d73914",
+      "observed_main_commit": "a089746d925e7c7e80da66287fcc0af998ecbb58",
+      "qa_baseline_commit": "a089746d925e7c7e80da66287fcc0af998ecbb58",
       "rag_issue_review_commit": "250271edb6c50e8cc71cd1443143e94cb9191a74",
-      "observed_at_kst": "2026-10-23T13:35:29.426244+09:00"
+      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
+      "review_evidence": "reports/current-system-review-20261023.json"
     },
     {
       "repository": "team-onetruck/oneload-data",
@@ -52,16 +54,18 @@
       "observed_main_commit": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
       "qa_baseline_commit": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
       "rag_issue_review_commit": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
-      "observed_at_kst": "2026-10-23T13:35:29.426244+09:00"
+      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
+      "review_evidence": "reports/current-system-review-20261023.json"
     },
     {
       "repository": "team-onetruck/oneload-infra",
       "directory": "oneload-infra",
       "url": "https://github.com/team-onetruck/oneload-infra.git",
-      "observed_main_commit": "8587d3b65c80575f0b573b0d8a3b20322a61121a",
-      "qa_baseline_commit": "8587d3b65c80575f0b573b0d8a3b20322a61121a",
+      "observed_main_commit": "8f03327db463f09f7a26439280771002c7cf9fcc",
+      "qa_baseline_commit": "8f03327db463f09f7a26439280771002c7cf9fcc",
       "rag_issue_review_commit": null,
-      "observed_at_kst": "2026-10-23T13:35:29.426244+09:00"
+      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
+      "review_evidence": "reports/current-system-review-20261023.json"
     },
     {
       "repository": "team-onetruck/oneload-rag",
@@ -70,20 +74,20 @@
       "observed_main_commit": "8c8e902013fc12a1790762b38a34e282930cb667",
       "qa_baseline_commit": null,
       "rag_issue_review_commit": "f1ec584634cdbc2eca5da0e1aa8eeff13e13cfc0",
-      "observed_at_kst": "2026-10-23T14:08:19.375583+09:00",
-      "rag_profile_review_commit": "e6c03f242482151a69d00ce94056c502d724c205",
-      "review_evidence": "reports/app-rag-update-20261023.json",
+      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
+      "rag_profile_review_commit": "8c8e902013fc12a1790762b38a34e282930cb667",
+      "review_evidence": "reports/current-system-review-20261023.json",
       "retrieval_review_commit": "e6c03f242482151a69d00ce94056c502d724c205",
       "historical_review_evidence": "reports/source-review-20261023.json"
     }
   ],
-  "updated_at_kst": "2026-10-23T14:08:19.375583+09:00",
+  "updated_at_kst": "2026-10-23T15:31:32.066477+09:00",
   "rag_profile_evidence": [
-    "reports/retrieval-evaluation.json",
-    "reports/rag-integration-probe.json"
+    "reports/rag-integration-probe.json",
+    "reports/rag-issue3-revalidation.json"
   ],
   "frontend_wiring_review": "reports/frontend-wiring-review.json",
-  "frontend_current_review": "reports/app-rag-update-20261023.json",
+  "frontend_current_review": "reports/current-system-review-20261023.json",
   "rag_issue3_review": {
     "request_comment": "https://github.com/team-onetruck/oneload-rag/issues/3#issuecomment-6356152143",
     "freeze_commit": "7f41130e3d3bac6ebb340da31a71b0a3b45f2a4a",
@@ -91,5 +95,7 @@
     "decision": "keep_open; fresh holdout top3 17/20, out-of-scope empty 17/20",
     "protocol": "official-only MemorySearch min_score0.25 k3 relative0.5; no sweep"
   },
-  "current_update_review": "reports/app-rag-update-20261023.json"
+  "current_update_review": "reports/current-system-review-20261023.json",
+  "backend_local_development_agent_pin": "7f116deac946479cdacaa5d9ade87d5e9829d051",
+  "backend_deployed_agent_commit": "a089746d925e7c7e80da66287fcc0af998ecbb58"
 }

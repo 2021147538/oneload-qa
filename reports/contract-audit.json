@@ -1,12 +1,12 @@
 {
-  "checked_at_kst": "2026-10-23T13:33:42.903460+09:00",
+  "checked_at_kst": "2026-10-23T15:29:18.307467+09:00",
   "scope": "Real Backend context/map/guard + FakeLLM; actual Vision failure, schemas and static wiring; no live models",
   "commits": {
-    "oneload-app": "2666e44a29facc48b5c04af5acecb3bff04779f4",
-    "oneload-backend": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
-    "oneload_agent": "54c321f7d86f55f5d3178744088b2c3827d73914",
+    "oneload-app": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+    "oneload-backend": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
+    "oneload_agent": "a089746d925e7c7e80da66287fcc0af998ecbb58",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
-    "oneload-infra": "8587d3b65c80575f0b573b0d8a3b20322a61121a"
+    "oneload-infra": "8f03327db463f09f7a26439280771002c7cf9fcc"
   },
   "map": {
     "source_repository": "oneload-data",
@@ -107,28 +107,64 @@
         "method": "reviewed_runtime_source_fingerprints",
         "runtime_browser_e2e": "NOT_RUN",
         "functional_acceptance": "pending_independent_runtime_checks",
-        "snapshot_sha256": "d338458ec7312daa80912de9d1137b80dde293fd3f3d8bf42b0b0cde38173a5a",
+        "snapshot_sha256": "443a4f82bb0873e67d236d13e59131de07d32427a4be6ef3221228336144dfd2",
         "status": "wired",
-        "profile": "app-2666e44",
-        "reviewed_commit": "2666e44a29facc48b5c04af5acecb3bff04779f4",
+        "profile": "app-42455dc",
+        "reviewed_commit": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
         "connected_features": [
           "chat",
-          "localization",
           "confirmation",
-          "routes",
-          "navigation_events"
+          "localization",
+          "navigation_events",
+          "routes"
         ],
         "missing_features": [],
         "evidence": [
-          "store.tsx: HTTP say -> askServer -> sendChat -> httpAdapter.sendMessage; replyEffects now preserves server poi_id",
-          "store.tsx: HTTP analyzePhoto -> locateOnServer -> sendPhoto; explicit confirmLocation -> confirmOnServer -> sendConfirmation; mock remains separately gated",
-          "store.tsx: routeOnServer -> sendRoute -> createRoute; report -> deliverEvents -> postNavigationEvents; route guide consumes server steps",
-          "store.tsx: ensurePois -> poiCache(createMapCache) -> searchPois(mapId) -> GET /maps/{id}/pois; Destinations uses destinationViews, pickDestination sends picked poiId directly",
-          "store.tsx: arrived screen requests POIs to select tickets-category actions; reset clears graph and POI cache; poiBridge deleted",
-          "fakeFetch abort handling changed for tests; production client/HTTP adapter and localization/route flow modules unchanged from b5d6835",
-          "E2E3 HTTP scenarios intercept API with MSW responses; one mock smoke. No real Backend/mobile browser validation performed in this review"
+          "store.tsx startSession/askServer/sendChat -> api/index.ts adapter -> createHttpAdapter(createApiClient()) by default; mock explicitly selected only for VITE_API_MODE=mock",
+          "store.tsx locateOnServer -> sendPhoto -> postLocalization; confirmOnServer -> sendConfirmation -> confirmLocation; photo candidates never auto-confirm; 503 stays manual",
+          "routeOnServer -> graphCache + sendRoute -> adapter.createRoute; serverGuide reads actual route steps/map; destination selection passes server poi_id",
+          "createEventOutbox -> deliverEvents -> postNavigationEvents; serializes navigation_started before later arrived; failed batches reuse event ids; reset discards old generation",
+          "HTTP chat/language/photo/manual/registered route/reroute calls preserve existing recovery modules; session state/revision use response values",
+          "Mock rules moved behind ApiAdapter; store/screens share one flow. CI429 unit/11 UI (mock7, intercepted HTTP4) does not verify a real Backend browser or live AI quality",
+          "Line screen is a schematic list of registered nodes with floors and steps; street view uses per-leg panorama; no geographic floor-plan/real station destination-photo acceptance inferred",
+          "SideMenu routes language changes through existing changeLang/PATCH with revision recovery; initial language detection uses supported ko/en or English fallback; home confirms progress then calls existing reset, closes menu and clears session/route",
+          "Shared reusable infra deployment replaces cross-repo GH_TOKEN dispatch; latest App/Agent deployment CI succeeded; source wiring remains separate from actual browser acceptance"
         ],
-        "registry_sha256": "2a8c6dc0269c13a96554659532e1aeeb470362e561392f128d9d4567b47eb180"
+        "registry_sha256": "074d32112c4d3332a54c25940cbaff65788b52cf3ec534fd5ea42b7f22c6d15e"
+      }
+    },
+    {
+      "id": "INT-07",
+      "passed": false,
+      "status": "partial",
+      "validation_level": "actual_entrypoint_with_fake_provider",
+      "evidence": {
+        "method": "execute_actual_entrypoint_with_OpenAILLM_replaced_by_FakeLLM",
+        "entrypoint_sha256": "1c15e4cb575bc2e316f5b276cb3a0e31aa061689bc103a1757a2fe466ea678ee",
+        "branches": {
+          "missing_key": {
+            "agent": "RuleAgent",
+            "vision": "NoVision",
+            "same_vision": false,
+            "same_llm": false,
+            "llm": "NoneType",
+            "knowledge": "NoneType",
+            "fallback": "NoneType"
+          },
+          "key_present": {
+            "agent": "LLMAgent",
+            "vision": "LLMVision",
+            "same_vision": true,
+            "same_llm": true,
+            "llm": "FakeLLM",
+            "knowledge": "MockKnowledgeSearch",
+            "fallback": "RuleAgent"
+          }
+        },
+        "agent_vision_conditionally_wired": true,
+        "production_knowledge_is_demo": true,
+        "real_model_calls": 0,
+        "deployed_runtime_verified": false
       }
     },
     {
@@ -148,10 +184,34 @@
     {
       "id": "INT-07",
       "severity": "P0",
-      "description": "Backend production entry point uses RuleAgent/NoVision",
+      "description": "R2 Agent/Vision selection is wired; production knowledge still uses MockKnowledgeSearch",
       "evidence": {
-        "file": "oneload-backend/app/main.py",
-        "r2_injected_probe_is_not_production_wiring": true
+        "method": "execute_actual_entrypoint_with_OpenAILLM_replaced_by_FakeLLM",
+        "entrypoint_sha256": "1c15e4cb575bc2e316f5b276cb3a0e31aa061689bc103a1757a2fe466ea678ee",
+        "branches": {
+          "missing_key": {
+            "agent": "RuleAgent",
+            "vision": "NoVision",
+            "same_vision": false,
+            "same_llm": false,
+            "llm": "NoneType",
+            "knowledge": "NoneType",
+            "fallback": "NoneType"
+          },
+          "key_present": {
+            "agent": "LLMAgent",
+            "vision": "LLMVision",
+            "same_vision": true,
+            "same_llm": true,
+            "llm": "FakeLLM",
+            "knowledge": "MockKnowledgeSearch",
+            "fallback": "RuleAgent"
+          }
+        },
+        "agent_vision_conditionally_wired": true,
+        "production_knowledge_is_demo": true,
+        "real_model_calls": 0,
+        "deployed_runtime_verified": false
       }
     },
     {

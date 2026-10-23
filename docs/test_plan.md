@@ -1,4 +1,4 @@
-# R6 테스트 계획 v0.8
+# R6 테스트 계획 v0.9
 
 ## 담당 결과물
 
@@ -128,3 +128,9 @@ HTTP 호출 경로를 검토한 런타임 소스·의존성 해시를 frontend_w
 공식 MemorySearch min_score0.25, k3, 상대0.5를 고정해 RAG47ab39f/e6c03f2를 별도 프로세스로 각1회 실행했다. 새 gate0.25 이외 지식 해시는 같다. 새 top3 20/20→17/20, 범위밖 빈 결과5/20→17/20으로 잠정 기준 미달이다. 원래 신고2건은 해결됐지만 새 오탐3·누락3으로 RAG #3·QA #3은 open이다.
 
 [절차·실패 분석](rag-issue3-revalidation.md), [질문별 증거](../reports/rag-issue3-revalidation.json)를 따른다. 새 v2도 이제 노출돼 회귀용이다. 이 결과를 보고 임계값을 바꾼 뒤 같은 자료를 새 독립 검증으로 소개하지 않는다. 이후 수정은 새 미관찰 평가를 고정하고 기존 회귀와 함께 판정한다. 실제 모델·pgvector 품질·운영 기본 경로 연결은 별도다.
+
+## 현재 운영 조립과 토론 참고 (2026-10-23 15:22)
+
+사용자가 제공한 토론은 맥락으로만 참고하고 기존 기능 TC/MVP 인수조건을 자동 변경하지 않았다. [현재 구현](current-implementation-20261023.md)에 모의 사진 결과와 Live 인식, 도식형 노선과 실제 평면도, 예시 거리뷰와 도착지 입구 사진을 구분했다.
+
+INT-07은 무조건 RuleAgent/NoVision 상태에서 Agent/Vision 조건부 운영 연결로 진전됐다. 실제 entrypoint를 FakeLLM으로 실행해 키 유무·공유 LLM/Vision을 확인하되 운영 지식이 MockKnowledgeSearch이므로 partial/P0·전체 exit1이다. 실제 배포 GET은 구성 표시만 확인하며 실제 모델/사진 품질로 집계하지 않는다. Backend 단위 검사는 형제 Agent 의존성 누락을 Docker 전에 실패시키고 선택한 checkout으로 실행한다.

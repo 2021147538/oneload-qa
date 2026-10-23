@@ -1,6 +1,6 @@
 # 현재 통합 점검 결과
 
-기준: Agent54c321f, Backendc9b8d8a, Data606f648, Frontend2666e44, RAGe6c03f2 (2026-10-23 13:33 KST).
+기준: Agenta089746(개발 pin7f116de와 패키지 코드 동일), Backendf9d790f, Data606f648, Frontend42455dc, RAG8c8e902 (2026-10-23 15:29 KST).
 [계약 검사](../reports/contract-audit.json)와 [실제 API 연결 검사](../reports/integration-probe.json)를 함께 봅니다.
 
 ## 해결 확인 항목
@@ -22,7 +22,7 @@
 
 | ID | 우선순위 | 재현·근거 | 필요한 작업 | 담당 협업 |
 |---|---|---|---|---|
-| INT-07 | P0 | Backend app = create_app(), 내부 기본값 RuleAgent/NoVision | R2 패키지와 의존성 연결, 실제 Agent/Vision 주입, R3 검색 교체 | R2·R3·R4 |
+| INT-07 | P0·partial | 운영 Agent/Vision 조건부 연결 완료, 지식은 MockKnowledgeSearch | R3 공식 검색 연결 후 운영 API 재검사 | R2·R3·R4 |
 | DATA-01 | 출시 전 확인 | 지도 통로·거리·방향과 예시 파노라마, 모의 지식 자료 | 공식 근거·답사·개인정보 검토 후 평가 정답 확정 | R1·R3·R6 |
 
 현재 P0는 INT-07이며 전체 실행 종료 코드는1입니다. 새 Frontend 런타임 소스가 미검토이면 review_required로 별도 중단합니다.
@@ -81,8 +81,14 @@ App b111af6은 세션 생성에 이어 HTTP 채팅·POI 칩·언어 변경을 �
 최신 Appb5d6835는 사진·확정·서버 경로·시작/도착/취소·재탐색의 HTTP 호출 경로를 연결했다. mock 문자열만으로 미연결이라고 판정하던 QA #4를 수정했다. [판정 절차](issue4-resolution.md)·[Git 스냅샷 증거](../reports/frontend-wiring-review.json)를 따른다. 실제 서버·휴대폰 전체 인수는 별도다.
 Backendc9b8d8a까지 포함해 QA28/28·Backend48/48·모의 API20/20·RAG 주입 API21/21을 재확인했다. 기본 Agent/Vision 조립은 바뀌지 않아 INT-07은 유지한다. RAG 검색 오탐/임계값 미승인도 QA #3·RAG #3으로 계속 추적한다.
 
-## RAG 답글 후 현재 판정
+## RAG 답글 후 이전 판정 (13:33)
 
 2026-10-23 13:33 KST에 Agent54c321f의 패키지 자산 경로를 반영해 전체 검사를 갱신했다. QA38/38·Agent43/43·Backend48/48·컴포넌트20시나리오/21턴·모의 API20/20·별도 RAG API21/21이다. App2666e44는 소스 wired이며 실제 브라우저 인수는 NOT_RUN, 운영 INT-07도 그대로다.
 
 RAG 원래 호텔 가격·빈 좌석은 빈 결과로 개선됐으나 R6 신규 holdout40문항에서 오탐3·정상 누락3이 남았다. top3 17/20·범위밖 빈 결과17/20으로 임계값 운영 확정은 보류하고 RAG #3·QA #3은 open이다. [동결 절차·전후 증거](rag-issue3-revalidation.md)를 따른다. 실제 모델·pgvector 품질은 이 검사 범위가 아니다.
+
+## 현재 판정 (15:29 KST)
+
+QA42·Agent43·Backend51·컴포넌트20/21·모의 API20·RAG 주입 API21을 재확인했다. App ApiAdapter 단일 흐름·outbox를 검토해 새 profile42455dc으로 wired다. 운영 entrypoint 두 키 분기를 FakeLLM으로 실행해 Agent/Vision 공유를 확인했다. 배포 GET에서도 활성 구성 표시를 확인했지만 공식 R3 검색은 미연결이라 INT-07 partial이며 전체 exit1이다.
+
+App #32·Agent #6의 초기 배포 전달 토큰 문제는 공용 reusable 배포 전환과 최신 실행 성공으로 해결 확인해 닫았다. [현재 구현·토론 맥락·한계](current-implementation-20261023.md)를 따른다.

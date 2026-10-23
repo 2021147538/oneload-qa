@@ -74,3 +74,7 @@ INT-07 기본 경로는 여전히 RuleAgent/NoVision이다. 최신 주입 API21/
 ## RQ-32 문서 제안 확인 (14:08 KST)
 
 RAG8c8e902는 검색 수정 없이 RQ-32 제안을 추가했다. 검색 반환 자체의 오탐과 실제 답변의 근거 없는 정보·무관 인용을 나눠 평가하자는 방향을 검토한다. Agent의 답변 가능 여부·인용한 출처만 노출·인용 위반 시 보류가 반영돼야 하며, 제안만으로 기존 검색 실패나 완료 조건을 통과로 바꾸지 않는다. 기존 임계값/검색 gate를 변경하지 않았고 RAG #3·QA #3은 open이다. [변경 기록](../reports/app-rag-update-20261023.json)과 [후속 작업](handoff.md)을 따른다.
+
+## 최신 운영 연결 상태 (15:22 KST)
+
+Backendf9d790f는 Agent/Vision을 운영 entrypoint에 연결했고 배포 OpenAPI에도 LLMAgent/LLMVision이 표시된다. 검색은 여전히 MockKnowledgeSearch이므로 INT-07은 partial이다. 최신 QA42·Backend51·모의 API20·RAG8c8e902 주입 API21은 새 일회용 DB에서 확인했다. 운영 R3 검색 검사가 아니라 QA 명시적 주입임은 그대로다. Agent #5/RQ-32·검색 임계값·실제 모델 품질 조건은 미완료이며 QA #3/RAG #3을 닫지 않는다. [전체 최신 기록](current-implementation-20261023.md)을 따른다.
