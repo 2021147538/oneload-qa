@@ -1,0 +1,86 @@
+{
+  "checked_at_kst": "2026-10-23T10:31:18.523875+09:00",
+  "repository": "team-onetruck/oneload-app",
+  "commit": "8c88f89a11aa861409e3835760afcd2bca9d31d0",
+  "package_version": "0.0.0",
+  "previous_qa_baseline_commit": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
+  "local_matches_remote_main": true,
+  "source_checkout_clean": true,
+  "scope": "Static source call-path review and existing GitHub Actions evidence; no local browser, real Backend E2E or deployment test.",
+  "ci": {
+    "run_id": 39883415542,
+    "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39883415542",
+    "head_sha": "8c88f89a11aa861409e3835760afcd2bca9d31d0",
+    "jobs": [
+      {
+        "name": "e2e",
+        "conclusion": "success",
+        "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39883415542/job/120185887155"
+      },
+      {
+        "name": "verify",
+        "conclusion": "success",
+        "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39883415542/job/120185887421"
+      }
+    ],
+    "verify": {
+      "header_check": "passed; 0 new files checked on main",
+      "lint_errors": 0,
+      "lint_warnings": 1,
+      "typecheck": "passed",
+      "test_files": 20,
+      "tests_passed": 282
+    },
+    "e2e": {
+      "tests": 1,
+      "scope": "mock-mode mobile Chrome welcome-screen smoke only"
+    },
+    "production_build": "not_run_in_this_review"
+  },
+  "implementation": [
+    {
+      "area": "API client and endpoint adapters",
+      "status": "implemented",
+      "evidence": "src/api/client.ts, httpAdapter.ts, index.ts; generated OpenAPI schema"
+    },
+    {
+      "area": "Welcome/session creation",
+      "status": "http_wired",
+      "evidence": "src/store.tsx startSession -> createSession when VITE_API_MODE=http"
+    },
+    {
+      "area": "Chat UI",
+      "status": "mock_flow_remaining",
+      "evidence": "src/store.tsx sendText/sendChip -> classify/runIntent -> reply; sendMessage adapter not called by UI"
+    },
+    {
+      "area": "Photo and manual confirmation UI",
+      "status": "mock_flow_remaining",
+      "evidence": "src/store.tsx analyzePhoto -> SCENARIOS; confirmLocation updates local state"
+    },
+    {
+      "area": "Route and navigation event UI",
+      "status": "mock_flow_remaining",
+      "evidence": "src/store.tsx startRoute -> findRoute, nextStep local; endpoint helpers exist separately"
+    },
+    {
+      "area": "Recovery",
+      "status": "provider_and_views_implemented_integration_pending",
+      "evidence": "App.tsx wraps RecoveryProvider; session-ended/error notice views exist; sendWithRecovery is not invoked by UI"
+    }
+  ],
+  "int06": {
+    "status": "open_partial_integration",
+    "reason": "Session creation uses HTTP, but chat/localization/routes/events UI retain local flows."
+  },
+  "confirmed_issue": {
+    "number": 11,
+    "url": "https://github.com/team-onetruck/oneload-app/issues/11",
+    "kind": "documentation_mismatch",
+    "summary": "README says no server calls, while its mode table claims HTTP chat; current UI only wires session creation."
+  },
+  "real_backend_browser_e2e_executed": false,
+  "real_llm_calls": 0,
+  "deployment_executed": false,
+  "baseline_preserved": "reports/baseline.json remains the earlier full-QA evidence; this review does not replace it."
+}

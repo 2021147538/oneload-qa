@@ -24,12 +24,13 @@
 ## 3. 관찰한 최신 소스와 검증 버전
 
 아래 관찰 버전은 2026-10-23 원격 main과 일치하는 깨끗한 로컬 checkout을 확인한 결과다. 전체 SHA는 repos.lock.json에 있다.
+기본 관찰 시각은 manifest의 observed_at_kst이고, 개별 저장소에 observed_at_kst가 있으면 그 시각이 우선한다. App은 10:31 KST에 별도 재확인했다.
 **이 버전 전부를 조합한 전체 QA는 아직 실행하지 않았다.**
 
 | 저장소 / 로컬 폴더 | 관찰한 main | 마지막 검증과 차이 |
 |---|---|---|
-| oneload-qa / qa | 이 문서가 포함된 커밋; 코드 기준 ec671cc | 이번 작업은 인수인계·설계 사본·문서 연결 추가 |
-| oneload-app | bc2d9f1 | 마지막 QA 입력과 같음. 실제 API 연결 전 모의 구현 |
+| oneload-qa / qa | 이 문서가 포함된 커밋; 코드 기준 ec671cc | 기준선 유지, 인수인계·설계 사본·별도 App 검토 기록 |
+| oneload-app | 8c88f89 | 코드·CI 별도 확인: 세션 생성 HTTP 연결, API 계층·복구 화면 추가. 채팅·사진·경로 화면은 모의 흐름 유지. CI 282개·시작 화면 스모크 1개 통과 |
 | oneload-backend | 493884f | QA 기준 a82b7be 이후 Dockerfile·CI·README 추가. 새 조합 전체 QA 미실행 |
 | oneload_agent | 250271e | 마지막 QA·RAG 이슈 검증과 같음 |
 | oneload-data | 606f648 | 마지막 QA·RAG 이슈 검증과 같음 |
@@ -79,19 +80,20 @@ FakeLLM·MockKnowledgeSearch·합성 JPEG·일회용 PostgreSQL만 사용했다.
 
 | 항목 | 현재 의미 / 다음 확인 |
 |---|---|
-| INT-06 | Frontend가 로컬 모의 흐름을 실행. 실제 API·토큰·revision·오류→화면 연결 필요 |
+| INT-06 | App 8c88f89에서 세션 생성 HTTP·API 계층은 추가됐지만 채팅·위치·경로·이벤트 화면은 로컬 흐름. 실제 API 응답→화면 연결과 전체 흐름 검증 필요 |
 | INT-07 | Backend 기본값이 RuleAgent/NoVision. 493884f에서도 실제 Agent/RAG 조립 변경은 확인되지 않음. R3 패치는 제안 상태 |
 | DATA-01 | 지도 통로·방향·예시 파노라마와 공식 정답·답사 확인 필요 |
 | 서비스 평가 | service_gold 20건 모두 pending_source_review. 실제 모델 baseline·개선 비교 미실행 |
 | 사진/휴대폰 | 현장 정답 0건, 실기기 UI·카메라 권한·네트워크·복구 미검증 |
 | Infra 문서 | [Infra #1](https://github.com/team-onetruck/oneload-infra/issues/1) open. 공개 범위와 private 표기 정합성 별도 확인 |
+| App 문서 | [App #11](https://github.com/team-onetruck/oneload-app/issues/11) open. README·As-Is의 HTTP 연동 범위와 실제 화면 호출 경로 불일치 |
 
 RAG #1/#2를 해결했다고 INT-07이나 서비스 품질 전체가 해결된 것은 아니다.
 R3 `docs/backend-integration/`의 패치는 과거 a82b7be·launchd 배포 전제를 포함한다. 현재 Infra는 Compose이므로 적용 전에 구성과 의존성을 다시 검토한다. 이 인수인계 작업에서는 패치를 적용하거나 배포하지 않았다.
 
 ## 6. 다음 작업 순서
 
-1. 최신 Backend 493884f·Infra 8587d3b·RAG 2446979의 차이를 검토하고, 현재 원격 버전 조합으로 QA를 재실행해 새 증거를 만든다. 새 환경 오류와 기존 INT-06/07을 구분한다.
+1. App 8c88f89의 미연결 화면과 최신 Backend 493884f·Infra 8587d3b·RAG 2446979의 차이를 검토하고, 현재 원격 버전 조합으로 QA를 재실행해 새 증거를 만든다. 새 환경 오류와 기존 INT-06/07을 구분한다.
 2. 표준 모의 검색 평가를 유지하면서 실제 RAG를 사용하는 별도 검증 경로·메타데이터를 정한다. 현재 전체 실행기가 RAG를 검사한다고 가정하지 않는다.
 3. R3 `docs/qa-source-map.md`의 문서·공식 URL·확인일을 검토해 service_gold에 반영한다. Q10은 요금 문서 추가로 기대값 변경이 제안됐다. 근거 검토·채택 후 서비스 평가셋 버전을 올리고, 모의 검색의 근거 부재 검사는 유지한다.
 4. R4·R5와 실제 기본 Agent/Vision/RAG·웹 API 연결을 재검증한다. 패치 존재와 운영 반영을 구분한다.
@@ -139,8 +141,21 @@ RAG 단독 시험은 RAG README·CI를 참고하되 DB 시험에는 자신이 �
 - `.env`·API 키·토큰: 새 환경에서 별도 설정하며 대화·이슈·Git에 복사하지 않는다.
 - 로컬 원시 로그와 이전 AI 대화 전체: 필수 인수인계 의존성이 아니다. 재현 절차와 검증 커밋·공개 증거를 기준으로 판단한다.
 
-## 9. 이번 인수인계 변경과 이후 유지
+## 9. 최초 인수인계 변경과 이후 유지
 
 이번 작업은 AGENTS.md, 이 문서, 관찰 버전 manifest, 설계 사본·추가 13장과 README 연결을 추가했다. 시작 프롬프트는 채팅으로만 제공한다.
 기존 평가 질문·기대값·표준 실행기·공개 QA 기준선은 변경하지 않았다. 링크·해시·버전·공개 내용 일관성을 확인하며 전체 서비스 시험은 새로 실행하지 않는다.
 이후 개발·QA·이슈 재검증 작업은 관련 문서와 이 handoff를 같은 작업에서 갱신한다. 새 인수인계 때는 시작 프롬프트도 답변에 제공한다.
+
+
+## 10. App 8c88f89 확인 — 2026-10-23 10:31 KST
+
+[별도 App 검토 기록](../reports/app-review.json) · [CI 실행](https://github.com/team-onetruck/oneload-app/actions/runs/39883415542)
+
+- 원격 main과 로컬 HEAD가 8c88f89로 일치하고 작업 트리가 깨끗했다. 이전 QA의 App bc2d9f1 이후 54개 커밋을 확인했다.
+- API client·생성된 OpenAPI 타입·토큰/멱등성/충돌 재동기화·사진/경로/이벤트 헬퍼·RecoveryProvider/오류 화면·MSW·Playwright 스모크가 추가됐다.
+- 실제 화면의 HTTP 연결은 시작 화면 세션 생성이다. sendText/sendChip은 classify→runIntent→reply, 사진은 SCENARIOS, 경로는 findRoute를 사용한다. API 헬퍼 존재를 전체 화면 연결로 판정하지 않는다.
+- GitHub CI verify: 헤더·타입 검사 통과, lint 오류 0/경고 1, Vitest 20개 파일/282개 시험 통과. E2E는 mock 모드 모바일 시작 화면 1개 통과다.
+- 로컬 브라우저·실제 Backend E2E·프로덕션 빌드·배포는 이번 검토에서 실행하지 않았다. 기존 전체 QA 기준선과 기능 TC 판정은 유지했다.
+- README는 서버 호출이 없다고 하면서 HTTP 모드 채팅은 서버 응답이라고 설명한다. 소스와의 불일치를 App #11에 등록했다. App 코드는 수정하지 않았다.
+- 다음 확인: 채팅 sendMessage 연결, 사진/위치 확정 연결, 서버 steps/이벤트 연결, 실제 오류를 RecoveryProvider로 전달하는 경로, 실제 서버 대표 시나리오 E2E.

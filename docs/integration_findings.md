@@ -64,3 +64,11 @@ Agent 250271e는 예외를 던지는 시점에 Backend의 실제 클래스를 �
 
 실제 공유 지도와 Backend·Agent 시험 fixture는 목적이 다르므로 파일 차이만으로 계약 실패를 만들지 않습니다.
 실제 지도 입력·버전·해시는 reports/data-validation.json과 각 단계 메타데이터로 확인합니다.
+
+
+## App 8c88f89 후속 검토
+
+최신 App은 세션 생성만 HTTP로 연결됐고 API 계층·복구 화면·MSW 테스트가 추가됐습니다.
+채팅·사진·경로·이벤트 화면은 모의 흐름이 남아 INT-06을 해결로 처리하지 않습니다.
+GitHub CI 282개 시험과 mock 시작 화면 스모크 1개 통과는 실제 서버 전체 흐름 통과와 구분합니다.
+[별도 App 검토](../reports/app-review.json), [인수인계](handoff.md), [문서 불일치 App #11](https://github.com/team-onetruck/oneload-app/issues/11)을 참고합니다.

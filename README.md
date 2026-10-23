@@ -25,7 +25,8 @@
 2026-10-23에 Agent 250271e·Backend a82b7be·oneload-data 606f648 기준으로 다시 실행했습니다.
 [QA #2](https://github.com/team-onetruck/oneload-qa/issues/2)의 INT-08 거짓 실패를 수정했습니다.
 사진 장애를 실제로 발생시켜 Backend가 잡는 예외를 확인하며 잘못된 예외·장애 누락도 회귀 검사합니다.
-Frontend는 모의 구현이고 Backend 기본 실행은 RuleAgent/NoVision입니다.
+Backend 기본 실행은 RuleAgent/NoVision입니다. 최신 App 8c88f89는 세션 생성 HTTP·API 계층을 추가했지만 채팅·사진·경로 화면의 서버 연결은 진행 중입니다.
+App 별도 코드·CI 검토는 [검토 기록](reports/app-review.json)과 [인수인계 10장](docs/handoff.md)에 있으며 기존 전체 QA 기준선과 구분합니다.
 API 연결 검사는 QA에서 R2를 주입한 결과이며 서비스 전체 연결 완료로 집계하지 않습니다.
 
 - [최신 결과와 버전](reports/latest-review.md)
