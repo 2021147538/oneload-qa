@@ -29,7 +29,7 @@ QA #3에서는 Q10을 조건별 요금·출처·확인일로 변경하고 서비
 [QA #3 결과](docs/issue3-resolution.md) · [검색 증거](reports/retrieval-evaluation.json) · [RAG API 증거](reports/rag-integration-probe.json).
 컴포넌트 v2와 모의 검색 기준선은 독립 유지하며, 주입 검사 통과를 실제 모델 품질·운영 연결 완료로 집계하지 않습니다.
 
-현재 재확인: **App608a04c**는 사진 위치·사용자 확정·503 직접 선택·지도 캐시에 사진 재전송 멱등성 수정을 추가했습니다. 최신 verify342건 통과/E2E 진행 중이며, 이전32f5f67은327건+mock 시작 화면1건 통과입니다. 경로·이벤트 화면 연결은 PR#17 open으로 main 미반영이고 이번 실서버 E2E는 미실행입니다.
+현재 재확인: **Appb5d6835**는 사진 위치·확정뿐 아니라 서버 경로·시작/도착/취소 이벤트·재탐색까지 연결했고, 사진 재전송 멱등성 수정도 포함합니다. 최신 CI363건+mock 시작 화면1건 통과입니다. 실제 서버·모바일 전체 인수는 이번에 실행하지 않았습니다. 기존 감사의 mock 문자열 기반 미연결 판정은 [QA #4](https://github.com/team-onetruck/oneload-qa/issues/4)로 추적합니다.
 **RAG47ab39f**은 Compose 연결 안내만 바뀌었고 CI88건·MCP HTTP 통과입니다. 검색 코드는 같아 기존 범위밖 오탐이 재현됐습니다. [후속 검토](reports/source-review-20261023.json)와 [인수인계](docs/handoff.md)를 따르며 위 표준 기준선의 검증 커밋을 바꾸지 않습니다.
 
 - [최신 결과와 버전](reports/latest-review.md)

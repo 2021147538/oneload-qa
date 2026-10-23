@@ -20,10 +20,10 @@
       "repository": "team-onetruck/oneload-app",
       "directory": "oneload-app",
       "url": "https://github.com/team-onetruck/oneload-app.git",
-      "observed_main_commit": "608a04cf08e01315cef430cc5e2e13e754cdcbc2",
+      "observed_main_commit": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
       "qa_baseline_commit": "b111af653aecf2dc14177ab7392f8cf9b9316bd8",
       "rag_issue_review_commit": null,
-      "observed_at_kst": "2026-10-23T11:22:04.445790+09:00",
+      "observed_at_kst": "2026-10-23T11:26:03.277591+09:00",
       "review_evidence": "reports/source-review-20261023.json",
       "historical_review_evidence": "reports/app-review.json"
     },
@@ -76,7 +76,7 @@
       "retrieval_review_commit": "47ab39f1748c92318bfc29e79ba39b5f94b6f159"
     }
   ],
-  "updated_at_kst": "2026-10-23T11:22:04.445790+09:00",
+  "updated_at_kst": "2026-10-23T11:26:03.277591+09:00",
   "rag_profile_evidence": [
     "reports/retrieval-evaluation.json",
     "reports/rag-integration-probe.json"

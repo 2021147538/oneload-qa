@@ -1,49 +1,44 @@
 {
-  "checked_at_kst": "2026-10-23T11:22:04.445790+09:00",
+  "checked_at_kst": "2026-10-23T11:26:03.277591+09:00",
   "qa_base_commit": "91cefd2ea27bb6ff167e1c7dd02d034411dd6db9",
   "scope": "Latest local/remote main comparison, static call-path review, existing GitHub CI evidence and repeated fixed retrieval regression. No local browser, real Backend browser E2E, deployment or paid model calls.",
   "app": {
     "repository": "team-onetruck/oneload-app",
-    "commit": "608a04cf08e01315cef430cc5e2e13e754cdcbc2",
+    "commit": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
     "previous_observed_commit": "b111af653aecf2dc14177ab7392f8cf9b9316bd8",
     "local_matches_remote_main": true,
     "working_tree_clean": true,
     "package_version": "0.0.0",
     "ci": {
-      "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39888766395",
-      "headSha": "608a04cf08e01315cef430cc5e2e13e754cdcbc2",
-      "conclusion": "",
-      "status": "in_progress",
+      "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39889058023",
+      "headSha": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+      "status": "completed",
+      "conclusion": "success",
       "jobs": [
+        {
+          "name": "e2e",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39889058023/job/120204136016"
+        },
         {
           "name": "verify",
           "status": "completed",
           "conclusion": "success",
-          "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39888766395/job/120203167609"
-        },
-        {
-          "name": "e2e",
-          "status": "in_progress",
-          "conclusion": "",
-          "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39888766395/job/120203167894"
+          "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39889058023/job/120204136180"
         }
       ],
       "verify": {
-        "status": "completed",
-        "conclusion": "success",
-        "test_files": 30,
-        "tests_passed": 342,
+        "test_files": 31,
+        "tests_passed": 363,
         "lint_errors": 0,
         "lint_warnings": 1,
-        "typecheck": "passed",
         "header_check": "passed; 0 new files checked on main",
-        "job_id": 120203167609,
-        "count_evidence": "GitHub workflow job logs fetched via connector"
+        "typecheck": "passed"
       },
       "e2e": {
-        "status": "in_progress_at_review",
-        "tests_passed": null,
-        "scope": "configured mock-mode welcome screen; latest run not completed at review"
+        "tests_passed": 1,
+        "scope": "mock-mode mobile Chrome welcome-screen smoke only"
       }
     },
     "http_wired": [
@@ -53,18 +48,22 @@
       "photo localization with JPEG compression",
       "explicit photo-candidate or manual location confirmation",
       "503 vision unavailable to manual list",
-      "map graph cached per map"
+      "map graph cached per map",
+      "route creation with server steps and guide/panorama metadata",
+      "navigation_started / arrived / navigation_cancelled events",
+      "reroute to same destination after location reconfirmation"
     ],
     "local_flow_remaining": [
-      "route calculation via findRoute and temporary nodeBridge",
-      "navigation start/arrival events not sent to Backend"
+      "destination list still uses app data.ts POIS and poiBridge",
+      "mock-mode demonstration retained intentionally"
     ],
-    "int06": "open; remaining route/event UI and real server E2E",
+    "int06": "HTTP UI wiring present in static review; real Backend/mobile acceptance pending; existing audit heuristic false positive tracked in QA #4",
     "confirmed_issue": {
       "number": 16,
       "url": "https://github.com/team-onetruck/oneload-app/issues/16",
       "kind": "documentation mismatch",
-      "summary": "README Demo controls claims photo-result selection affects both modes; source shows mock only"
+      "summary": "README Demo controls claims photo-result selection affects both modes; source shows mock only",
+      "latest_state": "open; maintainer acknowledged and plans a documentation PR"
     },
     "open_r3_request": "https://github.com/team-onetruck/oneload-app/issues/2",
     "evidence_paths": [
@@ -77,9 +76,12 @@
       "README.md",
       "src/api/multipart.ts",
       "src/api/client.ts",
-      "src/api/idempotency.test.ts"
+      "src/api/idempotency.test.ts",
+      "src/features/route/flow.ts",
+      "src/features/route/flow.test.ts",
+      "src/features/route/guide.ts",
+      "src/features/route/events.ts"
     ],
-    "reviewed_intermediate_commit": "32f5f67fd52185a5fa706c9b77f3a3d439999f98",
     "previous_complete_ci": {
       "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39886749329",
       "headSha": "32f5f67fd52185a5fa706c9b77f3a3d439999f98",
@@ -223,15 +225,25 @@
         "scope": "mock-mode mobile Chrome welcome-screen smoke only"
       }
     },
-    "latest_change": "PR #15: deterministic multipart boundary per Idempotency-Key so retry sends identical bytes; same-photo replay and changed-photo rejection regression tests. Photo UI remains as reviewed at 32f5f67.",
-    "pending_route_pr": {
+    "latest_change": "PR #17 merged: server routes, navigation events, reroute and route-guide model; nodeBridge removed. Includes prior #14 photo UI and #15 deterministic multipart retries.",
+    "reviewed_intermediate_commits": [
+      "32f5f67fd52185a5fa706c9b77f3a3d439999f98",
+      "608a04cf08e01315cef430cc5e2e13e754cdcbc2"
+    ],
+    "route_pr": {
       "number": 17,
       "url": "https://github.com/team-onetruck/oneload-app/pull/17",
-      "state": "open",
-      "merged": false,
-      "title": "feat: http 모드 길안내를 서버 경로와 navigation-events로 연결",
-      "note": "Author reports real Backend checks; not independently verified here and not part of main."
-    }
+      "state": "merged",
+      "merged_at_utc": "2026-10-23T02:20:43Z",
+      "author_reports_real_backend_checks": true,
+      "independently_repeated_real_backend_browser_e2e": false
+    },
+    "known_limits": [
+      "Live vision still blocked by Backend NoVision until INT-07",
+      "Event queue is in memory; reload loses unsent events",
+      "PR author reported embedded streetview loading issue; not independently reproduced in this review",
+      "Phone camera/network/full flow not tested here"
+    ]
   },
   "rag": {
     "repository": "team-onetruck/oneload-rag",
@@ -400,5 +412,14 @@
   "live_llm_calls": 0,
   "live_embedding_calls": 0,
   "local_browser_e2e": false,
-  "deployment_executed": false
+  "deployment_executed": false,
+  "review_document_parent_commit": "5b4b8c72799d18f37bdbfbc4195271b8665d56e6",
+  "int06_audit": {
+    "state": "reproduced_false_static_classification",
+    "issue": "https://github.com/team-onetruck/oneload-qa/issues/4",
+    "report": "reports/contract-audit-review-20261023.json",
+    "runner_sha256": "b0f3223fc1690efe50c6e14392df44237826bf54cca4008e7a8cdb963d21066a",
+    "reason": "AI_DELAY_MS and SCENARIOS remain in mock branch; presence cannot prove HTTP UI is unconnected",
+    "functional_acceptance": "pending; do not treat correcting static audit as passing real server E2E"
+  }
 }

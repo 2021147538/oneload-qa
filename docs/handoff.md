@@ -1,6 +1,6 @@
 # 한길 R6 인수인계
 
-마지막 정리: 2026-10-23 11:22 KST — RAG·App 최신 main 재확인.
+마지막 정리: 2026-10-23T11:26:03.277591+09:00 — RAG·App 최신 main 재확인.
 변경 시 [AGENTS.md](../AGENTS.md)에 따라 이 문서와 증거·버전을 함께 갱신한다. 시작 프롬프트는 채팅으로만 제공하고 저장소에 올리지 않는다.
 
 ## 읽는 순서와 작업 원칙
@@ -21,14 +21,14 @@
 | 저장소 / 폴더 | 현재 확인 커밋 | 이번 검증 범위 |
 |---|---|---|
 | oneload-qa / qa | 이 문서 포함 커밋 | QA17건·검색 평가·실행기·문서 |
-| oneload-app | 608a04c | 사진 위치·확정 연결에 multipart 멱등 재전송 수정 추가. 최신 verify342건 통과/E2E 진행 중. 경로·이벤트 로컬, 화면 연결PR#17 open |
+| oneload-app | b5d6835 | 사진·확정·서버 경로·시작/도착/취소·재탐색 연결. 최신 CI363건+mock 시작 화면1건 통과. 이번 실서버/모바일 E2E 미실행 |
 | oneload-backend | 493884f | 기존44건·R2 주입 API20건·RAG 주입 API21건 |
 | oneload_agent | 250271e | 기존43건·컴포넌트20시나리오/21턴·API 주입 |
 | oneload-data | 606f648 | 모델·참조·스키마·사진 해시3건, 실제 지도 입력 |
 | oneload-infra | 8587d3b | 커밋 관찰만. Compose·Portainer 구조, 배포 미검증 |
 | oneload-rag | 47ab39f | Compose 연동 안내·패치 URL만 변경, 검색 코드/문서 동일. CI88건·MCP HTTP 통과. 고정 검색셋 회귀 재실행, 주입 API21건은 이전4a967b3 증거 |
 
-Frontend·Infra 커밋을 표준 기준선에 기록했다고 화면·배포를 검증한 것은 아니다. `reports/app-review.json`은 이전 App8c88f89의 CI282건·mock 시작 화면1건을 담은 역사적 기록이다. 최신608a04c에 그 결과를 재사용하지 않는다. 최신 CI는 아래 별도 기록을 따른다. App #11은 문서 수정으로 closed다.
+Frontend·Infra 커밋을 표준 기준선에 기록했다고 화면·배포를 검증한 것은 아니다. `reports/app-review.json`은 이전 App8c88f89의 CI282건·mock 시작 화면1건을 담은 역사적 기록이다. 최신b5d6835에 그 결과를 재사용하지 않는다. 최신 CI는 아래 별도 기록을 따른다. App #11은 문서 수정으로 closed다.
 
 ## 마지막 전체 QA와 증거
 
@@ -61,7 +61,7 @@ QA #3 반영:
 |---|---|
 | QA #3 | Q10·근거 열 완료. 검색 출고 조건/INT-07 이후 검사가 남아 open 유지 |
 | RAG #3 | 범위밖 검색 오탐. 개선 후 새로운 holdout과 기존 회귀셋으로 확인 |
-| INT-06 | 사진 위치·확정 화면 연결은 반영. 서버 경로·이벤트 화면 연결 및 실제 서버 전체 흐름 검증 필요 |
+| INT-06 / QA #4 | 최신 App의 HTTP 화면 연결은 반영. 기존 정적 감사는 mock 분기 문자열로 거짓 미연결을 보고함. 감사 수정과 실제 서버·모바일 인수 필요 |
 | INT-07 | Backend 기본 RuleAgent/NoVision. R4 운영 조립 후 기본 경로에서 재검증 필요. 주입21/21로 완료 처리하지 않음 |
 | DATA-01 | 실제 통로·방향·예시 파노라마 및 정답 현장 확인 필요 |
 | 서비스·사진 품질 | 서비스20건 사람 검토·실제 모델 비교·현장 사진·휴대폰 권한/네트워크/복구 미검증 |
@@ -73,21 +73,22 @@ R3의 최신47ab39f 연결 안내는 Compose8587d3b를 반영해 함수 조립(A
 
 ## 2026-10-23 RAG·App 후속 재확인
 
-[현재 소스·CI 검토](../reports/source-review-20261023.json) · [고정 검색셋 회귀](../reports/retrieval-review-20261023.json)
+[현재 소스·CI 검토](../reports/source-review-20261023.json) · [고정 검색셋 회귀](../reports/retrieval-review-20261023.json) · [감사 재현](../reports/contract-audit-review-20261023.json)
 
-- App32f5f67에서 추가된 사진 연결(최신608a04c에도 유지): 사진 `/localizations`, 사용자 선택 `/location-confirmations`, 503→직접 선택, 그래프 캐시가 실제 화면 호출 경로에 연결됐다. 경로는 `findRoute`·`nodeBridge`, 시작/도착 이벤트는 로컬이다. UI와 기능 API의 연결을 확인했지만 실제 서버 브라우저 흐름은 실행하지 않았다.
-- 이전32f5f67의 [완료 CI](https://github.com/team-onetruck/oneload-app/actions/runs/39886749329)는327건+mock 시작 화면1건 통과다. 추가608a04c는 multipart 경계값을 같은 멱등키로 고정해 사진 재전송 본문을 동일하게 만든다. [최신 CI](https://github.com/team-onetruck/oneload-app/actions/runs/39888766395)의 verify는30개 파일342개 시험·타입·헤더 통과, lint오류0/경고1이며 E2E는 확인 시 진행 중이다. 최신 E2E 통과로 이전1건을 재사용하지 않는다.
-- [RAG CI](https://github.com/team-onetruck/oneload-rag/actions/runs/39887381481):88 passed/0 skipped, 계약 필수, Docker MCP HTTP 요청·wheel 문서 확인 통과. CI가 확인한 Backend/Agent/Data 커밋도 보고서에 기록했다. 유료 모델 호출 검증이 아니다.
-- RAG47ab39f는 검색 코드·knowledge 해시가4a967b3와 같다. 기존 고정32+44질문 회귀에서 후보0.35 개발9/10·차단5/6, 노출된 holdout10/10·차단4/6으로 같은 실패를 재현했다. 새 holdout이나 개선 성능 측정으로 소개하지 않는다.
-- RAG #3은 open/댓글0 상태였고 호텔 가격·실시간 잔여석 오탐이 남아 있다. 임계값 운영 확정은 계속 보류한다. QA #3의 미완료 조건도 유지한다.
-- App README Demo controls의 사진 결과 선택 설명이 코드와 달라 [App #16](https://github.com/team-onetruck/oneload-app/issues/16)에 등록했다. 기존 카드·언어·출처 요청#2도 open이다.
-- 경로·이벤트 실제 화면 연결 [App PR#17](https://github.com/team-onetruck/oneload-app/pull/17)은 open이며 main 미반영이다. PR 작성자의 실서버 검증 설명은 참고이며 이번 QA가 직접 실행한 증거가 아니다.
-- 표준 기준선과 RAG 주입 API 보고서는 이전 실행 증거로 보존했다. 표준 감사의 INT-06 문구 중 사진 로컬 언급은 당시b111af6 기준이다. 최신 잔여 범위는 경로·이벤트이며 다음 전체 QA 때 감사 설명도 맞춰야 한다.
+- App main b5d6835: #14의 사진·확정·503 직접 선택, #15의 같은 멱등키 multipart 재전송, #17의 서버 경로·안내 이벤트·재탐색까지 병합됐다. HTTP 모드는 서버 steps·화살표를 쓰고 nodeBridge는 제거됐다. 목적지 목록은 아직 data.ts/poiBridge다.
+- [최신 App CI](https://github.com/team-onetruck/oneload-app/actions/runs/39889058023):31개 파일363개 시험·타입·헤더 통과, lint오류0/경고1. Playwright는 mock 시작 화면1건뿐이다. 이전32f5f67의327건·608a04c의342건은 중간 버전 기록이다.
+- PR#17 작성자는 실제 Backend 브라우저 흐름과 DB 이벤트 확인을 보고했다. 이번 R6 재검토에서 직접 반복하지 않았으며 실기기·카메라·360도 화면 인수는 남아 있다. 미전송 이벤트 큐가 메모리에만 있는 한계도 있다.
+- 현재 QA 감사는 AI_DELAY_MS/SCENARIOS 문자열이 남았다는 이유로 사진·경로 미연결 P0를 보고한다. 이 문자열은 mock 분기에 남은 것이므로 최신 HTTP 연결 판정의 근거가 아니다. 재실행해 [QA #4](https://github.com/team-onetruck/oneload-qa/issues/4)에 등록했다. 정적 감사 수정과 실제 서버 인수 통과를 혼동하지 않는다.
+- [RAG CI](https://github.com/team-onetruck/oneload-rag/actions/runs/39887381481):88 passed/0 skipped, 계약 필수, Docker MCP HTTP 요청·wheel 문서 확인 통과. CI의 Backend/Agent/Data 커밋도 보고서에 있다. 유료 모델 검증이 아니다.
+- RAG47ab39f는 Compose 연결 안내·패치 의존성 URL만 변경, 검색 코드·knowledge 해시는4a967b3와 같다. 고정32+44질문 회귀에서 후보0.35 개발9/10·차단5/6, 노출된 holdout10/10·차단4/6으로 같은 실패를 재현했다. 새 holdout이나 개선 성능 측정으로 소개하지 않는다.
+- RAG #3의 호텔 가격·실시간 잔여석 오탐이 남아 임계값 운영 확정은 보류한다. QA #3 미완료와 Backend RuleAgent/NoVision(INT-07)도 유지한다.
+- App README Demo controls 설명은 코드와 달라 [App #16](https://github.com/team-onetruck/oneload-app/issues/16)에 등록했고 담당자가 수정 예정이라고 답했다. 기존 카드·언어·출처 요청#2도 open이다.
+- 표준 기준선과 RAG 주입 API는 이전 실행 증거로 보존했다. 기존 INT-06 미연결 설명을 최신 App 상태로 복제하지 않는다. 다음 전체 QA에서 감사 로직을 수정하고 검증 범위를 갱신한다.
 
 ## 다음 작업
 
 1. RAG #3 범위 판정·관련도 보완을 확인한다. 이미 공개한 holdout으로 튜닝한 뒤 독립 성능으로 보고하지 않는다. 새 holdout·기존 회귀·문서 해시를 기록한다.
-2. INT-07 운영 조립 및 INT-06 화면 연결이 반영되면 기본 entrypoint·실제 서버 대표 흐름을 확인한다. 현재 주입 명령은 계약 회귀용이며 기본 설정 검사가 아니다.
+2. QA #4의 정적 감사 판정을 수정하고 최신 Appb5d6835의 실서버·모바일 대표 흐름을 확인한다. INT-07 운영 조립 후 기본 entrypoint도 재검증한다. 현재 주입 명령은 계약 회귀용이며 기본 설정 검사가 아니다.
 3. R3와 서비스 정답·확인일·미확인 부분을 사람 검토한다. 실제 모델 사용 요청이 있으면 모델·프롬프트·자료·평가셋을 고정해 baseline→한 요소 개선→같은 셋 재측정한다.
 4. 현장 사진 정답·개인정보·실기기 복구·거리뷰 방향을 검증하고 최종 결과서·발표 숫자를 맞춘다.
 
@@ -113,7 +114,7 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/run_backend_tests.py --projec
 ```
 
 clone은 실행 시점 main이다. manifest의 검증 커밋과 비교하고 재현하려는 버전을 새 checkout에 선택해 기록한다. 기존 사용자 checkout을 reset하지 않는다. 매 실행 새 출력 경로를 사용한다.
-표준 검사는 INT-06/07로 exit1, 검색 평가는 출고 조건 미달로 exit1, RAG API는21/21이면 exit0이 이번 기대다. 다른 오류를 이 실패와 혼동하지 않는다. 표준 공개 증거 갱신은 전체 명령에 `--reports reports`를 추가한다. 별도 RAG JSON은 입력 버전·실패·민감 내용을 검토한 뒤 reports에 반영한다.
+현재 표준 실행기는 QA #4의 거짓 INT-06과 실제 INT-07로 exit1, 검색 평가는 출고 조건 미달로 exit1, RAG API는21/21이면 exit0이 이번 기대다. 다른 오류를 이 실패와 혼동하지 않는다. 표준 공개 증거 갱신은 전체 명령에 `--reports reports`를 추가한다. 별도 RAG JSON은 입력 버전·실패·민감 내용을 검토한 뒤 reports에 반영한다.
 
 Backend 기존 테스트는 public schema를 삭제한다. 반드시 `run_backend_tests.py`가 생성·삭제하는 일회용 DB만 사용하며 배포 설정을 환경 준비로 실행하지 않는다. RAG profile은 공식 문서를 명시적으로 읽어 환경의 pgvector·커뮤니티 설정을 사용하지 않는다. 실제 모델·임베딩 호출은 요청 범위·비용이 정해졌을 때만 실행한다.
 
