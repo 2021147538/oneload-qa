@@ -20,11 +20,11 @@
       "repository": "team-onetruck/oneload-app",
       "directory": "oneload-app",
       "url": "https://github.com/team-onetruck/oneload-app.git",
-      "observed_main_commit": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+      "observed_main_commit": "2666e44a29facc48b5c04af5acecb3bff04779f4",
       "qa_baseline_commit": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
       "rag_issue_review_commit": null,
-      "observed_at_kst": "2026-10-23T11:37:39.434875+09:00",
-      "review_evidence": "reports/source-review-20261023.json",
+      "observed_at_kst": "2026-10-23T11:54:08.796707+09:00",
+      "review_evidence": "reports/app-review-2666e44.json",
       "historical_review_evidence": "reports/app-review.json"
     },
     {
@@ -76,10 +76,11 @@
       "retrieval_review_commit": "47ab39f1748c92318bfc29e79ba39b5f94b6f159"
     }
   ],
-  "updated_at_kst": "2026-10-23T11:37:39.434875+09:00",
+  "updated_at_kst": "2026-10-23T11:54:08.796707+09:00",
   "rag_profile_evidence": [
     "reports/retrieval-evaluation.json",
     "reports/rag-integration-probe.json"
   ],
-  "frontend_wiring_review": "reports/frontend-wiring-review.json"
+  "frontend_wiring_review": "reports/frontend-wiring-review.json",
+  "frontend_current_review": "reports/app-review-2666e44.json"
 }

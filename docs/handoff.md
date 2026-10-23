@@ -1,6 +1,6 @@
 # 한길 R6 인수인계
 
-마지막 정리: 2026-10-23 11:36 KST 전체 QA·QA #4 수정. 담당 이현무(R6).
+마지막 정리: 2026-10-23T11:54:08.796707+09:00 — App2666e44 후속 검토. 담당 이현무(R6).
 [AGENTS.md](../AGENTS.md)에 따라 개발·평가·이슈 변경과 함께 갱신한다. 시작 프롬프트는 채팅에만 제공하고 GitHub에 올리지 않는다.
 
 ## 시작 순서와 범위
@@ -20,7 +20,7 @@
 | 저장소 | 검증 커밋 | 범위 |
 |---|---|---|
 | oneload-qa / qa | 이 문서 포함 커밋 | QA28건·실행기·Frontend 검토 기록 |
-| oneload-app | b5d6835 | 채팅·사진·위치 확정·서버 경로·시작/도착/취소·재탐색 소스 연결 확인. 이번 실제 브라우저/휴대폰 인수 미실행 |
+| oneload-app | 관찰2666e44 / 전체 QA b5d6835 | 목적지 목록 서버 연결·poiBridge 제거·HTTP 모의 API 화면3건 추가. CI365+E2E4, QA 회귀28·감사. 이번 실제 서버/휴대폰 인수 미실행 |
 | oneload-backend | c9b8d8a | 대화 복원·멱등성 변경 포함 기존48건, 모의 API20건·RAG API21건 |
 | oneload_agent | 250271e | 기존43건·컴포넌트20시나리오/21턴·주입 API |
 | oneload-data | 606f648 | 모델·참조·스키마·사진3건, 지도2026-10-22.1 |
@@ -50,9 +50,19 @@ mock 문자열만으로 HTTP 화면이 미연결이라고 보고하던 판정을
 - `incomplete`: 검토된 미연결 버전과 일치. INT-06 P0·exit1.
 - `review_required`: 새 소스·의존성·파일 추가/누락. 연결 여부를 단정하지 않고 nonzero로 중단.
 
-실제 Git의 bc2d9f1·b111af6은 미연결, b5d6835는 연결로 재검사했다. 주석/미사용 helper로 승인되지 않는지와 어댑터·의존성·누락 등11개 회귀를 추가했다. 공개 기준선은 registry 해시가 실행 중 바뀌면 갱신하지 않는다.
+실제 Git의 bc2d9f1·b111af6은 미연결, b5d6835는 연결로 재검사했다. 후속2666e44도 실제 변경과 호출 경로를 검토해 새 profile을 추가했다. 주석/미사용 helper로 승인되지 않는지와 어댑터·의존성·누락 등11개 회귀를 추가했다. 공개 기준선은 registry 해시가 실행 중 바뀌면 갱신하지 않는다.
 [검토 기록](../eval/frontend_wiring.json) · [Git 스냅샷 증거](../reports/frontend-wiring-review.json) · [새 App 변경 시 절차](issue4-resolution.md)
 QA #4의 감사 결함은 해결했다. 실제 서버·모바일 기능 최종 인수는 별도다.
+
+## App2666e44 후속 검토
+
+[소스·CI·QA 기록](../reports/app-review-2666e44.json) · [별도 감사](../reports/app-audit-2666e44.json)
+
+- 목적지 목록이 `GET /maps/{id}/pois`를 지도마다 받아 표시하고 고른 서버 poi_id를 그대로 /messages에 보낸다. poiBridge는 제거됐다. 도착 화면의 승차권 후속 버튼도 서버 category 기준이다.
+- 직통·일반열차 카드 없음·사진503→직접 선택의 HTTP 모드 Playwright3건이 추가됐다. page.route/MSW가 응답하므로 실제 Backend 검증은 아니다. 기존 mock 시작 화면1건과 합쳐4건이다.
+- 최신 [App CI](https://github.com/team-onetruck/oneload-app/actions/runs/39891671968): 단위365건(31파일), E2E4건 통과. lint오류0/경고1, 타입·헤더 통과. 테스트용 fetch의 이미 취소된 신호 처리와 타임아웃 경쟁 회피도 반영됐다.
+- QA 회귀28건과 계약 감사를 다시 실행했다. 새 소스 검토 profile2666e44는 wired이며 실제 브라우저 인수는 NOT_RUN이다. 전체 QA·Backend·RAG API 기준선은11:36의 Appb5d6835 증거로 보존했고 다시 실행하지 않았다.
+- App #16은 문서 수정 PR#18로 closed이며 README의 모드별 설명과 코드를 확인했다. 새 코드 차이에서 추가 확정 결함은 발견하지 않았다. 목적지 조회 실패 시 도착 화면은 콘솔 경고 후 승차권 후속 버튼을 숨기는 한계가 있다.
 
 ## 남은 이슈와 다음 작업
 
@@ -64,7 +74,7 @@ QA #4의 감사 결함은 해결했다. 실제 서버·모바일 기능 최종 �
 | Frontend 실제 인수 | 소스 연결 확인과 별개로 실제 서버·휴대폰·카메라·복구·360도·취소/지연 응답 검증 필요 |
 | DATA-01 | 예시 사진6개·통로·방향·거리·현장 정답 확인 필요 |
 | 서비스 품질 | 서비스20건 mapped_pending_human_review. 실제 모델 baseline·개선 비교 미실행 |
-| 기타 | Infra #1 공개 범위 문서, App #2 카드/언어/출처, App #16 사진 Demo controls 설명 추적 |
+| 기타 | Infra #1 공개 범위 문서, App #2 카드/언어/출처 추적. App #16은 README 수정 후 closed 확인 |
 
 RAG 검색32개는 개발16/holdout16을 평가 전 고정했다. 후보0.35에서 개발 top3 9/10·범위밖 차단5/6, 노출된 holdout10/10·4/6이다. 기존 R3 44개는 기본0.25에서 top1 32/40·top3 38/40·차단3/4였다. R6 잠정 기준에 미달하며 운영 임계값으로 승인하지 않았다.
 RAG47ab39f는 검색 코드·knowledge가4a967b3와 같고 안내/패치 URL만 바뀐 상태다. 같은 노출된 holdout을 새 독립 검증으로 소개하지 않는다. [회귀 증거](../reports/retrieval-review-20261023.json).

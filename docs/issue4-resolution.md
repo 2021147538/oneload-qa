@@ -19,6 +19,7 @@
 - App bc2d9f1: 기존 화면이 로컬 실행 → incomplete.
 - App b111af6: HTTP 채팅은 연결, 사진·경로·이벤트 미연결 → incomplete.
 - App b5d6835: 채팅·사진·사용자 확정·서버 경로·안내 이벤트 연결 → wired. mock 데모는 별도 분기에 유지돼 있다.
+- App2666e44: 서버 목적지 목록·poiBridge 제거 등 실제 변경을 검토한 후 새 profile 추가 → wired. [후속 검토](../reports/app-review-2666e44.json).
 
 ## 검증
 

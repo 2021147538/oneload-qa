@@ -1,0 +1,115 @@
+{
+  "checked_at_kst": "2026-10-23T11:54:08.796707+09:00",
+  "repository": "team-onetruck/oneload-app",
+  "commit": "2666e44a29facc48b5c04af5acecb3bff04779f4",
+  "previous_reviewed_commit": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+  "local_matches_remote_main": true,
+  "source_checkout_clean": true,
+  "scope": "Source review, completed GitHub CI logs, local QA regression28 and contract audit with FakeLLM; no local browser or real Backend browser E2E/deployment.",
+  "changes": [
+    "HTTP destination list uses GET /maps/{id}/pois; caches per map; selected server poi_id goes directly to messages",
+    "poiBridge removed; server POI category controls ticket-purchase follow-up actions",
+    "Three HTTP-mode Playwright scenarios added: express / all-stop without card / photo503 to manual selection",
+    "HTTP scenario responses intercepted via page.route and MSW handlers; no real Backend",
+    "fakeFetch handles already-aborted signals; timeout tests isolated from transport races",
+    "Demo controls README corrected for mock/http modes; issue16 closed"
+  ],
+  "ci": {
+    "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39891671968",
+    "head_sha": "2666e44a29facc48b5c04af5acecb3bff04779f4",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "e2e",
+        "conclusion": "success",
+        "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39891671968/job/120212637854"
+      },
+      {
+        "name": "verify",
+        "conclusion": "success",
+        "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39891671968/job/120212637970"
+      }
+    ],
+    "verify": {
+      "test_files": 31,
+      "tests_passed": 365,
+      "lint_errors": 0,
+      "lint_warnings": 1,
+      "typecheck": "passed",
+      "header_check": "passed; 0 new files checked on main"
+    },
+    "e2e": {
+      "tests_passed": 4,
+      "mock_welcome_smoke": 1,
+      "http_ui_with_intercepted_msw_api": 3,
+      "real_backend_used": false
+    }
+  },
+  "qa_regression": {
+    "tests": 28,
+    "passed": 28,
+    "skipped": 0
+  },
+  "frontend_source_audit": {
+    "id": "INT-06",
+    "passed": true,
+    "status": "wired",
+    "validation_level": "reviewed_source_only",
+    "evidence": {
+      "method": "reviewed_runtime_source_fingerprints",
+      "runtime_browser_e2e": "NOT_RUN",
+      "functional_acceptance": "pending_independent_runtime_checks",
+      "snapshot_sha256": "d338458ec7312daa80912de9d1137b80dde293fd3f3d8bf42b0b0cde38173a5a",
+      "status": "wired",
+      "profile": "app-2666e44",
+      "reviewed_commit": "2666e44a29facc48b5c04af5acecb3bff04779f4",
+      "connected_features": [
+        "chat",
+        "localization",
+        "confirmation",
+        "routes",
+        "navigation_events"
+      ],
+      "missing_features": [],
+      "evidence": [
+        "store.tsx: HTTP say -> askServer -> sendChat -> httpAdapter.sendMessage; replyEffects now preserves server poi_id",
+        "store.tsx: HTTP analyzePhoto -> locateOnServer -> sendPhoto; explicit confirmLocation -> confirmOnServer -> sendConfirmation; mock remains separately gated",
+        "store.tsx: routeOnServer -> sendRoute -> createRoute; report -> deliverEvents -> postNavigationEvents; route guide consumes server steps",
+        "store.tsx: ensurePois -> poiCache(createMapCache) -> searchPois(mapId) -> GET /maps/{id}/pois; Destinations uses destinationViews, pickDestination sends picked poiId directly",
+        "store.tsx: arrived screen requests POIs to select tickets-category actions; reset clears graph and POI cache; poiBridge deleted",
+        "fakeFetch abort handling changed for tests; production client/HTTP adapter and localization/route flow modules unchanged from b5d6835",
+        "E2E3 HTTP scenarios intercept API with MSW responses; one mock smoke. No real Backend/mobile browser validation performed in this review"
+      ],
+      "registry_sha256": "2a8c6dc0269c13a96554659532e1aeeb470362e561392f128d9d4567b47eb180"
+    }
+  },
+  "remaining_findings": [
+    {
+      "id": "INT-07",
+      "severity": "P0"
+    },
+    {
+      "id": "DATA-01",
+      "severity": "release_gate"
+    }
+  ],
+  "closed_issue": {
+    "number": 16,
+    "url": "https://github.com/team-onetruck/oneload-app/issues/16",
+    "closed_at_utc": "2026-10-23T02:49:29Z",
+    "source_and_readme_rechecked": true
+  },
+  "limitations": [
+    "Destination list failure on arrived screen logs a warning and hides ticket-specific actions; list screen offers retry",
+    "No real phone/camera/network acceptance or live vision quality measured",
+    "Existing INT-07 RuleAgent/NoVision and DATA-01 field verification still pending"
+  ],
+  "full_qa_reexecuted": false,
+  "full_baseline_preserved": {
+    "path": "reports/baseline.json",
+    "app_commit": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+    "executed_at_kst": "2026-10-23T11:36:08.880217+09:00"
+  },
+  "live_model_calls": 0,
+  "deployment_executed": false
+}

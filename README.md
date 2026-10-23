@@ -30,6 +30,8 @@
 [QA #3](docs/issue3-resolution.md)은 Q10·근거 열은 완료했지만 RAG 검색 오탐과 운영 연결이 남아 open을 유지합니다. 검색 후보0.35를 운영 승인값으로 바꾸지 않았습니다.
 App CI363건+mock 시작 화면1건, RAG CI88건·MCP HTTP의 이전 소스 검토는 [별도 기록](reports/source-review-20261023.json)에 있습니다. 이번 전체 QA와 검증 수준을 구분합니다.
 
+후속 App **2666e44**: 목적지 목록도 서버 POI로 연결하고 poiBridge를 제거했습니다. 최신 CI 단위365건·브라우저4건(모의 API HTTP 시나리오3+mock 시작1) 통과, QA 회귀28건·소스 감사 확인입니다. App #16도 해결됐습니다. [검토 기록](reports/app-review-2666e44.json). 위 전체 QA 기준선은11:36 Appb5d6835이며 실제 서버·휴대폰 인수는 별도입니다.
+
 - [최신 결과와 버전](reports/latest-review.md)
 - [데이터 검사 증거](reports/data-validation.json)
 - [남은 통합 문제와 이슈](docs/integration_findings.md)

@@ -47,3 +47,7 @@ project/
 ## QA #4 반영
 
 Frontend 검토 기록(eval/frontend_wiring.json)과 실행 모듈(scripts/frontend_wiring.py)을 추가했다. 검토한 소스 연결만 확인하며 미검토 코드에는 review_required로 중단한다. 과거 미연결 버전은 계속 P0다. [해결 설명](issue4-resolution.md)과 [인수인계](handoff.md)를 따른다. 전체 기준선은 이번 실행으로 갱신했고 이전 소스/CI 관찰 보고서는 당시 기록으로 보존했다.
+
+## App2666e44 후속 관찰
+
+전체 기준선 Appb5d6835 이후 목적지 목록까지 서버 POI로 연결했고 poiBridge가 제거됐다. CI365건·E2E4건(HTTP 응답은 모의 API), QA 회귀28건·소스 감사를 확인했다. 현재 관찰 SHA는 repos.lock.json, 증거·한계는 [별도 검토](../reports/app-review-2666e44.json)에 있다. 표준 전체 QA를 새 실행한 것으로 집계하지 않는다.
