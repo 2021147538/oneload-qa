@@ -1,34 +1,26 @@
-# 최신 QA — 2026-10-23 11:36 KST
+# 최신 QA — 2026-10-23 13:33 KST
 
-QA #4의 INT-06 거짓 미연결 판정을 수정하고 최신 Backend 대화 복원·멱등성 변경을 포함해 다시 검증했다.
-
-후속 App2666e44의 CI365+E2E4·QA 회귀28·별도 감사는 [검토 기록](app-review-2666e44.json)을 따른다. 아래 전체 기준선은11:36 Appb5d6835로 보존했으며 후속 검토로 덮어쓰지 않았다.
+RAG #3 답글의 R6 신규 평가 요청을 수행했다. 새40문항을 검색 전 QA7f41130으로 고정했고 수정 전47ab39f/후e6c03f2를 같은0.25에서 각1회 비교했다. 원래 호텔 객실 가격·실시간 빈 좌석은 수정됐지만 **새 오탐3건과 정상 질문 누락3건으로 이슈는 open**이다. [절차·실패 질문](../docs/rag-issue3-revalidation.md).
 
 | 대상 | 버전·범위 | 결과 |
 |---|---|---|
-| QA | 기존17건+Frontend 회귀11건 | 28/28, skip0 |
+| QA | 기존28+holdout6+패키지 자산4 | 38/38, skip0 |
 | 데이터 | 606f648 | 3/3 |
-| Agent | 250271e·FakeLLM | 43/43 |
+| Agent | 54c321f·FakeLLM | 43/43 |
 | Backend | c9b8d8a·일회용 DB | 48/48 |
-| 컴포넌트 v2 | 기존 질문·기대값·SHA 유지 | 20시나리오·21턴 자동 검사 통과 |
+| 컴포넌트 v2 | 기존 질문·기대값·SHA 유지 | 20시나리오·21턴 통과 |
 | 표준 R2↔Backend API | 모의 검색·합성 JPEG | 20/20 |
-| 별도 RAG API | RAG47ab39f·MemorySearch0.35·FakeLLM | 21/21 |
-| Frontend 소스 | Appb5d6835·검토 기록 대조 | wired, 실제 브라우저 NOT_RUN |
+| 별도 RAG API | e6c03f2·MemorySearch0.25·FakeLLM | 21/21 |
+| 새 R6 v2 검색 | 前47ab39f→後e6c03f2·min_score0.25 | top3 20/20→17/20, 범위밖 빈 결과5/20→17/20 |
+| Frontend 소스 | App2666e44·검토 profile | wired, 이번 실제 브라우저 NOT_RUN |
 | Infra | 8587d3b | 커밋 기록만, 배포 미실행 |
 
-[전체 기준선](baseline.json) · [계약 감사](contract-audit.json) · [Frontend 스냅샷](frontend-wiring-review.json) · [모의 API](integration-probe.json) · [RAG API](rag-integration-probe.json)
+[전체 기준선](baseline.json) · [계약 감사](contract-audit.json) · [모의 API](integration-probe.json) · [RAG API](rag-integration-probe.json) · [검색 전후 증거](rag-issue3-revalidation.json)
 
-## 해결한 QA #4
+Agent 패키지가 실제 읽는 PROMPT_DIR/MOCK_DIR에 맞춰 평가 실행기 경로·해시를 수정했다. 과거 repo/prompts/mocks를 가정하지 않고 선택한 checkout 내부 자산인지 확인한다. component v2 SHA와 질문·기대값은 그대로다.
 
-mock 분기 문자열이 남았다는 이유만으로 실제 HTTP 화면을 미연결로 보고하지 않는다. 검토한 호출 경로와 런타임 소스·의존성 해시를 연결했다. 기존 bc2d9f1·b111af6은 incomplete/P0, 최신 b5d6835는 wired, 미검토 코드는 review_required/nonzero다.
+RAG 답글의 기존 수치도 재현했다. 수정 후 R6 개발/노출 holdout 각각 top3 10/10·범위밖6/6, R3기존38/40·4/4, R3노출 holdout16/16·11/12다. 이들은 새 독립 holdout 수치가 아니다. 새 v2도 이제 노출됐으며 다음 수정의 회귀용으로만 사용한다. 임계값 운영 확정은 보류한다.
 
-실제 Git 스냅샷3개와 현재 체크아웃으로 재현했다. 어댑터·의존성 변경·삭제·추가, 주석/미사용 helper, 문서/테스트 변경 등을 회귀로 검사했다. 실행 중 registry가 바뀌면 보고서를 갱신하지 않는다. [판정과 유지 절차](../docs/issue4-resolution.md).
+Frontend 감사의 [QA #4 수정 원칙](../docs/issue4-resolution.md)은 유지한다. App2666e44 CI365+E2E4는 [이전 관찰](app-review-2666e44.json)이며 이번 실행한 실제 브라우저 결과로 합산하지 않는다. RAGe6c03f2 [CI](https://github.com/team-onetruck/oneload-rag/actions/runs/39897084335)는 success지만 로컬 pgvector/MCP 전체 재시험은 아니다.
 
-wired는 검토된 소스 수준 판정이다. 이번 실제 서버·휴대폰 전체 흐름은 실행하지 않았으며 기능 TC를 자동 PASS로 올리지 않았다. 과거 contract-audit-review-20261023.json은 수정 전 오판 재현 기록이다.
-
-## 남은 조건
-
-현재 감사의 P0는 **INT-07: Backend 기본 RuleAgent/NoVision**이다. 전체 exit1을 유지한다. 실제 현장 정답·예시 파노라마(DATA-01)도 확인 전이다.
-[QA #3](https://github.com/team-onetruck/oneload-qa/issues/3)은 Q10·20문항 근거 열은 완료했지만 검색 오탐([RAG #3](https://github.com/team-onetruck/oneload-rag/issues/3))과 운영 연결 후 검사가 남아 open이다. 0.35를 운영 승인값으로 바꾸지 않았다.
-
-실제 모델·임베딩 호출0회, 현장 사진 정답0건, 컴포넌트21턴 사람 검토 대기·최종 품질 점수null이다. 기존 service v2·component v2·retrieval v1의 질문·정답·분할은 변경하지 않았다. 이전 App/RAG CI는 [별도 역사적 기록](source-review-20261023.json)이며 이번 실제 브라우저 결과로 집계하지 않는다.
+남은 P0는 **INT-07: Backend 기본 RuleAgent/NoVision**이다. 전체 exit1을 유지하고 DATA-01 현장 정답도 대기한다. [QA #3](https://github.com/team-onetruck/oneload-qa/issues/3)은 마지막 두 조건이 미완료다. 실제 모델·임베딩 호출0회, 현장 사진 정답0건, 컴포넌트21턴 사람 검토 대기·최종 품질 점수null이다. 기능 TC의 PARTIAL/NOT_RUN을 자동 PASS로 바꾸지 않았다.

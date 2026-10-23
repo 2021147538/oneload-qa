@@ -36,4 +36,4 @@ QA 자체 감사와 Agent의 check_backend_compat.py는 공유 지도 경로를 
 
 ## QA #4 후속
 
-최신 전체 QA는28/28·Backend48/48이다. INT-06은 검토된 소스 호출 경로 기준 wired이며 실제 브라우저·모바일 인수는 별도 NOT_RUN이다. 검토하지 않은 새 런타임 소스는 review_required로 중단한다. [판정 방식](issue4-resolution.md)과 [실행 증거](../reports/frontend-wiring-review.json)를 따른다.
+최신 전체 QA는 Agent54c321f·App2666e44에서38/38·Backend48/48이다. FAQ 기준 문서는 위250271e 기록이며 이번에도 같은 component v2 기대값을 유지했다. INT-06은 검토된 소스 호출 경로 기준 wired이며 실제 브라우저·모바일 인수는 별도 NOT_RUN이다. 검토하지 않은 새 런타임 소스는 review_required로 중단한다. [판정 방식](issue4-resolution.md)과 [실행 증거](../reports/frontend-wiring-review.json)를 따른다.

@@ -12,7 +12,7 @@
 
 R3 매핑은 RAG `4a967b3`의 `docs/qa-source-map.md`를 기준으로 한다. 개별 지식 문서의 verified_at·verified_by는 원문 기록이며 R6 사람 검토를 의미하지 않는다.
 
-## 검색 평가와 임계값 판정
+## 최초 검색 평가와 임계값 판정 (RAG47ab39f 이전 기록)
 
 [질문 32개](../eval/retrieval_cases.json) · [실행기](../scripts/evaluate_retrieval.py) · [전체 증거](../reports/retrieval-evaluation.json)
 
@@ -35,9 +35,9 @@ holdout에서 호텔 객실 가격 질문에 express-ticket/help-desks, 실시�
 
 이번 holdout은 이미 관찰·공개됐다. 다음 개선 때 이 결과로 최적화한 뒤 같은 holdout을 미관찰 검증이라고 소개하지 않는다. 별도 새 holdout과 기존 회귀셋을 함께 사용한다. top3 중 정답 하나라도 있으면 적중이므로 인용 정밀도·답변 사실성·여행객 품질은 이 점수로 판단할 수 없다. pgvector·실제 임베딩은 이번에 실행하지 않았다.
 
-## 실제 RAG 주입 API 검사
+## 최신 실제 RAG 주입 API 검사
 
-[API 21/21 증거](../reports/rag-integration-probe.json). Backend c9b8d8a, Agent 250271e, Data 606f648, RAG 47ab39f. FakeLLM·합성 JPEG·일회용 PostgreSQL·공식 문서 MemorySearch(k=3,min_score=0.35)다.
+[API 21/21 증거](../reports/rag-integration-probe.json). Backend c9b8d8a, Agent54c321f, Data606f648, RAGe6c03f2에서 13:33 KST 재검증했다. FakeLLM·합성 JPEG·일회용 PostgreSQL·공식 문서 MemorySearch(k=3,min_score=0.25,scope gate0.25)다. 과거0.35 주입 증거를 새 값의 결과로 재라벨하지 않고 새 DB에서 실행했다.
 
 - 요금 질문: answered + `doc-fare-arex-express` + URL·verified_at 전달.
 - 빈 검색 대조군: cannot_answer·출처 없음·금액 추측 없음.
@@ -57,6 +57,16 @@ holdout에서 호텔 객실 가격 질문에 express-ticket/help-desks, 실시�
 
 따라서 QA #3을 전체 해결로 닫지 않는다. R3 검색 보완과 R4 운영 조립이 반영되면 새로운 holdout·운영 기본 경로를 검사하고 마지막 두 조건을 갱신한다. 재현 명령은 README와 handoff에 있다.
 
-## QA 이슈 재점검 후
+## RAG 답글 후 새 holdout 재검증
 
-QA #4 수정과 함께 최신 Backendc9b8d8a·RAG47ab39f에서 주입 API21/21을 다시 확인했다. INT-07 기본값은 여전히 RuleAgent/NoVision이며 RAG #3은 검색 보완 미반영 상태다. 따라서 남은 두 완료 조건은 그대로 대기한다. 이미 노출된 검색셋을 새 holdout으로 재사용하거나 근거 없는 임계값 승인으로 이슈를 닫지 않는다.
+2026-10-23 13:32 KST [R3 답글의 후속 요청](https://github.com/team-onetruck/oneload-rag/issues/3#issuecomment-6356152143)을 수행했다. 새40문항을 검색 전 QA7f41130으로 커밋하고, 같은 knowledge·min_score0.25/k3/상대0.5로 수정 전47ab39f와 후e6c03f2를 각1회 비교했다. 임계값 sweep이나 holdout 기반 수정은 하지 않았다.
+
+- 새 양성 top3:20/20→17/20. 범위밖 빈 결과:5/20→17/20.
+- 원래 호텔 가격·실시간 빈 좌석은 빈 결과로 개선됐다. 리무진버스 운임·항공 수하물 요금·여권 재발급 수수료에는 무관한 문서가 남았다.
+- 직통열차 발매기 구매 국/영2건·열차 중간역 정차 영문1건은 기존 적중에서 빈 결과로 후퇴했다.
+- 기존 R6 개발·노출 holdout은 수정 후 각각10/10·6/6, R3기존38/40·4/4, R3노출 holdout16/16·11/12로 답글 수치가 재현됐다. 이미 알려진 택시 오탐은 별도 진단에서 재현됐다.
+
+[새 평가 절차·실패 질문·재현 방법](rag-issue3-revalidation.md) · [전체 증거](../reports/rag-issue3-revalidation.json).
+기존0.35 후보를 승인하지 않고, 이번0.25도 운영 확정 보류다. 새 v2 역시 노출됐으므로 다음 개선에서는 회귀용으로만 사용한다. 범위 판정에서 양성 누락과 범위밖 차단을 함께 보완하고 새 미관찰 평가를 준비해야 한다.
+
+INT-07 기본 경로는 여전히 RuleAgent/NoVision이다. 최신 주입 API21/21은 그 운영 연결 완료를 대신하지 않는다. **QA #3과 RAG #3은 open 유지**하며 마지막 두 완료 조건은 미완료다.

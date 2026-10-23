@@ -1,12 +1,12 @@
 {
-  "executed_at_kst": "2026-10-23T11:36:02.498876+09:00",
+  "executed_at_kst": "2026-10-23T13:33:43.849445+09:00",
   "dataset_version": "r6-component-v2",
   "dataset_sha256": "1daa313834008bf7c26dec28d9cb302e92ddddd9b28d8c5e15cc28d5f6a13da3",
-  "runner_sha256": "2e3033eda3c946bc0321c2754e4180e07c67aa730c51029efd9d3416fd14002b",
+  "runner_sha256": "09349d593b366ee4748c22a4fc4817fe79e78a719523054e93233ce841fb9f8d",
   "commits": {
-    "oneload-app": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+    "oneload-app": "2666e44a29facc48b5c04af5acecb3bff04779f4",
     "oneload-backend": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
-    "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
+    "oneload_agent": "54c321f7d86f55f5d3178744088b2c3827d73914",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
     "oneload-infra": "8587d3b65c80575f0b573b0d8a3b20322a61121a"
   },
@@ -22,14 +22,15 @@
   "model_name": "FakeLLM",
   "prompt_version": "v3",
   "prompt_hashes": {
+    "understand_v3.md": "c55a664f335a690db6d26a4d4d32379f4d56f3b15531ccdbc9cff72c5e4c360c",
     "compose_v3.md": "54d00b954626a3fc34d58e4d85557439f373c1a60705ef91014c52f6d2966c66",
-    "scene_v3.md": "c6ed932a243743575b3fb074e2ad89ffc6523ca1dbf8d45337a86d905a2d8e20",
-    "understand_v3.md": "c55a664f335a690db6d26a4d4d32379f4d56f3b15531ccdbc9cff72c5e4c360c"
+    "scene_v3.md": "c6ed932a243743575b3fb074e2ad89ffc6523ca1dbf8d45337a86d905a2d8e20"
   },
+  "prompt_directory": "hangil_r2/prompts",
+  "fixture_directory": "hangil_r2/mocks",
   "fixture_hashes": {
-    "mocks/knowledge.json": "2f22d1191c2098a3d8e32d106fdd1222d99bd2889e1b7e2f528572537feed8a6",
-    "mocks/maps/seoul-station.json": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043",
-    "mocks/timetable.json": "abe8668e3678316288237f21eaa57e5d281c297620de31bd86aaf377bc50df1a"
+    "hangil_r2/mocks/knowledge.json": "2f22d1191c2098a3d8e32d106fdd1222d99bd2889e1b7e2f528572537feed8a6",
+    "hangil_r2/mocks/timetable.json": "abe8668e3678316288237f21eaa57e5d281c297620de31bd86aaf377bc50df1a"
   },
   "tools": "R2 MockKnowledgeSearch; real Backend map/context/guard; no production RAG",
   "scenario_count": 20,
@@ -38,6 +39,6 @@
   "auto_turns_passed": 21,
   "human_review_pending": 21,
   "final_quality_score": null,
-  "p95_latency_ms_nearest_rank": 1.02,
+  "p95_latency_ms_nearest_rank": 1.37,
   "latency_scope": "component and selected model mode; not browser/API latency"
 }

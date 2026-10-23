@@ -41,11 +41,11 @@
   "validation_scope": "Backend MapData and reference validation; schema copy equality; local photo files",
   "field_photo_accuracy_measured": false,
   "commits": {
-    "oneload-app": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+    "oneload-app": "2666e44a29facc48b5c04af5acecb3bff04779f4",
     "oneload-backend": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
-    "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
+    "oneload_agent": "54c321f7d86f55f5d3178744088b2c3827d73914",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
     "oneload-infra": "8587d3b65c80575f0b573b0d8a3b20322a61121a"
   },
-  "checked_at_kst": "2026-10-23T11:35:59.591696+09:00"
+  "checked_at_kst": "2026-10-23T13:33:41.075012+09:00"
 }

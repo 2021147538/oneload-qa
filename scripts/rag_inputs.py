@@ -46,6 +46,7 @@ def load_rag(root: Path, min_score: float = 0.25):
         "min_score": min_score,
         "k": 3,
         "relative_cutoff": search_memory.RELATIVE_CUTOFF,
+        "scope_gate_min_coverage": getattr(search_memory, "MIN_COVERAGE", None),
         "community": False,
         "document_ids": sorted(d.doc_id for d in docs),
         "knowledge_sha256": {

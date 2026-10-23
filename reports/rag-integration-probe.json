@@ -1,9 +1,9 @@
 {
-  "executed_at_utc": "2026-10-23T02:34:31.434654+00:00",
+  "executed_at_utc": "2026-10-23T04:33:57.198604+00:00",
   "commits": {
-    "oneload-app": "b5d6835bcd4039ebd6b282bf907115b2453a4a17",
+    "oneload-app": "2666e44a29facc48b5c04af5acecb3bff04779f4",
     "oneload-backend": "c9b8d8aef77362bd3cf8b623f7891d80bea11384",
-    "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
+    "oneload_agent": "54c321f7d86f55f5d3178744088b2c3827d73914",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
     "oneload-infra": "8587d3b65c80575f0b573b0d8a3b20322a61121a"
   },
@@ -18,12 +18,13 @@
   "knowledge_profile": "rag",
   "rag": {
     "repository": "oneload-rag",
-    "commit": "47ab39f1748c92318bfc29e79ba39b5f94b6f159",
+    "commit": "e6c03f242482151a69d00ce94056c502d724c205",
     "working_tree_clean": true,
     "backend": "MemorySearch",
-    "min_score": 0.35,
+    "min_score": 0.25,
     "k": 3,
     "relative_cutoff": 0.5,
+    "scope_gate_min_coverage": 0.25,
     "community": false,
     "document_ids": [
       "doc-allstop-ticket",
@@ -64,14 +65,14 @@
       "src/hangil_rag/loader.py": "8b67ebe687d7ace619cbe7d874821c715e5bacf8c6c621a659a5b6b178575066",
       "src/hangil_rag/mcp_server.py": "d2698aac11ce7ffdb7761222b0a8d83d62d7a838892f2a059cccc0cc57c47203",
       "src/hangil_rag/schemas.py": "a5744e6c17ce2fef610d4df8023c16718913dca5f21af10a24e629180e1ee529",
-      "src/hangil_rag/search_memory.py": "f5f85750638d0dfd74edfbfaa9832cfe1897a1fb27f1855816bb7b061296529d",
-      "src/hangil_rag/search_pgvector.py": "bc9aac05ce52a02aa956a562528425b59e8c876304395285a370aed0483de723"
+      "src/hangil_rag/search_memory.py": "1a9623ea63315e11759d797c13364d84179c8eea62af9e6e59fadb22d7615878",
+      "src/hangil_rag/search_pgvector.py": "e0a2fe7e794f0cb95d7691c382ff2c6ca8d3891534afe1b55f38b4ecbc5ab03e"
     },
     "live_model_calls": 0,
     "live_embedding_calls": 0
   },
   "runner_sha256": "93f16dd92ded8f6eff5877b0c16bbb50e0c54ee7efd087fdb03fc52b87558044",
-  "rag_inputs_sha256": "62354525af7dcea3e8ef75f7c6fe0ce433a9b707ed76894cb1a373ab3d2f5dd0",
+  "rag_inputs_sha256": "e20f59ba94b507f8ce818b2ed0fd6d939d2bc39dd97b956326aa54c93a770aa1",
   "checks": [
     {
       "id": "API-01-train-clarification",

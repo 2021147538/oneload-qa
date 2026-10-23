@@ -22,6 +22,27 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def agent_assets(repo, version, prompt_dir, mock_dir):
+    """Record the assets the imported Agent actually reads, including packages."""
+    repo, prompt_dir, mock_dir = (
+        Path(path).resolve() for path in (repo, prompt_dir, mock_dir)
+    )
+    if any(not path.is_relative_to(repo) for path in (prompt_dir, mock_dir)):
+        raise InputError("Imported Agent assets must belong to the selected checkout")
+    prompts = [
+        prompt_dir / f"{name}_{version}.md"
+        for name in ("understand", "compose", "scene")
+    ]
+    if any(not path.is_file() for path in prompts):
+        raise InputError(
+            "Requested prompt version must include understand, compose and scene files"
+        )
+    mocks = sorted(mock_dir.rglob("*.json"))
+    if not (mock_dir / "knowledge.json").is_file():
+        raise InputError("Imported Agent mock knowledge.json is missing")
+    return prompts, mocks
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--project-root", type=Path, required=True)
@@ -47,14 +68,6 @@ def main() -> int:
     if out.exists() and any(out.iterdir()):
         ap.error("Use a new output directory; evidence is not overwritten")
     out.mkdir(parents=True, exist_ok=True)
-    required_prompts = [
-        repo / "prompts" / f"{name}_{args.prompt_version}.md"
-        for name in ("understand", "compose", "scene")
-    ]
-    if any(not path.is_file() for path in required_prompts):
-        ap.error(
-            "Requested prompt version must include understand, compose and scene files"
-        )
     os.environ.update(
         PROMPT_VERSION=args.prompt_version,
         LANGSMITH_TRACING="false",
@@ -70,6 +83,15 @@ def main() -> int:
         OpenAILLM,
         ToolUnavailable,
     )
+    from hangil_r2.knowledge import MOCK_DIR
+    from hangil_r2.llm import PROMPT_DIR
+
+    try:
+        required_prompts, mock_files = agent_assets(
+            repo, args.prompt_version, PROMPT_DIR, MOCK_DIR
+        )
+    except InputError as exc:
+        ap.error(str(exc))
 
     rows = []
     for scenario in scenarios:
@@ -210,14 +232,10 @@ def main() -> int:
         if args.mode == "openai"
         else "FakeLLM",
         "prompt_version": args.prompt_version,
-        "prompt_hashes": {
-            p.name: digest(p)
-            for p in sorted((repo / "prompts").glob("*_" + args.prompt_version + ".md"))
-        },
-        "fixture_hashes": {
-            str(p.relative_to(repo)): digest(p)
-            for p in sorted((repo / "mocks").rglob("*.json"))
-        },
+        "prompt_hashes": {p.name: digest(p) for p in required_prompts},
+        "prompt_directory": str(PROMPT_DIR.resolve().relative_to(repo)),
+        "fixture_directory": str(MOCK_DIR.resolve().relative_to(repo)),
+        "fixture_hashes": {str(p.relative_to(repo)): digest(p) for p in mock_files},
         "tools": "R2 MockKnowledgeSearch; real Backend map/context/guard; no production RAG",
         "scenario_count": len(ids),
         "turn_count": len(rows),

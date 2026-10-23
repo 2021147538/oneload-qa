@@ -1,6 +1,6 @@
 # 현재 통합 점검 결과
 
-기준: Agent 250271e, Backend c9b8d8a, Data 606f648, Frontend b5d6835 (2026-10-23).
+기준: Agent54c321f, Backendc9b8d8a, Data606f648, Frontend2666e44, RAGe6c03f2 (2026-10-23 13:33 KST).
 [계약 검사](../reports/contract-audit.json)와 [실제 API 연결 검사](../reports/integration-probe.json)를 함께 봅니다.
 
 ## 해결 확인 항목
@@ -66,7 +66,7 @@ Agent 250271e는 예외를 던지는 시점에 Backend의 실제 클래스를 �
 실제 지도 입력·버전·해시는 reports/data-validation.json과 각 단계 메타데이터로 확인합니다.
 
 
-## App 후속 검토 (최신 b111af6)
+## App 과거 검토 (b111af6)
 
 App b111af6은 세션 생성에 이어 HTTP 채팅·POI 칩·언어 변경을 서버에 연결했습니다. 사진 위치·경로 화면의 로컬 흐름이 남아 INT-06은 유지합니다.
 이전 [App 검토](../reports/app-review.json)는8c88f89의 역사적 CI 증거입니다. App #11은 문서 수정으로 closed이며, 최신 App의 실제 서버·모바일 E2E를 이번 QA에서 실행한 것은 아닙니다.
@@ -76,7 +76,13 @@ App b111af6은 세션 생성에 이어 HTTP 채팅·POI 칩·언어 변경을 �
 [변경 및 판정](issue3-resolution.md): service v2·근거20건·독립검색32문항·RAG API21건을 추가했습니다.
 범위밖 검색 오탐은 [RAG #3](https://github.com/team-onetruck/oneload-rag/issues/3)에 등록했습니다. 임계값 확정과 INT-07 이후 운영 경로 재검사는 남아 있습니다.
 
-## QA #4 수정 후 현재 판정
+## QA #4 수정 당시 판정 (이전 전체 검사)
 
 최신 Appb5d6835는 사진·확정·서버 경로·시작/도착/취소·재탐색의 HTTP 호출 경로를 연결했다. mock 문자열만으로 미연결이라고 판정하던 QA #4를 수정했다. [판정 절차](issue4-resolution.md)·[Git 스냅샷 증거](../reports/frontend-wiring-review.json)를 따른다. 실제 서버·휴대폰 전체 인수는 별도다.
 Backendc9b8d8a까지 포함해 QA28/28·Backend48/48·모의 API20/20·RAG 주입 API21/21을 재확인했다. 기본 Agent/Vision 조립은 바뀌지 않아 INT-07은 유지한다. RAG 검색 오탐/임계값 미승인도 QA #3·RAG #3으로 계속 추적한다.
+
+## RAG 답글 후 현재 판정
+
+2026-10-23 13:33 KST에 Agent54c321f의 패키지 자산 경로를 반영해 전체 검사를 갱신했다. QA38/38·Agent43/43·Backend48/48·컴포넌트20시나리오/21턴·모의 API20/20·별도 RAG API21/21이다. App2666e44는 소스 wired이며 실제 브라우저 인수는 NOT_RUN, 운영 INT-07도 그대로다.
+
+RAG 원래 호텔 가격·빈 좌석은 빈 결과로 개선됐으나 R6 신규 holdout40문항에서 오탐3·정상 누락3이 남았다. top3 17/20·범위밖 빈 결과17/20으로 임계값 운영 확정은 보류하고 RAG #3·QA #3은 open이다. [동결 절차·전후 증거](rag-issue3-revalidation.md)를 따른다. 실제 모델·pgvector 품질은 이 검사 범위가 아니다.
