@@ -1,0 +1,10 @@
+{
+  "dataset_version": "r6-retrieval-holdout-v2",
+  "sha256": "278f16fc787acffe36a4ccbc903d422cbd03d9a1ccf8e4f21c43f6c8e56fc168",
+  "frozen_at_utc": "2026-10-23T04:28:19.608459+00:00",
+  "cases": 40,
+  "positive": 20,
+  "out_of_scope": 20,
+  "search_outputs_seen_at_freeze": false,
+  "note": "Korean museum query wording simplified before any search execution."
+}
