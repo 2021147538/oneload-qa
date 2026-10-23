@@ -1,6 +1,6 @@
 # 한길 R6 인수인계
 
-마지막 정리: 2026-10-23 13:38 KST — RAG #3 답글의 R6 새 holdout 검증 완료. 담당 이현무(R6).
+마지막 정리: 2026-10-23 14:08 KST — App/RAG 최신 소스·CI와 RQ-32 제안 확인. 담당 이현무(R6).
 [AGENTS.md](../AGENTS.md)에 따라 개발·평가·이슈 변경과 함께 갱신한다. 시작 프롬프트는 채팅에만 제공하고 GitHub에 올리지 않는다.
 
 ## 시작 순서와 범위
@@ -20,19 +20,29 @@
 | 저장소 | 검증 커밋 | 범위 |
 |---|---|---|
 | oneload-qa / qa | 이 문서 포함 커밋 | 회귀38·실행기·새 holdout 결과 |
-| oneload-app | 2666e44 | 전체 QA의 소스 감사 wired. 실제 서버·휴대폰 브라우저 인수는 NOT_RUN |
+| oneload-app | 관찰e6af580 / 전체 QA2666e44 | mock E2E5개·CI 캐시 추가, CI365+E2E9. 동작 해시 동일·소스 wired, 실제 서버/휴대폰 NOT_RUN |
 | oneload-backend | c9b8d8a | 기존48·모의 API20·별도 RAG API21 |
 | oneload_agent | 54c321f | 기존43·컴포넌트20시나리오/21턴·주입 API, 패키지 자산 경로 반영 |
 | oneload-data | 606f648 | 모델·참조·스키마·사진3건, 지도2026-10-22.1 |
 | oneload-infra | 8587d3b | 커밋 기록만, 배포 미검증 |
-| oneload-rag | e6c03f2 | 공식 MemorySearch0.25 검색·주입 API21. 새 holdout 오탐/누락으로 보완 필요 |
+| oneload-rag | 관찰8c8e902 / 검색·API e6c03f2 | RQ-32 제안 문서만 추가, 검색/지식 동일. 기존 오탐·누락 유지 |
 
 2026-10-23 13:33 KST 전체 결과: QA38/38(skip0), 데이터3/3, Agent43/43, Backend48/48, component v2 20/20시나리오·21/21턴, 표준 모의 API20/20, 별도 RAG API21/21. 전체 exit1은 INT-07 때문이다.
 
 [기준선](../reports/baseline.json) · [감사](../reports/contract-audit.json) · [RAG API](../reports/rag-integration-probe.json).
 FakeLLM·합성 JPEG·자신이 만든 일회용 DB다. 실제 모델/임베딩 호출0회, 현장 사진 정답0건, 컴포넌트21턴 사람 검토 대기·품질 점수null이다. 기능 TC의 PARTIAL/NOT_RUN은 유지했다.
 
-## 이번 작업: RAG #3 답글과 새 holdout
+## 이번 작업: App/RAG 업데이트 확인
+
+[새 소스·CI·QA 증거](../reports/app-rag-update-20261023.json)와 [별도 감사](../reports/contract-audit-update-20261023.json)를 추가했다. 로컬과 원격 main 일치·clean을 확인했다. 전체 기준선/검색 결과를 재라벨하지 않았다.
+
+- App e6af580은 mock 모드 E2E5건(직통 데모·일반 직접 선택·요금 거절·타임아웃 재시도·사진 제어)을 추가해 총9건(mock6+모의 HTTP3)이다. CI 단위365·E2E9 통과. Chromium을 Playwright 버전별 캐시한다. 이번 main에서는 cache miss 경로만 실행되어 hit 시 시스템 설치 생략 동작은 이 run으로 확인되지 않았다. src/런타임 의존성은2666e44와 동일해 기존 검토 profile을 그대로 사용한다.
+- RAG8c8e902는 docs/requests.md에 RQ-32 제안만 추가했다. 검색 결과가 답을 뒷받침하는지 Agent가 판단하고, 답할 수 없으면 cannot_answer·출처 없음, 인용 자료만 sources로 표시하며 인용 위반 fallback에도 무관 출처를 붙이지 말자는 요청이다. CI100·MCP HTTP·wheel 단계는 통과했다. 검색/지식 변경은 없어 앞선 오탐3·정상 누락3은 해결로 처리하지 않는다.
+- 현재 Agent54c321f의 _answer/_compose/_sources에서 fare scope 필터 이후 hits가 있으면 answered이고 모든 hits를 출처에 넣는 구조를 확인했다. 인용 번호 오류의 자료 안내 fallback도 남아 있다. R3의 임베딩·점수 겹침 수치는 제안 작성자 보고이며 이번 R6가 재실행하지 않았다.
+- R6 방향은 검색 재현율과 답변 근거/인용 정확도를 나누어 측정하는 것이다. 제안은 아직 합의·구현이 아니므로 검색 gate·서비스 기대값·임계값을 자동 완화하지 않는다. R2의 답변 판단·출처 처리 반영 후 무관 문서 반환·근거 없는 금액/시간·부분 인용·인용 위반·정상 답변을 검증할 필요가 있다. 실제 모델 품질은 FakeLLM 구조 검사와 구분한다.
+- 로컬 QA38/38·계약 감사만 다시 실행했고 Backend/RAG API·실제 브라우저·검색 품질 재평가는 하지 않았다. INT-07·DATA-01과 RAG #3·QA #3 open은 유지한다.
+
+## 직전 작업: RAG #3 답글과 새 holdout
 
 [R3 답글](https://github.com/team-onetruck/oneload-rag/issues/3#issuecomment-6356152143)이 요청한 R6의 새 holdout을 만들고 검색 전 QA7f41130으로40문항·정답·절차를 커밋했다. SHA와 frozen metadata를 [재검증 문서](rag-issue3-revalidation.md)에 기록했다. R6 합성 국/영 번역쌍20질문군이므로 독립 사용자40명을 뜻하지 않는다. 기존 공개 질문과 정확한 중복은 없지만 같은 코퍼스와 유사 의도다.
 
@@ -67,7 +77,7 @@ App2666e44는 목적지 목록 GET /maps/{id}/pois와 서버 poi_id를 사용하
 
 | 항목 | 상태와 다음 행동 |
 |---|---|
-| RAG #3 | 원래2건 수정 확인. 새 오탐3·정상 누락3·공개 택시 오탐을 기존 이슈에 보고. 범위 판정 보완 후 회귀+새 미관찰 평가 |
+| RAG #3 / RQ-32 | 새 오탐3·정상 누락3 유지. R2 답변 근거·인용 처리 제안 검토 → 답변 단계 평가 추가, 검색 기준은 합의 후 조정 |
 | QA #3 | Q10·근거 열 완료. 임계값 운영 확정과 INT-07 운영 기본 경로 재검사 대기 |
 | INT-07 | Backend 기본 RuleAgent/NoVision. R4 운영 조립 후 기본 entrypoint로 재검사 |
 | Frontend 실제 인수 | 실제 서버·휴대폰·카메라·복구·360도·취소/지연 응답 확인 |
@@ -75,7 +85,7 @@ App2666e44는 목적지 목록 GET /maps/{id}/pois와 서버 poi_id를 사용하
 | 서비스 품질 | service20문항 mapped_pending_human_review, 실제 모델 기준선·개선 비교 미실행 |
 | 기타 | Infra #1 공개 범위 문서, App #2 카드/언어/출처 추적은 이전 기록. 새 작업에서 상태 재확인 |
 
-다음 우선순위: R3 검색 보완 회신 → INT-07 운영 연결 → 실제 서버/휴대폰 대표 흐름 → 새 검색 holdout·사람 정답 검토 → 요청된 실제 모델 개선 비교 → 제출 숫자 대조.
+다음 우선순위: RQ-32의 R2 답변 판단·인용 처리 및 R6 평가 분리 협의 → INT-07 운영 연결 → 실제 서버/휴대폰 대표 흐름 → 새 검색 holdout·사람 정답 검토 → 요청된 실제 모델 개선 비교 → 제출 숫자 대조.
 
 ## 이전 증거와 구분
 

@@ -32,6 +32,8 @@ Agent 패키지의 실제 PROMPT_DIR/MOCK_DIR에 맞춰 평가 실행기의 자�
 Frontend HTTP 연결 소스는 App2666e44에서 wired입니다. [QA #4 수정 원칙](docs/issue4-resolution.md)을 유지하며 **이번 실제 서버·휴대폰 브라우저 인수는 NOT_RUN**입니다. App CI365+E2E4는 [별도 관찰 기록](reports/app-review-2666e44.json)입니다.
 남은 P0는 Backend 기본 RuleAgent/NoVision(INT-07)이며 전체 exit1입니다. 현장 데이터(DATA-01)도 남아 있습니다. 실제 모델·임베딩 호출0회입니다.
 
+최신 관찰(2026-10-23 14:08 KST): **Appe6af580**은 동작 코드 변경 없이 mock 화면 테스트5건·CI 브라우저 캐시를 추가했고 CI365+E2E9가 통과했습니다. **RAG8c8e902**는 RQ-32(Agent 답변 가능 여부·인용 출처 검증) 제안 문서만 추가했습니다. 검색·지식은 이전과 같아 기존 오탐3·정상 누락3 및 이슈 open을 유지합니다. QA38·소스 감사를 다시 확인했습니다. [변경·CI·검증 범위](reports/app-rag-update-20261023.json). 위 전체 기준선은13:33의 실제 실행 결과이며 재라벨하지 않았습니다.
+
 - [최신 결과와 버전](reports/latest-review.md)
 - [데이터 검사 증거](reports/data-validation.json)
 - [남은 통합 문제와 이슈](docs/integration_findings.md)

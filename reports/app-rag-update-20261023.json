@@ -1,0 +1,117 @@
+{
+  "checked_at_kst": "2026-10-23T14:08:19.375583+09:00",
+  "scope": "Remote-main/source/CI review and local QA38 + contract audit; no new full Backend/RAG/browser/live-model run.",
+  "app": {
+    "commit": "e6af5802208a2c9ecc6c20f10b426368dddcd9bb",
+    "previous_reviewed_commit": "2666e44a29facc48b5c04af5acecb3bff04779f4",
+    "local_matches_remote_main": true,
+    "working_tree_clean": true,
+    "changes": [
+      "Five mock-mode E2E cases added: Express demo through platform, all-stop manual location, fare refusal, timeout/retry, blurry upload and KTX demo photo",
+      "Playwright mock project now includes mock/*.spec.ts; existing smoke1 plus new5, HTTP/MSW3",
+      "CI caches Chromium by OS/architecture/Playwright version; cache hits skip system-dependency installation"
+    ],
+    "runtime_and_dependency_files_unchanged": true,
+    "ci": {
+      "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39903563674",
+      "head_sha": "e6af5802208a2c9ecc6c20f10b426368dddcd9bb",
+      "conclusion": "success",
+      "verify": {
+        "tests_passed": 365,
+        "test_files": 31,
+        "lint_errors": 0,
+        "lint_warnings": 1,
+        "typecheck": "passed",
+        "header_check": "passed"
+      },
+      "e2e": {
+        "tests_passed": 9,
+        "mock": 6,
+        "http_ui_with_intercepted_msw_api": 3,
+        "real_backend_used": false
+      },
+      "playwright_browser_cache": {
+        "observed": "miss",
+        "install_with_deps": "success",
+        "cache_hit_skip_system_deps_branch": "not_exercised_in_this_main_run"
+      }
+    },
+    "frontend_source_audit": {
+      "status": "wired",
+      "matched_profile": "app-2666e44",
+      "validation_level": "reviewed_source_only",
+      "runtime_browser_e2e": "NOT_RUN",
+      "runtime_snapshot_sha256": "d338458ec7312daa80912de9d1137b80dde293fd3f3d8bf42b0b0cde38173a5a"
+    }
+  },
+  "rag": {
+    "commit": "8c8e902013fc12a1790762b38a34e282930cb667",
+    "previous_measured_commit": "e6c03f242482151a69d00ce94056c502d724c205",
+    "local_matches_remote_main": true,
+    "working_tree_clean": true,
+    "changed_files": [
+      "docs/requests.md"
+    ],
+    "search_code_knowledge_and_dependencies_unchanged": true,
+    "rq32": {
+      "status": "proposal",
+      "agent_revision_reviewed": "54c321f7d86f55f5d3178744088b2c3827d73914",
+      "requests": [
+        "Agent should explicitly abstain when retrieved evidence cannot answer; cannot_answer with no sources",
+        "Only cited documents should appear as answer sources",
+        "Invalid/missing citation fallback should not append unrelated sources",
+        "R6 should add answer-stage unsupported-fact/citation checks; discuss retrieval-recall priority separately"
+      ],
+      "source_review": "Current Agent _answer treats nonempty hits after fare-scope filtering as answered; _sources includes first3 hits regardless of citations; _compose catches citation LLMError and returns sources-only fallback. No new Agent implementation measured.",
+      "qa_position": "Add answer-stage grounding checks as a separate layer. Preserve exposed-v2 retrieval failures and existing provisional gate until a joint decision and evidence support a change. Do not treat this proposal as implemented or authorize live model calls.",
+      "r3_numeric_claims_in_proposal": "R3-reported coverage overlap/real-embedding numbers; not independently rerun or adopted as R6 results."
+    },
+    "ci": {
+      "url": "https://github.com/team-onetruck/oneload-rag/actions/runs/39903283724",
+      "head_sha": "8c8e902013fc12a1790762b38a34e282930cb667",
+      "conclusion": "success",
+      "tests_passed": 100,
+      "contract_tests_required": true,
+      "mcp_http_step": "success",
+      "wheel_knowledge_step": "success"
+    },
+    "issue3": {
+      "url": "https://github.com/team-onetruck/oneload-rag/issues/3",
+      "state": "open"
+    },
+    "previous_exposed_v2_result": {
+      "evidence": "reports/rag-issue3-revalidation.json",
+      "measured_commit": "e6c03f242482151a69d00ce94056c502d724c205",
+      "top3": 17,
+      "positive_total": 20,
+      "out_of_scope_empty": 17,
+      "out_of_scope_total": 20,
+      "new_false_positives": 3,
+      "new_positive_misses": 3,
+      "new_execution": false
+    }
+  },
+  "qa": {
+    "tests_passed": 38,
+    "skipped": 0,
+    "contract_audit": "reports/contract-audit-update-20261023.json",
+    "remaining_findings": [
+      "INT-07",
+      "DATA-01"
+    ],
+    "full_baseline_preserved": {
+      "path": "reports/baseline.json",
+      "executed_at_kst": "2026-10-23T13:33:51.819761+09:00",
+      "app_commit": "2666e44a29facc48b5c04af5acecb3bff04779f4"
+    },
+    "full_backend_or_rag_api_rerun": false
+  },
+  "live_model_calls": 0,
+  "live_embedding_calls": 0,
+  "deployment_executed": false,
+  "limitations": [
+    "CI E2E covers mock and intercepted HTTP API; no real Backend/phone/camera acceptance",
+    "RAG update only changes a proposal document; no search or answerability fix",
+    "Actual model grounding/citation correctness and pgvector quality remain unmeasured"
+  ]
+}

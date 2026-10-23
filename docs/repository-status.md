@@ -55,3 +55,7 @@ Frontend 검토 기록(eval/frontend_wiring.json)과 실행 모듈(scripts/front
 App2666e44는 목적지 목록까지 서버 POI로 연결하고 poiBridge를 제거했다. [이전 CI·별도 검토](../reports/app-review-2666e44.json)의365+E2E4(모의 HTTP3+mock1)는 보존했고 이번에는 같은 커밋으로 전체 QA38·Backend48·모의 API20을 다시 실행했다. 실제 서버/휴대폰 UI 인수는 미실행이다.
 
 RAGe6c03f2를 새 holdout40문항으로 검증했고 top3 17/20·범위밖 빈 결과17/20으로 미달이다. 주입 API21/21은 별도 통과다. [실패 질문·동결 커밋·다음 작업](rag-issue3-revalidation.md)을 따르며 RAG #3·QA #3은 open이다.
+
+## 최신 관찰 (2026-10-23 14:08 KST)
+
+App 관찰e6af580은 mock E2E5개·CI 캐시 변경이며 runtime/의존성은 위2666e44와 같다. CI365+E2E9, 별도 QA38·소스 감사 wired를 확인했다. RAG 관찰8c8e902는 RQ-32 제안 문서만 추가돼 검색·API 실제 검증은 위e6c03f2 증거다. [변경/CI 기록](../reports/app-rag-update-20261023.json), [후속 역할과 한계](handoff.md)를 따른다. 위13:33 전체 기준선을 최신 관찰 커밋으로 재라벨하지 않았다.

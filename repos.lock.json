@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at_kst": "2026-10-23T13:35:29.426244+09:00",
+  "observed_at_kst": "2026-10-23T14:08:19.375583+09:00",
   "purpose": "Observed remote-main versions; standard FakeLLM baseline and separate MemorySearch evidence have distinct scopes.",
   "qa": {
     "repository": "team-onetruck/oneload-qa",
@@ -20,11 +20,11 @@
       "repository": "team-onetruck/oneload-app",
       "directory": "oneload-app",
       "url": "https://github.com/team-onetruck/oneload-app.git",
-      "observed_main_commit": "2666e44a29facc48b5c04af5acecb3bff04779f4",
+      "observed_main_commit": "e6af5802208a2c9ecc6c20f10b426368dddcd9bb",
       "qa_baseline_commit": "2666e44a29facc48b5c04af5acecb3bff04779f4",
       "rag_issue_review_commit": null,
-      "observed_at_kst": "2026-10-23T13:35:29.426244+09:00",
-      "review_evidence": "reports/app-review-2666e44.json",
+      "observed_at_kst": "2026-10-23T14:08:19.375583+09:00",
+      "review_evidence": "reports/app-rag-update-20261023.json",
       "historical_review_evidence": "reports/app-review.json"
     },
     {
@@ -67,28 +67,29 @@
       "repository": "team-onetruck/oneload-rag",
       "directory": "oneload-rag",
       "url": "https://github.com/team-onetruck/oneload-rag.git",
-      "observed_main_commit": "e6c03f242482151a69d00ce94056c502d724c205",
+      "observed_main_commit": "8c8e902013fc12a1790762b38a34e282930cb667",
       "qa_baseline_commit": null,
       "rag_issue_review_commit": "f1ec584634cdbc2eca5da0e1aa8eeff13e13cfc0",
-      "observed_at_kst": "2026-10-23T13:35:29.426244+09:00",
+      "observed_at_kst": "2026-10-23T14:08:19.375583+09:00",
       "rag_profile_review_commit": "e6c03f242482151a69d00ce94056c502d724c205",
-      "review_evidence": "reports/rag-issue3-revalidation.json",
+      "review_evidence": "reports/app-rag-update-20261023.json",
       "retrieval_review_commit": "e6c03f242482151a69d00ce94056c502d724c205",
       "historical_review_evidence": "reports/source-review-20261023.json"
     }
   ],
-  "updated_at_kst": "2026-10-23T13:35:29.426244+09:00",
+  "updated_at_kst": "2026-10-23T14:08:19.375583+09:00",
   "rag_profile_evidence": [
     "reports/retrieval-evaluation.json",
     "reports/rag-integration-probe.json"
   ],
   "frontend_wiring_review": "reports/frontend-wiring-review.json",
-  "frontend_current_review": "reports/app-review-2666e44.json",
+  "frontend_current_review": "reports/app-rag-update-20261023.json",
   "rag_issue3_review": {
     "request_comment": "https://github.com/team-onetruck/oneload-rag/issues/3#issuecomment-6356152143",
     "freeze_commit": "7f41130e3d3bac6ebb340da31a71b0a3b45f2a4a",
     "evidence": "reports/rag-issue3-revalidation.json",
     "decision": "keep_open; fresh holdout top3 17/20, out-of-scope empty 17/20",
     "protocol": "official-only MemorySearch min_score0.25 k3 relative0.5; no sweep"
-  }
+  },
+  "current_update_review": "reports/app-rag-update-20261023.json"
 }
