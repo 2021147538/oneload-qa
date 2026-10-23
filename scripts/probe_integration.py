@@ -11,7 +11,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
-from qa_inputs import InputError, load_live_map, resolve_map_dir, source_commits
+from qa_inputs import InputError, digest, load_live_map, resolve_map_dir, source_commits
 
 
 def main() -> int:
@@ -19,6 +19,8 @@ def main() -> int:
     ap.add_argument("--project-root", type=Path, required=True)
     ap.add_argument("--map-dir", type=Path)
     ap.add_argument("--output", type=Path, required=True)
+    ap.add_argument("--knowledge", choices=("mock", "rag"), default="mock")
+    ap.add_argument("--rag-min-score", type=float, default=0.25)
     args = ap.parse_args()
     url = urlparse(os.environ.get("DATABASE_URL", ""))
     if (
@@ -43,6 +45,16 @@ def main() -> int:
     from app.main import create_app
     from fastapi.testclient import TestClient
     from hangil_r2 import FakeLLM, LLMAgent, LLMVision, MockKnowledgeSearch
+
+    knowledge = MockKnowledgeSearch()
+    rag_metadata = None
+    if args.knowledge == "rag":
+        from rag_inputs import load_rag
+
+        try:
+            knowledge, rag_metadata = load_rag(root, args.rag_min_score)
+        except InputError as exc:
+            ap.error(str(exc))
 
     checks = []
     jpeg = b"\xff\xd8\xff\xe0" + b"\x00" * 64
@@ -108,7 +120,7 @@ def main() -> int:
     )
     vision = LLMVision(llm)
     agent = LLMAgent(
-        llm, search_knowledge=MockKnowledgeSearch(), vision=vision, fallback=RuleAgent()
+        llm, search_knowledge=knowledge, vision=vision, fallback=RuleAgent()
     )
     with TestClient(
         create_app(agent=agent, vision=vision), raise_server_exceptions=False
@@ -245,15 +257,34 @@ def main() -> int:
             },
         )
         fare = Api(http).say("직통열차 요금 얼마야?")
-        check(
-            "API-13-fare-without-evidence",
-            {"status": "cannot_answer", "sources": [], "has_digits": False},
-            {
-                "status": fare["status"],
-                "sources": fare["sources"],
-                "has_digits": any(c.isdigit() for c in fare["assistant_message"]),
-            },
-        )
+        if args.knowledge == "rag":
+            fare_sources = [
+                x
+                for x in fare["sources"]
+                if x["document_id"] == "doc-fare-arex-express"
+            ]
+            check(
+                "API-13-fare-with-rag-evidence",
+                {"status": "answered", "fare_source_with_date_url": True},
+                {
+                    "status": fare["status"],
+                    "fare_source_with_date_url": bool(fare_sources)
+                    and all(
+                        x.get("source_url") and x.get("verified_at")
+                        for x in fare_sources
+                    ),
+                },
+            )
+        else:
+            check(
+                "API-13-fare-without-evidence",
+                {"status": "cannot_answer", "sources": [], "has_digits": False},
+                {
+                    "status": fare["status"],
+                    "sources": fare["sources"],
+                    "has_digits": any(c.isdigit() for c in fare["assistant_message"]),
+                },
+            )
         invalid = Api(http).post(
             "/messages", {"message": "", "selected_poi_id": "poi-invented"}
         )
@@ -275,9 +306,7 @@ def main() -> int:
     photo_vision = LLMVision(photo_llm)
     with TestClient(
         create_app(
-            agent=LLMAgent(
-                photo_llm, search_knowledge=MockKnowledgeSearch(), vision=photo_vision
-            ),
+            agent=LLMAgent(photo_llm, search_knowledge=knowledge, vision=photo_vision),
             vision=photo_vision,
         ),
         raise_server_exceptions=False,
@@ -328,6 +357,18 @@ def main() -> int:
             },
         )
 
+        if args.knowledge == "rag":
+            fare = Api(http).say("직통열차 요금 얼마야?")
+            check(
+                "API-19-fare-without-evidence-control",
+                {"status": "cannot_answer", "sources": [], "has_digits": False},
+                {
+                    "status": fare["status"],
+                    "sources": fare["sources"],
+                    "has_digits": any(c.isdigit() for c in fare["assistant_message"]),
+                },
+            )
+
     # FAQ Q10: malformed scene output -> no_match, then explicit manual confirmation.
     with TestClient(
         create_app(agent=agent, vision=LLMVision(FakeLLM(broken=True))),
@@ -376,9 +417,7 @@ def main() -> int:
     down = FakeLLM(down=True)
     with TestClient(
         create_app(
-            agent=LLMAgent(
-                down, search_knowledge=MockKnowledgeSearch(), fallback=RuleAgent()
-            ),
+            agent=LLMAgent(down, search_knowledge=knowledge, fallback=RuleAgent()),
             vision=LLMVision(down),
         ),
         raise_server_exceptions=False,
@@ -397,11 +436,22 @@ def main() -> int:
             {"http": response.status_code, "error_code": code},
         )
 
+    if rag_metadata is not None:
+        _, final_metadata = load_rag(root, args.rag_min_score)
+        if final_metadata != rag_metadata:
+            raise InputError("RAG input changed during API probe; report not published")
+
     report = {
         "executed_at_utc": datetime.now(UTC).isoformat(),
         "commits": commits,
         "map": map_info,
-        "scope": "Real Backend API + R2 modules; FakeLLM, mock knowledge, synthetic JPEG; disposable DB",
+        "scope": f"Real Backend API + R2 modules; FakeLLM, {args.knowledge} knowledge, synthetic JPEG; disposable DB; explicit injection, not production defaults",
+        "knowledge_profile": args.knowledge,
+        "rag": rag_metadata,
+        "runner_sha256": digest(Path(__file__)),
+        "rag_inputs_sha256": digest(Path(__file__).with_name("rag_inputs.py"))
+        if rag_metadata
+        else None,
         "checks": checks,
         "passed": sum(c["passed"] for c in checks),
         "total": len(checks),

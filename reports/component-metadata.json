@@ -1,14 +1,14 @@
 {
-  "executed_at_kst": "2026-10-23T08:37:58.676417+09:00",
+  "executed_at_kst": "2026-10-23T11:04:09.001081+09:00",
   "dataset_version": "r6-component-v2",
   "dataset_sha256": "1daa313834008bf7c26dec28d9cb302e92ddddd9b28d8c5e15cc28d5f6a13da3",
   "runner_sha256": "2e3033eda3c946bc0321c2754e4180e07c67aa730c51029efd9d3416fd14002b",
   "commits": {
-    "oneload-app": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
-    "oneload-backend": "a82b7befa6509c28c843a0dc84af46d75143a047",
+    "oneload-app": "b111af653aecf2dc14177ab7392f8cf9b9316bd8",
+    "oneload-backend": "493884fd5841a1806657deb7b62c63d11b25423c",
     "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
-    "oneload-infra": "3dcccd8dfae1c6650887f198316317438b3d5fde"
+    "oneload-infra": "8587d3b65c80575f0b573b0d8a3b20322a61121a"
   },
   "map": {
     "source_repository": "oneload-data",
@@ -38,6 +38,6 @@
   "auto_turns_passed": 21,
   "human_review_pending": 21,
   "final_quality_score": null,
-  "p95_latency_ms_nearest_rank": 0.91,
+  "p95_latency_ms_nearest_rank": 0.99,
   "latency_scope": "component and selected model mode; not browser/API latency"
 }

@@ -1,0 +1,14 @@
+{
+  "dataset_version": "r6-service-v2",
+  "rows": 20,
+  "sha256": "a6bbdac1c97859cab9d35cef2d7ce276fe3817fac09089d9c88749744eeada0e",
+  "previous_dataset": "archive/service_gold-v1.csv",
+  "mapping_repository": "team-onetruck/oneload-rag",
+  "mapping_commit": "4a967b3c6b291ec6e2df533b31d078745130bb7a",
+  "mapping_path": "docs/qa-source-map.md",
+  "mapping_sha256": "113e5ba11cc329400e3f3fca90b0d2010f8a6fbd8c926d0d9b6e41e4a1fbbf3f",
+  "change": "Q10 fare evidence and checked date; all source locators mapped; human review pending",
+  "human_review_pending": 20,
+  "service_execution": "NOT_RUN",
+  "component_dataset_changed": false
+}

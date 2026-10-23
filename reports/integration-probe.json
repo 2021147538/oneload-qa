@@ -1,11 +1,11 @@
 {
-  "executed_at_utc": "2026-10-22T23:38:04.227953+00:00",
+  "executed_at_utc": "2026-10-23T02:04:14.050768+00:00",
   "commits": {
-    "oneload-app": "bc2d9f1af6fad4d76d0df6caa720243f487b309e",
-    "oneload-backend": "a82b7befa6509c28c843a0dc84af46d75143a047",
+    "oneload-app": "b111af653aecf2dc14177ab7392f8cf9b9316bd8",
+    "oneload-backend": "493884fd5841a1806657deb7b62c63d11b25423c",
     "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
-    "oneload-infra": "3dcccd8dfae1c6650887f198316317438b3d5fde"
+    "oneload-infra": "8587d3b65c80575f0b573b0d8a3b20322a61121a"
   },
   "map": {
     "source_repository": "oneload-data",
@@ -14,7 +14,11 @@
     "version": "2026-10-22.1",
     "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043"
   },
-  "scope": "Real Backend API + R2 modules; FakeLLM, mock knowledge, synthetic JPEG; disposable DB",
+  "scope": "Real Backend API + R2 modules; FakeLLM, mock knowledge, synthetic JPEG; disposable DB; explicit injection, not production defaults",
+  "knowledge_profile": "mock",
+  "rag": null,
+  "runner_sha256": "93f16dd92ded8f6eff5877b0c16bbb50e0c54ee7efd087fdb03fc52b87558044",
+  "rag_inputs_sha256": null,
   "checks": [
     {
       "id": "API-01-train-clarification",

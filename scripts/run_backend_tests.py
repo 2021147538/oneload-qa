@@ -30,7 +30,21 @@ def main() -> int:
         action="store_true",
         help="Also run real R2/Backend boundary probes with FakeLLM",
     )
+    ap.add_argument(
+        "--with-rag",
+        action="store_true",
+        help="Also inject official local MemorySearch; implies --with-r2",
+    )
+    ap.add_argument("--rag-min-score", type=float, default=0.25)
     args = ap.parse_args()
+    args.with_r2 = args.with_r2 or args.with_rag
+    if args.with_rag:
+        from rag_inputs import load_rag
+
+        try:
+            load_rag(args.project_root.resolve(), args.rag_min_score)
+        except InputError as exc:
+            ap.error(str(exc))
     repo = args.project_root.resolve() / "oneload-backend"
     if not (repo / "tests/conftest.py").is_file():
         ap.error("oneload-backend/tests/conftest.py not found")
@@ -164,6 +178,16 @@ def main() -> int:
                     str(out / "integration-probe.json"),
                     "--map-dir",
                     str(directory),
+                    *(
+                        [
+                            "--knowledge",
+                            "rag",
+                            "--rag-min-score",
+                            str(args.rag_min_score),
+                        ]
+                        if args.with_rag
+                        else []
+                    ),
                 ],
                 check=False,
                 cwd=repo,

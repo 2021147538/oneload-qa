@@ -11,24 +11,24 @@ FAQ의 구현 설명을 검사 대상으로 사용하며, 완료 여부는 실�
 | Q6 검증된 목적지·등록 경로 | API-07·14 | 등록 경로 사용·미등록 목적지 거부 통과 |
 | Q7 열차·교통카드 분기 | API-01·02·03·10·11 | 직통 영어·일반 카드 있음/없음 및 슬롯 저장 통과 |
 | Q8 근거 있는 열차 비교 | API-12·16 | 비교 출처 사용, 근거 없을 때 확인 전 표시 통과 |
-| Q9 요금 근거 없음 | API-13 | cannot_answer, 출처·숫자 추측 없음 통과 |
+| Q9 요금 근거 없음 | 표준 API-13 / RAG API-13·19 | 모의·빈검색: cannot_answer/숫자 없음. RAG: answered·요금 출처·확인일 전달 |
 | Q10 대화 모델 장애 | API-09 | RuleAgent fallback 통과 |
 | Q10 사진 모델 접속 장애 | INT-08-vision-down | 503 / AI_SERVICE_UNAVAILABLE 통과. 화면 복구 전환은 미실행 |
 | Q10 사진 결과 형식 오류 | API-17·18 | no_match·재촬영 안내·수동 위치 확정 통과 |
 | Q12 실제 사진 후보 정확도 | photo_manifest와 현장 정답 필요 | 사진 0건, 미측정 |
 | Q13 시각표 기본 비활성 | API-12 | 시각표 미주입 시 도착시각 items가 비어 있음 |
-| Q14 R3 근거·열차 필터 | R2 기존 시험·컴포넌트 출처 추적, 실제 R3 연결 후 재시험 | 모의 검색만 확인, 공식 RAG 대기 |
+| Q14 R3 근거·열차 필터 | R2 기존 시험·컴포넌트와 별도 RAG API21건 | MemorySearch 주입 통과. 운영 기본 연결 INT-07 대기 |
 | Q15 평가 결과 일치 | run_checks.py가 커밋·CSV 수·실행기 해시를 대조 | 현재 보고서 갱신. Agent experiments/검증 결과서와 실제 모델 수치 일치는 추후 |
-| Q17 같은 평가셋으로 비교 | component_cases.json v2 SHA 유지 | 이번에는 질문·정답 변경 없음, 사진 장애 감사와 회귀 시험 보완 |
+| Q17 같은 평가셋으로 비교 | component_cases.json v2 SHA 유지 | component v2 동일. service v2·retrieval v1은 버전 분리 |
 
-모든 API 검사는 실제 Backend+R2 코드, 일회용 DB, FakeLLM, 모의 검색, 합성 JPEG로 실행했습니다.
+표준 API20건은 실제 Backend+R2 코드, 일회용 DB, FakeLLM, 모의 검색, 합성 JPEG입니다. 별도 [RAG API21건](../reports/rag-integration-probe.json)은 공식 문서 MemorySearch를 주입합니다.
 [API 결과](../reports/integration-probe.json)와 [통합 문제](integration_findings.md)를 함께 봅니다.
 FAQ 연결 예시는 같은 Vision을 LLMAgent.vision과 create_app(vision=...)에 모두 주입하도록 수정됐습니다.
 API-15로 사진 질문 처리를 확인했으며 운영 기본 연결은 INT-07로 별도 추적합니다.
 
 ## 공유 데이터 분리 후 재검증
 
-현재 API·컴포넌트 결과는 Backend a82b7be와 oneload-data 606f648 기준입니다.
+현재 API·컴포넌트 결과는 Backend 493884f와 oneload-data 606f648 기준입니다.
 실제 공유 지도 경로와 고정 시험 fixture 경로를 구분했습니다.
 QA 자체 감사와 Agent의 check_backend_compat.py는 공유 지도 경로를 사용합니다.
 [Agent #3](https://github.com/team-onetruck/oneload_agent/issues/3)은 250271e에서 수정됐습니다.

@@ -1,0 +1,332 @@
+{
+  "executed_at_utc": "2026-10-23T02:04:10.669572+00:00",
+  "commits": {
+    "oneload-app": "b111af653aecf2dc14177ab7392f8cf9b9316bd8",
+    "oneload-backend": "493884fd5841a1806657deb7b62c63d11b25423c",
+    "oneload_agent": "250271edb6c50e8cc71cd1443143e94cb9191a74",
+    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+    "oneload-infra": "8587d3b65c80575f0b573b0d8a3b20322a61121a"
+  },
+  "map": {
+    "source_repository": "oneload-data",
+    "path": "maps/seoul-station.json",
+    "map_id": "seoul-station",
+    "version": "2026-10-22.1",
+    "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043"
+  },
+  "scope": "Real Backend API + R2 modules; FakeLLM, rag knowledge, synthetic JPEG; disposable DB; explicit injection, not production defaults",
+  "knowledge_profile": "rag",
+  "rag": {
+    "repository": "oneload-rag",
+    "commit": "4a967b3c6b291ec6e2df533b31d078745130bb7a",
+    "working_tree_clean": true,
+    "backend": "MemorySearch",
+    "min_score": 0.35,
+    "k": 3,
+    "relative_cutoff": 0.5,
+    "community": false,
+    "document_ids": [
+      "doc-allstop-ticket",
+      "doc-arex-train-types",
+      "doc-climate-card-short-term",
+      "doc-deposit-refund",
+      "doc-express-ticket",
+      "doc-fare-arex-allstop",
+      "doc-fare-arex-express",
+      "doc-fare-passes-cards",
+      "doc-foreigner-transit-cards",
+      "doc-seoul-help-desks",
+      "doc-seoul-transit-basics",
+      "doc-tmoney-card",
+      "doc-wowpass"
+    ],
+    "knowledge_sha256": {
+      "README.md": "69b16ad3992eda254ad1c170b92f01b66366c95ccbae6ceb1829c3d5df4d26d4",
+      "doc-allstop-ticket.md": "8a4e6897ba5a4b926fc8c59dc49933591389ada2856129711c2080eb55a42ec2",
+      "doc-arex-train-types.md": "ac8c3f318c040128ad32aa268f97994798c0408b2b94d5201b45218776c03cfe",
+      "doc-climate-card-short-term.md": "0986e43587da7bcf22fc60f219cc197de446e352f142f3713897e592ede8f161",
+      "doc-community-arex-payments.md": "dc53ba71f1ccfc2e45e0aa9d66e3028c37e0ed84c1a6d55163b1a95693fdb8f2",
+      "doc-community-seoul-station-tips.md": "8f0c9e74f39c8756d5996c01fad0db4e22741152526eb30606abc0b396394f1b",
+      "doc-deposit-refund.md": "717523cf79349a4955113a1bc3312d83d39fe588af2e80871726aee7d2679de1",
+      "doc-express-ticket.md": "44de8b84375a07b960d78a1166274aa0a760e439c349e3e59686b61a00770deb",
+      "doc-fare-arex-allstop.md": "06722c12bbfb00a33aa00a1dfc15395939e80b5356bc8f519ca869b7b036d8c5",
+      "doc-fare-arex-express.md": "6dc1ca6cc6c7d1e3cf8b9cfc192ca11cabb55effdc2e3107bdd00dc86a651ca7",
+      "doc-fare-passes-cards.md": "bc0d87a96b95de060189c3887fd7b06675542bbe03bb59ad369b22b9b7e83e67",
+      "doc-foreigner-transit-cards.md": "13679179d092c342275f6ab44cc3a3f7bffe4b3306f1b9350ca350c60f81b3d8",
+      "doc-seoul-help-desks.md": "8a4c5828dc86e0da6e69f303fe6f71161c3cf29cf59623ee6634b10f9fe2ab00",
+      "doc-seoul-transit-basics.md": "5a6ab67ce4e1f2cd570bf7c58abade12b42b0e0497b73b3219830872eb68daf2",
+      "doc-tmoney-card.md": "79d9fbb353f4e5703926c9b6a5396c16111e7110f8c30c2ddd3ef21f8ee0a90b",
+      "doc-wowpass.md": "eabcd090f1ee6a39707b5a5cdf516fd0cfdafcf8765692ed87162653ce0dec2e"
+    },
+    "code_sha256": {
+      "src/hangil_rag/__init__.py": "38878308f42458b5f638744f3871bebf1f2bf8fdac5d1d1af1fb9cd48bd1fd20",
+      "src/hangil_rag/ingest.py": "1db2f46ef30b1e6267e113e7a84457ad3141ec48afe588748f33d61ed690f2e5",
+      "src/hangil_rag/loader.py": "8b67ebe687d7ace619cbe7d874821c715e5bacf8c6c621a659a5b6b178575066",
+      "src/hangil_rag/mcp_server.py": "d2698aac11ce7ffdb7761222b0a8d83d62d7a838892f2a059cccc0cc57c47203",
+      "src/hangil_rag/schemas.py": "a5744e6c17ce2fef610d4df8023c16718913dca5f21af10a24e629180e1ee529",
+      "src/hangil_rag/search_memory.py": "f5f85750638d0dfd74edfbfaa9832cfe1897a1fb27f1855816bb7b061296529d",
+      "src/hangil_rag/search_pgvector.py": "bc9aac05ce52a02aa956a562528425b59e8c876304395285a370aed0483de723"
+    },
+    "live_model_calls": 0,
+    "live_embedding_calls": 0
+  },
+  "runner_sha256": "93f16dd92ded8f6eff5877b0c16bbb50e0c54ee7efd087fdb03fc52b87558044",
+  "rag_inputs_sha256": "62354525af7dcea3e8ef75f7c6fe0ce433a9b707ed76894cb1a373ab3d2f5dd0",
+  "checks": [
+    {
+      "id": "API-01-train-clarification",
+      "passed": true,
+      "expected": "needs_clarification",
+      "actual": "needs_clarification"
+    },
+    {
+      "id": "API-02-card-clarification",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification",
+        "train_type": "allstop"
+      },
+      "actual": {
+        "status": "needs_clarification",
+        "train_type": "allstop"
+      }
+    },
+    {
+      "id": "API-03-persisted-slots",
+      "passed": true,
+      "expected": {
+        "poi": "poi-allstop-tickets",
+        "card": "no",
+        "state": "needs_location"
+      },
+      "actual": {
+        "poi": "poi-allstop-tickets",
+        "card": "no",
+        "state": "needs_location"
+      }
+    },
+    {
+      "id": "API-04-photo-boundary",
+      "passed": true,
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "id": "API-05-location-candidate",
+      "passed": true,
+      "expected": {
+        "status": "needs_confirmation",
+        "first": "line4-gates"
+      },
+      "actual": {
+        "status": "needs_confirmation",
+        "first": "line4-gates"
+      }
+    },
+    {
+      "id": "API-06-confirmation",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "state": "ready_to_navigate"
+      },
+      "actual": {
+        "http": 200,
+        "state": "ready_to_navigate"
+      }
+    },
+    {
+      "id": "API-07-registered-route",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "start": "line4-gates",
+        "goal": "allstop-tickets"
+      },
+      "actual": {
+        "http": 200,
+        "start": "line4-gates",
+        "goal": "allstop-tickets"
+      }
+    },
+    {
+      "id": "API-08-navigation_started",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "state": "navigating"
+      },
+      "actual": {
+        "http": 200,
+        "state": "navigating"
+      }
+    },
+    {
+      "id": "API-08-arrived",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "state": "arrived"
+      },
+      "actual": {
+        "http": 200,
+        "state": "arrived"
+      }
+    },
+    {
+      "id": "API-10-card-present",
+      "passed": true,
+      "expected": {
+        "poi": "poi-allstop-platform",
+        "card": "yes"
+      },
+      "actual": {
+        "poi": "poi-allstop-platform",
+        "card": "yes"
+      }
+    },
+    {
+      "id": "API-11-express-english",
+      "passed": true,
+      "expected": "poi-express-tickets",
+      "actual": "poi-express-tickets"
+    },
+    {
+      "id": "API-12-unsure-without-timetable",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification",
+        "has_comparison_source": true,
+        "items": []
+      },
+      "actual": {
+        "status": "needs_clarification",
+        "has_comparison_source": true,
+        "items": []
+      }
+    },
+    {
+      "id": "API-13-fare-with-rag-evidence",
+      "passed": true,
+      "expected": {
+        "status": "answered",
+        "fare_source_with_date_url": true
+      },
+      "actual": {
+        "status": "answered",
+        "fare_source_with_date_url": true
+      }
+    },
+    {
+      "id": "API-14-unregistered-poi",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification",
+        "destination": null
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "destination": null
+      }
+    },
+    {
+      "id": "API-15-photo-question",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "status": "answered",
+        "has_ticket_source": true
+      },
+      "actual": {
+        "http": 200,
+        "status": "answered",
+        "has_ticket_source": true
+      }
+    },
+    {
+      "id": "API-16-comparison-without-evidence",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification",
+        "sources": [],
+        "items": [],
+        "has_unverified_note": true
+      },
+      "actual": {
+        "status": "needs_clarification",
+        "sources": [],
+        "items": [],
+        "has_unverified_note": true
+      }
+    },
+    {
+      "id": "API-19-fare-without-evidence-control",
+      "passed": true,
+      "expected": {
+        "status": "cannot_answer",
+        "sources": [],
+        "has_digits": false
+      },
+      "actual": {
+        "status": "cannot_answer",
+        "sources": [],
+        "has_digits": false
+      }
+    },
+    {
+      "id": "API-17-malformed-photo",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "status": "no_match",
+        "candidates": [],
+        "action": "recapture",
+        "hint": true
+      },
+      "actual": {
+        "http": 200,
+        "status": "no_match",
+        "candidates": [],
+        "action": "recapture",
+        "hint": true
+      }
+    },
+    {
+      "id": "API-18-manual-after-no-match",
+      "passed": true,
+      "expected": {
+        "http": 200,
+        "state": "ready_to_navigate",
+        "node": "line4-gates"
+      },
+      "actual": {
+        "http": 200,
+        "state": "ready_to_navigate",
+        "node": "line4-gates"
+      }
+    },
+    {
+      "id": "API-09-llm-down-fallback",
+      "passed": true,
+      "expected": "destination_set",
+      "actual": "destination_set"
+    },
+    {
+      "id": "INT-08-vision-down",
+      "passed": true,
+      "expected": {
+        "http": 503,
+        "error_code": "AI_SERVICE_UNAVAILABLE"
+      },
+      "actual": {
+        "http": 503,
+        "error_code": "AI_SERVICE_UNAVAILABLE"
+      }
+    }
+  ],
+  "passed": 21,
+  "total": 21,
+  "production_ai_quality_measured": false
+}

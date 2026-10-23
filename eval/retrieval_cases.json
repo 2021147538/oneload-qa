@@ -1,0 +1,333 @@
+{
+  "dataset_version": "r6-retrieval-v1",
+  "provenance": "R6 authored synthetic traveler questions; official R3 documents define gold; not field traffic or human-certified facts",
+  "split_policy": "Question families disjoint. Dev selects threshold; holdout evaluated once at selected threshold. R3 legacy 44 diagnostic only. Frozen before first scoring.",
+  "selection_policy": {
+    "candidates": [
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6
+    ],
+    "k": 3,
+    "relative_cutoff": 0.5,
+    "objective": "2*positive_top3 / (2*positive_top3 + positive_misses + 2*out_of_scope_nonempty)",
+    "tie_break": "fewer out-of-scope false positives, then lower min_score",
+    "release_gate": {
+      "positive_top3_recall_min": 0.9,
+      "out_of_scope_false_positives_max": 0
+    }
+  },
+  "cases": [
+    {
+      "id": "R6-01",
+      "split": "dev",
+      "family": "express-adult-price",
+      "q": "서울역에서 직통열차 성인 승차권은 얼마인가요?",
+      "lang": "ko",
+      "gold": [
+        "doc-fare-arex-express"
+      ],
+      "train": "express"
+    },
+    {
+      "id": "R6-02",
+      "split": "dev",
+      "family": "express-adult-price",
+      "q": "What is the adult price for the nonstop airport express?",
+      "lang": "en",
+      "gold": [
+        "doc-fare-arex-express"
+      ],
+      "train": "express"
+    },
+    {
+      "id": "R6-03",
+      "split": "dev",
+      "family": "allstop-airport-fare",
+      "q": "서울역 출발 일반열차로 공항 2터미널까지 카드 운임을 알려주세요",
+      "lang": "ko",
+      "gold": [
+        "doc-fare-arex-allstop"
+      ],
+      "train": "allstop"
+    },
+    {
+      "id": "R6-04",
+      "split": "dev",
+      "family": "allstop-airport-fare",
+      "q": "What does the all-stop journey from Seoul to Terminal 1 cost?",
+      "lang": "en",
+      "gold": [
+        "doc-fare-arex-allstop"
+      ],
+      "train": "allstop"
+    },
+    {
+      "id": "R6-05",
+      "split": "dev",
+      "family": "single-ticket-deposit",
+      "q": "1회용 승차권 보증금은 여행 후 돌려받을 수 있나요?",
+      "lang": "ko",
+      "gold": [
+        "doc-deposit-refund",
+        "doc-fare-arex-allstop"
+      ]
+    },
+    {
+      "id": "R6-06",
+      "split": "dev",
+      "family": "single-ticket-deposit",
+      "q": "Is the deposit on a single-use subway ticket refundable?",
+      "lang": "en",
+      "gold": [
+        "doc-deposit-refund"
+      ]
+    },
+    {
+      "id": "R6-07",
+      "split": "dev",
+      "family": "express-purchase-floor",
+      "q": "직통열차 표 구매 장소가 서울역 몇 층인가요?",
+      "lang": "ko",
+      "gold": [
+        "doc-express-ticket"
+      ],
+      "train": "express"
+    },
+    {
+      "id": "R6-08",
+      "split": "dev",
+      "family": "express-purchase-floor",
+      "q": "Which floor at Seoul Station sells express tickets?",
+      "lang": "en",
+      "gold": [
+        "doc-express-ticket"
+      ],
+      "train": "express"
+    },
+    {
+      "id": "R6-09",
+      "split": "dev",
+      "family": "train-duration",
+      "q": "일반열차와 직통열차의 공항 이동 시간을 비교해 주세요",
+      "lang": "ko",
+      "gold": [
+        "doc-arex-train-types"
+      ]
+    },
+    {
+      "id": "R6-10",
+      "split": "dev",
+      "family": "train-duration",
+      "q": "Which airport train stops at intermediate stations?",
+      "lang": "en",
+      "gold": [
+        "doc-arex-train-types"
+      ]
+    },
+    {
+      "id": "R6-11",
+      "split": "dev",
+      "family": "oos-restaurant",
+      "q": "서울역에서 저녁 먹을 식당을 예약해 줘",
+      "lang": "ko",
+      "gold": []
+    },
+    {
+      "id": "R6-12",
+      "split": "dev",
+      "family": "oos-restaurant",
+      "q": "Book a restaurant near Seoul Station",
+      "lang": "en",
+      "gold": []
+    },
+    {
+      "id": "R6-13",
+      "split": "dev",
+      "family": "oos-weather",
+      "q": "인천공항 내일 날씨 알려주세요",
+      "lang": "ko",
+      "gold": []
+    },
+    {
+      "id": "R6-14",
+      "split": "dev",
+      "family": "oos-weather",
+      "q": "Will it rain at the airport tomorrow?",
+      "lang": "en",
+      "gold": []
+    },
+    {
+      "id": "R6-15",
+      "split": "dev",
+      "family": "oos-airline-booking",
+      "q": "서울에서 출발하는 항공권 가격을 조회해 줘",
+      "lang": "ko",
+      "gold": []
+    },
+    {
+      "id": "R6-16",
+      "split": "dev",
+      "family": "oos-airline-booking",
+      "q": "Find me a cheap flight ticket to Tokyo",
+      "lang": "en",
+      "gold": []
+    },
+    {
+      "id": "R6-17",
+      "split": "holdout",
+      "family": "tmoney-topup",
+      "q": "티머니 잔액을 충전할 때 현금이 필요한가요?",
+      "lang": "ko",
+      "gold": [
+        "doc-tmoney-card"
+      ]
+    },
+    {
+      "id": "R6-18",
+      "split": "holdout",
+      "family": "tmoney-topup",
+      "q": "Where can I add money to my T-money card?",
+      "lang": "en",
+      "gold": [
+        "doc-tmoney-card"
+      ]
+    },
+    {
+      "id": "R6-19",
+      "split": "holdout",
+      "family": "climate-airport-restriction",
+      "q": "기후동행카드로 인천공항에서 서울역까지 탈 수 있나요?",
+      "lang": "ko",
+      "gold": [
+        "doc-climate-card-short-term"
+      ]
+    },
+    {
+      "id": "R6-20",
+      "split": "holdout",
+      "family": "climate-airport-restriction",
+      "q": "Can a Climate Card be recharged at an AREX station?",
+      "lang": "en",
+      "gold": [
+        "doc-climate-card-short-term"
+      ]
+    },
+    {
+      "id": "R6-21",
+      "split": "holdout",
+      "family": "wowpass-separate-wallet",
+      "q": "와우패스 결제 잔액과 티머니 잔액은 같은 건가요?",
+      "lang": "ko",
+      "gold": [
+        "doc-wowpass"
+      ]
+    },
+    {
+      "id": "R6-22",
+      "split": "holdout",
+      "family": "wowpass-separate-wallet",
+      "q": "Do WOWPASS shopping funds also pay for subway travel?",
+      "lang": "en",
+      "gold": [
+        "doc-wowpass"
+      ]
+    },
+    {
+      "id": "R6-23",
+      "split": "holdout",
+      "family": "transfer-tap",
+      "q": "버스에서 지하철로 환승할 때 하차 태그가 필요한가요?",
+      "lang": "ko",
+      "gold": [
+        "doc-seoul-transit-basics"
+      ]
+    },
+    {
+      "id": "R6-24",
+      "split": "holdout",
+      "family": "transfer-tap",
+      "q": "Must I tap my transit card when leaving the bus for a transfer?",
+      "lang": "en",
+      "gold": [
+        "doc-seoul-transit-basics"
+      ]
+    },
+    {
+      "id": "R6-25",
+      "split": "holdout",
+      "family": "station-assistance",
+      "q": "서울역에서 여권을 잃어버렸을 때 도움 받을 곳은?",
+      "lang": "ko",
+      "gold": [
+        "doc-seoul-help-desks"
+      ]
+    },
+    {
+      "id": "R6-26",
+      "split": "holdout",
+      "family": "station-assistance",
+      "q": "Who at Seoul Station can help with a lost bag?",
+      "lang": "en",
+      "gold": [
+        "doc-seoul-help-desks"
+      ]
+    },
+    {
+      "id": "R6-27",
+      "split": "holdout",
+      "family": "oos-hotel",
+      "q": "서울역 근처 호텔 객실 가격 알려줘",
+      "lang": "ko",
+      "gold": []
+    },
+    {
+      "id": "R6-28",
+      "split": "holdout",
+      "family": "oos-hotel",
+      "q": "Reserve a hotel room near the airport station",
+      "lang": "en",
+      "gold": []
+    },
+    {
+      "id": "R6-29",
+      "split": "holdout",
+      "family": "oos-live-train",
+      "q": "지금 서울역 직통열차 빈 좌석이 몇 개 남았나요?",
+      "lang": "ko",
+      "gold": []
+    },
+    {
+      "id": "R6-30",
+      "split": "holdout",
+      "family": "oos-live-train",
+      "q": "How many seats are available on the next express train right now?",
+      "lang": "en",
+      "gold": []
+    },
+    {
+      "id": "R6-31",
+      "split": "holdout",
+      "family": "oos-bus-route",
+      "q": "명동까지 가는 버스 번호와 정류장 알려주세요",
+      "lang": "ko",
+      "gold": []
+    },
+    {
+      "id": "R6-32",
+      "split": "holdout",
+      "family": "oos-bus-route",
+      "q": "Which bus route should I take to Gyeongbokgung Palace?",
+      "lang": "en",
+      "gold": []
+    }
+  ]
+}

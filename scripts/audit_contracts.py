@@ -173,7 +173,7 @@ def main() -> int:
         add(
             "INT-06",
             "P0",
-            "Frontend still executes local mock flows",
+            "Frontend photo localization and route screens still execute local mock flows",
             ["oneload-app/src/store.tsx", "oneload-app/README.md"],
         )
     source = (root / "oneload-backend/app/main.py").read_text()

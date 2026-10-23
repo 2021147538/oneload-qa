@@ -8,26 +8,26 @@
 
 다른 AI·컴퓨터에서 이어받을 때는 **[인수인계](docs/handoff.md)**부터 읽습니다. 시작 프롬프트는 인수인계 시 채팅으로만 제공합니다.
 작업자는 [AGENTS.md](AGENTS.md)의 인수인계 갱신 절차를 따릅니다. 설계 사본은 [참고 자료](docs/reference/README.md)에 있습니다.
-[repos.lock.json](repos.lock.json)은 최근 관찰 버전과 마지막 검증 버전을 구분합니다. 아래 결과는 과거 검증 커밋 기준이며 최신 소스 전체 조합의 통과를 뜻하지 않습니다.
+[repos.lock.json](repos.lock.json)은 최근 관찰 버전과 마지막 검증 버전을 구분합니다. 표준 QA와 별도 RAG 검사의 커밋·범위를 구분합니다. 소스 커밋 기록은 Frontend UI·Infra 배포 검증을 뜻하지 않습니다.
 
 ## 마지막 전체 QA 확인 결과
 
 | 검증 | 결과 | 의미 |
 |---|---|---|
-| QA 회귀 테스트 | 11/11 통과 | 지도 입력 6건·실제 사진 장애 예외 판정 5건 |
+| QA 회귀 테스트 | 17/17 통과 | 지도·사진 장애 11건 + 검색 평가/근거 버전 회귀 6건 |
 | 데이터 검사 | 3/3 통과 | Backend 모델·참조, 스키마 사본 일치, 사진 파일 존재 |
 | Agent 기존 테스트 | 43/43 통과 | FakeLLM 기반 |
 | Backend 기존 테스트 | 44/44 통과 | 일회용 PostgreSQL, 고정 시험 fixture |
 | R6 컴포넌트 평가 v2 | 20/20 시나리오·21/21 턴 자동 검사 통과 | oneload-data 지도·실제 Backend context/guard + 모의 AI |
 | R2↔Backend API 연결 | 20/20 확인 통과 | 사진 장애에서 503 / AI_SERVICE_UNAVAILABLE 확인 |
-| 실제 AI·사진 정확도 | 미측정 | 실제 모델·공식 RAG·현장 사진 평가 전 |
+| 실제 AI·사진 정확도 | 미측정 | 실제 모델·답변 사실성·현장 사진 평가 전 |
 
-2026-10-23에 Agent 250271e·Backend a82b7be·oneload-data 606f648 기준으로 다시 실행했습니다.
-[QA #2](https://github.com/team-onetruck/oneload-qa/issues/2)의 INT-08 거짓 실패를 수정했습니다.
-사진 장애를 실제로 발생시켜 Backend가 잡는 예외를 확인하며 잘못된 예외·장애 누락도 회귀 검사합니다.
-Backend 기본 실행은 RuleAgent/NoVision입니다. 최신 App 8c88f89는 세션 생성 HTTP·API 계층을 추가했지만 채팅·사진·경로 화면의 서버 연결은 진행 중입니다.
-App 별도 코드·CI 검토는 [검토 기록](reports/app-review.json)과 [인수인계 10장](docs/handoff.md)에 있으며 기존 전체 QA 기준선과 구분합니다.
-API 연결 검사는 QA에서 R2를 주입한 결과이며 서비스 전체 연결 완료로 집계하지 않습니다.
+2026-10-23 11:04 KST: Backend 493884f·Agent 250271e·Data 606f648·App b111af6·Infra 8587d3b로 표준 검사를 갱신했습니다.
+App HTTP 채팅·언어 변경 연결이 추가됐지만 사진 위치·경로 화면은 로컬 흐름이 남습니다. Backend 기본 실행은 RuleAgent/NoVision이며 INT-06/07 때문에 전체 종료 코드는 1입니다.
+QA #3에서는 Q10을 조건별 요금·출처·확인일로 변경하고 서비스20문항의 근거를 매핑했습니다. 사람 정답 검토는20건 모두 대기입니다.
+별도 실제 MemorySearch 주입 API **21/21**, 검색 평가32문항을 추가했습니다. 후보0.35는 범위밖 오탐이 남아 운영 임계값으로 승인하지 않았습니다.
+[QA #3 결과](docs/issue3-resolution.md) · [검색 증거](reports/retrieval-evaluation.json) · [RAG API 증거](reports/rag-integration-probe.json).
+컴포넌트 v2와 모의 검색 기준선은 독립 유지하며, 주입 검사 통과를 실제 모델 품질·운영 연결 완료로 집계하지 않습니다.
 
 - [최신 결과와 버전](reports/latest-review.md)
 - [데이터 검사 증거](reports/data-validation.json)
@@ -140,3 +140,16 @@ OpenAILLM은 Agent의 .env를 읽거나 템플릿으로 생성할 수 있습니�
 
 .env·가상환경·사진 원본·원시 로그·세션 토큰은 업로드 대상에서 제외합니다.
 공개용으로 검토한 결과만 reports/에 둡니다.
+
+## 실제 메모리 RAG 별도 검증
+
+`oneload-rag` checkout이 필요합니다. 환경의 RAG_BACKEND·지식 폴더·커뮤니티 설정을 따르지 않고 공식 문서를 명시적으로 읽습니다. 키·모델·임베딩·운영 DB를 사용하지 않습니다.
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/evaluate_retrieval.py --project-root .. --output results/retrieval-001.json
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/run_backend_tests.py --project-root .. --with-rag --rag-min-score 0.35 --output results/rag-api-001
+```
+
+검색 실행기는 개발셋에서 임계값을 고른 뒤 holdout·기존 R3셋을 측정하고 입력 해시·커밋을 기록합니다. 출고 조건 미달이면 보고서를 남기고 exit1입니다. 현재0.35는 실험 후보이며 운영 확정값이 아닙니다.
+`--with-rag`는 `--with-r2`를 포함하고 RAG 누락 시 Docker 전에 중단합니다. 표준 `run_checks.py`는 계속 모의 검색을 사용합니다.
+새 출력 경로로 실행하고 검토한 JSON만 공개합니다. 검색 보고서와 주입 API 보고서는 표준 기준선에 합산하지 않습니다.
