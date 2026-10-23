@@ -1,30 +1,31 @@
 {
-  "executed_at_kst": "2026-10-23T15:39:54.832615+09:00",
+  "executed_at_kst": "2026-10-23T16:56:54.303838+09:00",
   "dataset_version": "r6-component-v2",
   "dataset_sha256": "1daa313834008bf7c26dec28d9cb302e92ddddd9b28d8c5e15cc28d5f6a13da3",
-  "runner_sha256": "09349d593b366ee4748c22a4fc4817fe79e78a719523054e93233ce841fb9f8d",
+  "runner_sha256": "3c5dc6282972ebed5ad0891da37a5e051bb890333ace1f1401fee147946c1150",
   "commits": {
     "oneload-app": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
-    "oneload-backend": "15ddd9feb7bd60f9fdc141b449e1bd1b98c2d506",
-    "oneload_agent": "5038b5cdbc871a2036087be23fbc14490c22ac48",
-    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+    "oneload-backend": "b1aa5f58a3fe6045797e715f0e246439903fc319",
+    "oneload_agent": "eca420e9321272333db5c5499a2af752e1cb7b69",
+    "oneload-data": "9fc786eeb92fd3b79d5df0a56a2738f820e8a858",
     "oneload-infra": "6cf4a65ca6e34f0e673dadf428e2c2e925d20107"
   },
   "map": {
     "source_repository": "oneload-data",
     "path": "maps/seoul-station.json",
     "map_id": "seoul-station",
-    "version": "2026-10-22.1",
-    "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043"
+    "version": "2026-10-23.1",
+    "sha256": "13202e24774dbcaaa86c09962863be641758f8ef2d9767fd9bb6a81305296526"
   },
   "python": "3.12.14",
   "model_mode": "fake",
   "model_name": "FakeLLM",
-  "prompt_version": "v3",
+  "prompt_version": "v4",
   "prompt_hashes": {
-    "understand_v3.md": "c55a664f335a690db6d26a4d4d32379f4d56f3b15531ccdbc9cff72c5e4c360c",
-    "compose_v3.md": "54d00b954626a3fc34d58e4d85557439f373c1a60705ef91014c52f6d2966c66",
-    "scene_v3.md": "c6ed932a243743575b3fb074e2ad89ffc6523ca1dbf8d45337a86d905a2d8e20"
+    "understand_v4.md": "b8d93be420aa71495c148946a5ff1dbb1d8acf550a8bd5b039a8e9d43719ceb6",
+    "compose_v4.md": "54d00b954626a3fc34d58e4d85557439f373c1a60705ef91014c52f6d2966c66",
+    "scene_v4.md": "c6ed932a243743575b3fb074e2ad89ffc6523ca1dbf8d45337a86d905a2d8e20",
+    "verify_v4.md": "7deae228f6a5874a7b41d93ac4dc379c97337e1c5b6f9195bfaf2caa107bb8d7"
   },
   "prompt_directory": "hangil_r2/prompts",
   "fixture_directory": "hangil_r2/mocks",
@@ -39,6 +40,6 @@
   "auto_turns_passed": 21,
   "human_review_pending": 21,
   "final_quality_score": null,
-  "p95_latency_ms_nearest_rank": 1.25,
+  "p95_latency_ms_nearest_rank": 0.85,
   "latency_scope": "component and selected model mode; not browser/API latency"
 }

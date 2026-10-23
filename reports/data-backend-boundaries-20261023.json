@@ -1,0 +1,73 @@
+{
+  "checked_at_kst": "2026-10-23T16:56:50.284300+09:00",
+  "commits": {
+    "oneload-backend": "b1aa5f58a3fe6045797e715f0e246439903fc319",
+    "oneload_agent": "eca420e9321272333db5c5499a2af752e1cb7b69",
+    "oneload-data": "9fc786eeb92fd3b79d5df0a56a2738f820e8a858"
+  },
+  "new_agent_intents": [],
+  "slot_roundtrip": {
+    "agent_output": {
+      "train_type": "express",
+      "has_transit_card": "unknown",
+      "exit_number": "1",
+      "has_single_use_card": "yes",
+      "single_use_card_returned": "no",
+      "has_ticket": "yes"
+    },
+    "next_backend_context": {
+      "train_type": "express",
+      "has_transit_card": "unknown",
+      "exit_number": "1",
+      "has_single_use_card": "yes",
+      "single_use_card_returned": "no",
+      "has_ticket": "yes"
+    }
+  },
+  "route_checks": {
+    "single-use-card-refund": {
+      "ktx-hall": null,
+      "line1-gates": [
+        "line1-gates",
+        "single-use-card-refund"
+      ],
+      "line4-gates": null,
+      "single-use-card-refund": [
+        "single-use-card-refund"
+      ],
+      "exit-1": null,
+      "arex-concourse": null,
+      "express-tickets": null,
+      "express-gates": null,
+      "allstop-tickets": null,
+      "allstop-gates": null,
+      "express-platform": null,
+      "allstop-platform": null
+    },
+    "exit-1": {
+      "ktx-hall": null,
+      "line1-gates": [
+        "line1-gates",
+        "single-use-card-refund",
+        "exit-1"
+      ],
+      "line4-gates": null,
+      "single-use-card-refund": [
+        "single-use-card-refund",
+        "exit-1"
+      ],
+      "exit-1": [
+        "exit-1"
+      ],
+      "arex-concourse": null,
+      "express-tickets": null,
+      "express-gates": null,
+      "allstop-tickets": null,
+      "allstop-gates": null,
+      "express-platform": null,
+      "allstop-platform": null
+    }
+  },
+  "live_model_calls": 0,
+  "scope": "Backend plan_route and Pydantic contracts only; no DB, images, model or embedding calls"
+}

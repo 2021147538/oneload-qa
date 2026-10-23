@@ -1,0 +1,323 @@
+{
+  "recorded_at_kst": "2026-10-23T17:01:17.053457+09:00",
+  "remote_observed_at_kst": "2026-10-23T16:53:44.562921+09:00",
+  "repositories": {
+    "qa": {
+      "repository": "team-onetruck/oneload-qa",
+      "head": "b1efdff4c48a33f131badadb5e698b8a6086214b",
+      "remote_main": "b1efdff4c48a33f131badadb5e698b8a6086214b",
+      "clean": true
+    },
+    "oneload-app": {
+      "repository": "team-onetruck/oneload-app",
+      "head": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+      "remote_main": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+      "clean": true,
+      "ci": [
+        {
+          "conclusion": "success",
+          "createdAt": "2026-10-23T06:25:35Z",
+          "displayTitle": "feat: 햄버거 메뉴에 홈 이동·언어 설정 추가, EN/한 토글 제거 (#33)",
+          "headSha": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+          "status": "completed",
+          "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39911399631"
+        }
+      ]
+    },
+    "oneload-backend": {
+      "repository": "team-onetruck/oneload-backend",
+      "head": "b1aa5f58a3fe6045797e715f0e246439903fc319",
+      "remote_main": "b1aa5f58a3fe6045797e715f0e246439903fc319",
+      "clean": true,
+      "ci": [
+        {
+          "conclusion": "success",
+          "createdAt": "2026-10-23T07:47:42Z",
+          "displayTitle": "Accept the agent's exit and AREX flows in the contract",
+          "headSha": "b1aa5f58a3fe6045797e715f0e246439903fc319",
+          "status": "completed",
+          "url": "https://github.com/team-onetruck/oneload-backend/actions/runs/39920169066"
+        }
+      ]
+    },
+    "oneload_agent": {
+      "repository": "team-onetruck/oneload_agent",
+      "head": "eca420e9321272333db5c5499a2af752e1cb7b69",
+      "remote_main": "eca420e9321272333db5c5499a2af752e1cb7b69",
+      "clean": true,
+      "ci": [
+        {
+          "conclusion": "success",
+          "createdAt": "2026-10-23T06:43:18Z",
+          "displayTitle": "Add exit and AREX guidance flows",
+          "headSha": "eca420e9321272333db5c5499a2af752e1cb7b69",
+          "status": "completed",
+          "url": "https://github.com/team-onetruck/oneload_agent/actions/runs/39913229016"
+        }
+      ]
+    },
+    "oneload-data": {
+      "repository": "team-onetruck/oneload-data",
+      "head": "9fc786eeb92fd3b79d5df0a56a2738f820e8a858",
+      "remote_main": "9fc786eeb92fd3b79d5df0a56a2738f820e8a858",
+      "clean": true,
+      "ci": [
+        {
+          "conclusion": "success",
+          "createdAt": "2026-10-23T07:44:05Z",
+          "displayTitle": "Schema: optional fields for the backend's action plan",
+          "headSha": "9fc786eeb92fd3b79d5df0a56a2738f820e8a858",
+          "status": "completed",
+          "url": "https://github.com/team-onetruck/oneload-data/actions/runs/39919756843"
+        }
+      ]
+    },
+    "oneload-rag": {
+      "repository": "team-onetruck/oneload-rag",
+      "head": "8c8e902013fc12a1790762b38a34e282930cb667",
+      "remote_main": "8c8e902013fc12a1790762b38a34e282930cb667",
+      "clean": true,
+      "ci": [
+        {
+          "conclusion": "success",
+          "createdAt": "2026-10-23T04:59:37Z",
+          "displayTitle": "requests.md: RQ-32 answerability belongs in the agent (RAG #3 follow-up)",
+          "headSha": "8c8e902013fc12a1790762b38a34e282930cb667",
+          "status": "completed",
+          "url": "https://github.com/team-onetruck/oneload-rag/actions/runs/39903283724"
+        }
+      ]
+    },
+    "oneload-infra": {
+      "repository": "team-onetruck/oneload-infra",
+      "head": "6cf4a65ca6e34f0e673dadf428e2c2e925d20107",
+      "remote_main": "6cf4a65ca6e34f0e673dadf428e2c2e925d20107",
+      "clean": true
+    }
+  },
+  "baseline": "reports/baseline.json",
+  "run": {
+    "executed_at_kst": "2026-10-23T16:57:01.615975+09:00",
+    "steps": [
+      {
+        "name": "qa-tests",
+        "exit_code": 0,
+        "elapsed_s": 2.237
+      },
+      {
+        "name": "data-validation",
+        "exit_code": 0,
+        "elapsed_s": 0.144
+      },
+      {
+        "name": "agent-tests",
+        "exit_code": 0,
+        "elapsed_s": 1.132
+      },
+      {
+        "name": "contract-audit",
+        "exit_code": 1,
+        "elapsed_s": 1.51
+      },
+      {
+        "name": "component-eval",
+        "exit_code": 0,
+        "elapsed_s": 0.787
+      },
+      {
+        "name": "backend-and-integration",
+        "exit_code": 1,
+        "elapsed_s": 7.268
+      }
+    ],
+    "commits": {
+      "oneload-app": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+      "oneload-backend": "b1aa5f58a3fe6045797e715f0e246439903fc319",
+      "oneload_agent": "eca420e9321272333db5c5499a2af752e1cb7b69",
+      "oneload-data": "9fc786eeb92fd3b79d5df0a56a2738f820e8a858",
+      "oneload-infra": "6cf4a65ca6e34f0e673dadf428e2c2e925d20107"
+    },
+    "map": {
+      "source_repository": "oneload-data",
+      "path": "maps/seoul-station.json",
+      "map_id": "seoul-station",
+      "version": "2026-10-23.1",
+      "sha256": "13202e24774dbcaaa86c09962863be641758f8ef2d9767fd9bb6a81305296526"
+    },
+    "overall_exit_code": 1,
+    "live_model_calls": 0,
+    "with_backend": true
+  },
+  "summary": {
+    "qa": {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "agent": {
+      "tests": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "backend": {
+      "tests": 68,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "data": 3,
+    "component": {
+      "dataset_version": "r6-component-v2",
+      "dataset_sha256": "1daa313834008bf7c26dec28d9cb302e92ddddd9b28d8c5e15cc28d5f6a13da3",
+      "auto_scenarios_passed": 20,
+      "scenario_count": 20,
+      "auto_turns_passed": 21,
+      "turn_count": 21,
+      "human_review_pending": 21,
+      "final_quality_score": null
+    },
+    "mock_api": {
+      "passed": 26,
+      "total": 27,
+      "failed": [
+        "API-26-plan-follows-reported-refund"
+      ],
+      "fixture": "FakeLLM, MockKnowledgeSearch, synthetic JPEG; explicit R2 injection"
+    },
+    "rag_api": {
+      "passed": 27,
+      "total": 28,
+      "probe_version": "r6-boundary-v2",
+      "rag": {
+        "repository": "oneload-rag",
+        "commit": "8c8e902013fc12a1790762b38a34e282930cb667",
+        "working_tree_clean": true,
+        "backend": "MemorySearch",
+        "min_score": 0.25,
+        "k": 3,
+        "relative_cutoff": 0.5,
+        "scope_gate_min_coverage": 0.25,
+        "community": false,
+        "document_ids": [
+          "doc-allstop-ticket",
+          "doc-arex-train-types",
+          "doc-climate-card-short-term",
+          "doc-deposit-refund",
+          "doc-express-ticket",
+          "doc-fare-arex-allstop",
+          "doc-fare-arex-express",
+          "doc-fare-passes-cards",
+          "doc-foreigner-transit-cards",
+          "doc-seoul-help-desks",
+          "doc-seoul-transit-basics",
+          "doc-tmoney-card",
+          "doc-wowpass"
+        ],
+        "knowledge_sha256": {
+          "README.md": "69b16ad3992eda254ad1c170b92f01b66366c95ccbae6ceb1829c3d5df4d26d4",
+          "doc-allstop-ticket.md": "8a4e6897ba5a4b926fc8c59dc49933591389ada2856129711c2080eb55a42ec2",
+          "doc-arex-train-types.md": "ac8c3f318c040128ad32aa268f97994798c0408b2b94d5201b45218776c03cfe",
+          "doc-climate-card-short-term.md": "0986e43587da7bcf22fc60f219cc197de446e352f142f3713897e592ede8f161",
+          "doc-community-arex-payments.md": "dc53ba71f1ccfc2e45e0aa9d66e3028c37e0ed84c1a6d55163b1a95693fdb8f2",
+          "doc-community-seoul-station-tips.md": "8f0c9e74f39c8756d5996c01fad0db4e22741152526eb30606abc0b396394f1b",
+          "doc-deposit-refund.md": "717523cf79349a4955113a1bc3312d83d39fe588af2e80871726aee7d2679de1",
+          "doc-express-ticket.md": "44de8b84375a07b960d78a1166274aa0a760e439c349e3e59686b61a00770deb",
+          "doc-fare-arex-allstop.md": "06722c12bbfb00a33aa00a1dfc15395939e80b5356bc8f519ca869b7b036d8c5",
+          "doc-fare-arex-express.md": "6dc1ca6cc6c7d1e3cf8b9cfc192ca11cabb55effdc2e3107bdd00dc86a651ca7",
+          "doc-fare-passes-cards.md": "bc0d87a96b95de060189c3887fd7b06675542bbe03bb59ad369b22b9b7e83e67",
+          "doc-foreigner-transit-cards.md": "13679179d092c342275f6ab44cc3a3f7bffe4b3306f1b9350ca350c60f81b3d8",
+          "doc-seoul-help-desks.md": "8a4c5828dc86e0da6e69f303fe6f71161c3cf29cf59623ee6634b10f9fe2ab00",
+          "doc-seoul-transit-basics.md": "5a6ab67ce4e1f2cd570bf7c58abade12b42b0e0497b73b3219830872eb68daf2",
+          "doc-tmoney-card.md": "79d9fbb353f4e5703926c9b6a5396c16111e7110f8c30c2ddd3ef21f8ee0a90b",
+          "doc-wowpass.md": "eabcd090f1ee6a39707b5a5cdf516fd0cfdafcf8765692ed87162653ce0dec2e"
+        },
+        "code_sha256": {
+          "src/hangil_rag/__init__.py": "38878308f42458b5f638744f3871bebf1f2bf8fdac5d1d1af1fb9cd48bd1fd20",
+          "src/hangil_rag/ingest.py": "1db2f46ef30b1e6267e113e7a84457ad3141ec48afe588748f33d61ed690f2e5",
+          "src/hangil_rag/loader.py": "8b67ebe687d7ace619cbe7d874821c715e5bacf8c6c621a659a5b6b178575066",
+          "src/hangil_rag/mcp_server.py": "d2698aac11ce7ffdb7761222b0a8d83d62d7a838892f2a059cccc0cc57c47203",
+          "src/hangil_rag/schemas.py": "a5744e6c17ce2fef610d4df8023c16718913dca5f21af10a24e629180e1ee529",
+          "src/hangil_rag/search_memory.py": "1a9623ea63315e11759d797c13364d84179c8eea62af9e6e59fadb22d7615878",
+          "src/hangil_rag/search_pgvector.py": "e0a2fe7e794f0cb95d7691c382ff2c6ca8d3891534afe1b55f38b4ecbc5ab03e"
+        },
+        "live_model_calls": 0,
+        "live_embedding_calls": 0
+      }
+    },
+    "initial_legacy_probe": {
+      "passed": 20,
+      "total": 20,
+      "evidence_scope": "initial run before adding boundary v2; same selected commits"
+    },
+    "probe_version": "r6-boundary-v2",
+    "contract_INT02": "pass; new intents and all six slot fields match",
+    "contract_INT07": "partial; production MockKnowledgeSearch remains"
+  },
+  "changes": {
+    "backend": [
+      "d94daee: action planner, rule engine, required/recommended steps, accept/skip/complete API, multi-stop route selection, wheelchair and closed-passage filtering, migration0003",
+      "b1aa5f5: Agent intent and slot contract synchronized; unknown facts learned from Agent slots"
+    ],
+    "data": [
+      "9fc786e: optional node area and closed edge/POI fields added to JSON Schema; README updated"
+    ],
+    "map_json_changed": false,
+    "live_map": {
+      "version": "2026-10-23.1",
+      "node_count": 12,
+      "nodes_with_area": 0
+    }
+  },
+  "confirmed_issues": {
+    "https://github.com/team-onetruck/oneload_agent/issues/7": "Backend 500 and multi-turn slot loss resolved; frontend generated schema still old and tracked as remaining contract-sync work; issue kept open",
+    "https://github.com/team-onetruck/oneload-data/issues/2": "still reproduced; no new map edges; kept open",
+    "https://github.com/team-onetruck/oneload-backend/issues/2": "new: refund slot becomes yes but planner fact remains NOT_REFUNDED; both mock26/27 and MemorySearch27/28 fail API-26"
+  },
+  "deployment": {
+    "backend_run": {
+      "url": "https://github.com/team-onetruck/oneload-backend/actions/runs/39920169066",
+      "test": "success",
+      "image": "success",
+      "deploy": "success"
+    },
+    "agent_run": {
+      "url": "https://github.com/team-onetruck/oneload_agent/actions/runs/39913229016",
+      "note": "same run re-run after Backend fix; latest attempt backend/test/deploy all success; older failed attempt is historical"
+    },
+    "deployed_log_line": "Deployed backend b1aa5f5, agent eca420e, data 9fc786e, web 42455dc",
+    "public_get_evidence": "reports/data-backend-server-readonly-20261023.json",
+    "public_map_version": "2026-10-23.1",
+    "public_intents": 9,
+    "caveat": "GET status/schema and CI deploy logs do not measure actual conversation, photos or planner quality on the server"
+  },
+  "frontend": {
+    "commit": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+    "action_plan_api_ui": "not connected in current source",
+    "generated_schema_intents": 6,
+    "new_backend_intents": 9,
+    "source_only": true
+  },
+  "validation_limits": {
+    "live_model_calls": 0,
+    "field_photo_gold_count": 0,
+    "mobile_runtime_acceptance": "NOT_RUN",
+    "production_rag_connected": false,
+    "backend_migration0003": "exercised through real Alembic migrations in disposable DB fixture"
+  },
+  "runner_hashes": {
+    "audit_contracts.py": "ff38733da3b05b1a61d0a8d446ed78cbe62eeb35566394ce3e392d8ede8dae00",
+    "evaluate_agent.py": "3c5dc6282972ebed5ad0891da37a5e051bb890333ace1f1401fee147946c1150",
+    "evaluate_retrieval.py": "045ee5f125d3ce405e0e9becdd486b8ea70f42c6e72cbdd96c6fee4d2c3ecca1",
+    "frontend_wiring.py": "7875d0836be5158758b8d61c9469adb7cf9fdda1917c72746f9d470f090d157c",
+    "probe_integration.py": "3d0b3dca41bfb364289ebbc0e71a5f7e4f4016efdf62317827085f7b59ed8246",
+    "production_wiring.py": "03c5ce06964d571c04f8e8a91753b1eee935ee45d63fcc36048c41555c3e2f94",
+    "qa_inputs.py": "b6abd0f0739ff425191d60a6f014c62c1ab1df3c93a0a55179a0470fd000fef3",
+    "rag_inputs.py": "e20f59ba94b507f8ce818b2ed0fd6d939d2bc39dd97b956326aa54c93a770aa1",
+    "recheck_rag_issue3.py": "ed277a0270e2ad13da5d9c983b6bcdee6006c162427960f07f02ac4c63a0e223",
+    "run_backend_tests.py": "049ba6fd6ceb0da12da6696975663eeae420eb2b9c1ba12902d56aaf4f437034",
+    "run_checks.py": "740729cf0dbf44c3c07f6e184d3245ec588453a4e68ca3d184257a35bc9fa0d0",
+    "validate_data.py": "7d648fef59d9361abf691c49a5ad35d3da553dce695df6dbcc881707a7feecd9"
+  }
+}

@@ -1,4 +1,14 @@
-# 최신 통합 점검: 2026-10-23 16:16 KST
+# 최신 통합 점검 — 2026-10-23 17:00 KST
+
+Backendb1aa5f5·Data9fc786e·Agenteca420e에서 **INT-02 계약 및 여러 턴 슬롯 유실은 해결 확인**했다. Frontend 생성 타입은 구계약이라 Agent #7은 잔여 동기화 작업으로 유지한다.
+
+새 **Backend #2**: 미반납→반납 완료 대화 후 응답 슬롯yes와 달리 계획facts는NOT_REFUNDED이며 환급 추천이 남는다. 경계v2 API-26으로 모의26/27·공식 MemorySearch27/28에서 재현했다. [새 증거](../reports/data-backend-review-20261023.json).
+
+Data #2의 출구/반납기 통로 단절·INT-07 운영 공식 RAG 미연결·DATA-01 현장 자료는 유지한다. QA44·Backend68·Agent47·Data3·component20/21 통과는 실제 AI/화면 품질 합격이 아니다. 최신 배포는코드와일치하며 과거아래의500·skipped는수정전관찰이다.
+
+---
+
+## 과거 통합 점검: 2026-10-23 16:16 KST
 
 **INT-02 재발, P0:** Agenteca420e의 intent3개·슬롯4개 확장과 Backend15ddd9f의 공개 계약이 다르다. 기존 API 시험에서500, 다음 context에서 슬롯 소실을 확인했다. [Agent #7](https://github.com/team-onetruck/oneload_agent/issues/7), [새 감사](../reports/architecture-contract-audit-20261023.json).
 

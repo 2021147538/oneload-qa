@@ -1,4 +1,22 @@
-# 최신 아키텍처·회귀 확인 — 2026-10-23 16:16 KST
+# 최신 Data·Backend 확인
+
+## Data·Backend 최신 확인 — 2026-10-23 17:00 KST
+
+[새 검토 증거](data-backend-review-20261023.json) · [현재 기준선](baseline.json) · [전체 아키텍처](../docs/architecture-current-20261023.md).
+
+- Backend **b1aa5f5**: 행동 계획·규칙 엔진·다중 경유지 경로·추천 단계 수락/건너뛰기/완료 API·폐쇄/휠체어 필터·DB migration0003 추가. Agent intent3개/슬롯4개도 공개 계약과 동기화됐다.
+- Data **9fc786e**: node.area(paid/free), edge/POI.closed 스키마가 추가됐다. 지도 JSON은3b5ef0e 때와 동일한2026-10-23.1이며 유료구역 필드는12노드 모두 미입력이다. 새 출구/반납기 경로 단절 **Data #2는 유지**한다.
+- QA44·Agent47·Backend68·Data3·component20/21 통과. 기존 모의 API20/20 확인 후 여러 턴/행동 계획 검사7개를 추가해 `r6-boundary-v2`로 구분했다. **모의 API26/27·공식 MemorySearch 주입 API27/28**, 공통 실패는 API-26이다. 실제 모델/임베딩 호출0·현장 사진 정답0이다.
+- **Agent #7의 Backend500·슬롯 유실은 해결 확인:** 새 구매/출구/탑승 intent와6슬롯이 실제 여러 턴 API에서 유지된다. App42455dc의 생성 schema.d.ts는 기존 intent6개라 Frontend 타입 동기화가 남아 이슈는 닫지 않았다.
+- **새 [Backend #2](https://github.com/team-onetruck/oneload-backend/issues/2):** PATCH 없이 대화로 미반납→반납 완료를 말하면 응답 슬롯은yes인데 plan.facts.refund_status는NOT_REFUNDED, 미완료 환급 추천1개가 남는다. _learn_facts가UNKNOWN만 채워 과거 대화 정보를 갱신하지 못한다. 클라이언트 PATCH 우선순위 보호와 대화 정보 갱신을 구분해야 한다.
+- Backend CI39920169066의 시험/이미지/배포 성공, Agent39913229016 재실행의 시험/호환/API/배포 성공. 로그 조합은 Backendb1aa5f5·Agenteca420e·Data9fc786e·App42455dc다. 배포 GET도200·DB ok·intent9개·지도2026-10-23.1을 확인했다. 과거16:16의 skipped/구지도 관찰은 최신 상태가 아니다.
+- 운영 RAG는 여전히MockKnowledgeSearch(INT-07 partial). App에 plan/steps API 화면 연결은 없고 실제 모바일·모델·현장 인수는NOT_RUN이다. 행동 계획 테스트는 가상 역 fixture와 일회용 DB 검증을 포함하며 서울역 현장 정확도 평가가 아니다.
+
+다음 순서: Backend #2 상태 갱신 → Data #2 경로 연결 → App 생성 타입·행동 계획 UI 연결 → 동일 커밋 묶음 API 재검증 → 공식 RAG·근거/인용·실제 모바일 인수. 사용자 대화의 토론은 계속 참고 자료로만 유지한다.
+
+---
+
+## 이전 아키텍처·회귀 확인 — 2026-10-23 16:16 KST
 
 [전체 구조 설명](../docs/architecture-current-20261023.md) · [새 구조화 증거](architecture-review-20261023.json) · [계약 감사](architecture-contract-audit-20261023.json) · [배포 GET](architecture-server-readonly-20261023.json).
 

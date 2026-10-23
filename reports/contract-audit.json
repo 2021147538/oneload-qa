@@ -1,19 +1,19 @@
 {
-  "checked_at_kst": "2026-10-23T15:39:53.804378+09:00",
+  "checked_at_kst": "2026-10-23T16:56:53.446562+09:00",
   "scope": "Real Backend context/map/guard + FakeLLM; actual Vision failure, schemas and static wiring; no live models",
   "commits": {
     "oneload-app": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
-    "oneload-backend": "15ddd9feb7bd60f9fdc141b449e1bd1b98c2d506",
-    "oneload_agent": "5038b5cdbc871a2036087be23fbc14490c22ac48",
-    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+    "oneload-backend": "b1aa5f58a3fe6045797e715f0e246439903fc319",
+    "oneload_agent": "eca420e9321272333db5c5499a2af752e1cb7b69",
+    "oneload-data": "9fc786eeb92fd3b79d5df0a56a2738f820e8a858",
     "oneload-infra": "6cf4a65ca6e34f0e673dadf428e2c2e925d20107"
   },
   "map": {
     "source_repository": "oneload-data",
     "path": "maps/seoul-station.json",
     "map_id": "seoul-station",
-    "version": "2026-10-22.1",
-    "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043"
+    "version": "2026-10-23.1",
+    "sha256": "13202e24774dbcaaa86c09962863be641758f8ef2d9767fd9bb6a81305296526"
   },
   "contract_checks": [
     {
@@ -64,7 +64,11 @@
           "unverified_notes": [],
           "slots": {
             "train_type": "allstop",
-            "has_transit_card": "no"
+            "has_transit_card": "no",
+            "exit_number": null,
+            "has_single_use_card": "unknown",
+            "single_use_card_returned": "unknown",
+            "has_ticket": "unknown"
           },
           "destination": {
             "poi_id": "poi-allstop-tickets"
@@ -140,7 +144,7 @@
       "validation_level": "actual_entrypoint_with_fake_provider",
       "evidence": {
         "method": "execute_actual_entrypoint_with_OpenAILLM_replaced_by_FakeLLM",
-        "entrypoint_sha256": "1c15e4cb575bc2e316f5b276cb3a0e31aa061689bc103a1757a2fe466ea678ee",
+        "entrypoint_sha256": "9d4ae8600d0671335863957122df379a2d44186107d3f3175b1268570b220df0",
         "branches": {
           "missing_key": {
             "agent": "RuleAgent",
@@ -187,7 +191,7 @@
       "description": "R2 Agent/Vision selection is wired; production knowledge still uses MockKnowledgeSearch",
       "evidence": {
         "method": "execute_actual_entrypoint_with_OpenAILLM_replaced_by_FakeLLM",
-        "entrypoint_sha256": "1c15e4cb575bc2e316f5b276cb3a0e31aa061689bc103a1757a2fe466ea678ee",
+        "entrypoint_sha256": "9d4ae8600d0671335863957122df379a2d44186107d3f3175b1268570b220df0",
         "branches": {
           "missing_key": {
             "agent": "RuleAgent",

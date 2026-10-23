@@ -1,23 +1,24 @@
 {
-  "executed_at_utc": "2026-10-23T06:40:01.361105+00:00",
+  "probe_version": "r6-boundary-v2",
+  "executed_at_utc": "2026-10-23T07:57:01.283999+00:00",
   "commits": {
     "oneload-app": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
-    "oneload-backend": "15ddd9feb7bd60f9fdc141b449e1bd1b98c2d506",
-    "oneload_agent": "5038b5cdbc871a2036087be23fbc14490c22ac48",
-    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+    "oneload-backend": "b1aa5f58a3fe6045797e715f0e246439903fc319",
+    "oneload_agent": "eca420e9321272333db5c5499a2af752e1cb7b69",
+    "oneload-data": "9fc786eeb92fd3b79d5df0a56a2738f820e8a858",
     "oneload-infra": "6cf4a65ca6e34f0e673dadf428e2c2e925d20107"
   },
   "map": {
     "source_repository": "oneload-data",
     "path": "maps/seoul-station.json",
     "map_id": "seoul-station",
-    "version": "2026-10-22.1",
-    "sha256": "450f7f7a483c7fb77601a77d283099e9e19cad6897dad2efd51318f94b5b7043"
+    "version": "2026-10-23.1",
+    "sha256": "13202e24774dbcaaa86c09962863be641758f8ef2d9767fd9bb6a81305296526"
   },
   "scope": "Real Backend API + R2 modules; FakeLLM, mock knowledge, synthetic JPEG; disposable DB; explicit injection, not production defaults",
   "knowledge_profile": "mock",
   "rag": null,
-  "runner_sha256": "93f16dd92ded8f6eff5877b0c16bbb50e0c54ee7efd087fdb03fc52b87558044",
+  "runner_sha256": "3d0b3dca41bfb364289ebbc0e71a5f7e4f4016efdf62317827085f7b59ed8246",
   "rag_inputs_sha256": null,
   "checks": [
     {
@@ -259,9 +260,107 @@
         "http": 503,
         "error_code": "AI_SERVICE_UNAVAILABLE"
       }
+    },
+    {
+      "id": "API-20-purchase-intent",
+      "passed": true,
+      "expected": {
+        "status": "needs_clarification",
+        "intent": "purchase_arex_ticket"
+      },
+      "actual": {
+        "status": "needs_clarification",
+        "intent": "purchase_arex_ticket"
+      }
+    },
+    {
+      "id": "API-21-purchase-followup",
+      "passed": true,
+      "expected": {
+        "intent": "purchase_arex_ticket",
+        "poi": "poi-express-tickets"
+      },
+      "actual": {
+        "intent": "purchase_arex_ticket",
+        "poi": "poi-express-tickets"
+      }
+    },
+    {
+      "id": "API-22-exit-persisted-slots",
+      "passed": true,
+      "expected": {
+        "intent": "navigate_to_exit",
+        "exit_number": "1",
+        "has_single_use_card": "yes",
+        "single_use_card_returned": "no",
+        "poi": "poi-single-use-card-refund"
+      },
+      "actual": {
+        "intent": "navigate_to_exit",
+        "exit_number": "1",
+        "has_single_use_card": "yes",
+        "single_use_card_returned": "no",
+        "poi": "poi-single-use-card-refund"
+      }
+    },
+    {
+      "id": "API-23-exit-after-return",
+      "passed": true,
+      "expected": {
+        "exit_number": "1",
+        "returned": "yes",
+        "poi": "poi-exit-1"
+      },
+      "actual": {
+        "exit_number": "1",
+        "returned": "yes",
+        "poi": "poi-exit-1"
+      }
+    },
+    {
+      "id": "API-24-boarding-without-ticket",
+      "passed": true,
+      "expected": {
+        "intent": "board_arex",
+        "ticket": "no",
+        "poi": "poi-express-tickets"
+      },
+      "actual": {
+        "intent": "board_arex",
+        "ticket": "no",
+        "poi": "poi-express-tickets"
+      }
+    },
+    {
+      "id": "API-25-boarding-ticket-persisted",
+      "passed": true,
+      "expected": {
+        "intent": "board_arex",
+        "ticket": "yes",
+        "poi": "poi-express-platform"
+      },
+      "actual": {
+        "intent": "board_arex",
+        "ticket": "yes",
+        "poi": "poi-express-platform"
+      }
+    },
+    {
+      "id": "API-26-plan-follows-reported-refund",
+      "passed": false,
+      "expected": {
+        "http": 200,
+        "refund_status": "REFUNDED",
+        "unfinished_refund_steps": 0
+      },
+      "actual": {
+        "http": 200,
+        "refund_status": "NOT_REFUNDED",
+        "unfinished_refund_steps": 1
+      }
     }
   ],
-  "passed": 20,
-  "total": 20,
+  "passed": 26,
+  "total": 27,
   "production_ai_quality_measured": false
 }

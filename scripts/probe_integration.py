@@ -436,12 +436,119 @@ def main() -> int:
             {"http": response.status_code, "error_code": code},
         )
 
+    # Contract regression: new intents and slots must survive actual API turns,
+    # not just Agent-only contexts. Keep plan facts distinct from response slots.
+    with TestClient(
+        create_app(agent=agent, vision=vision), raise_server_exceptions=False
+    ) as http:
+        purchase = Api(http)
+        first = purchase.say("공항철도 표를 구입하고 싶어요")
+        check(
+            "API-20-purchase-intent",
+            {"status": "needs_clarification", "intent": "purchase_arex_ticket"},
+            {key: first[key] for key in ("status", "intent")},
+        )
+        bought_at = purchase.say("직통열차")
+        check(
+            "API-21-purchase-followup",
+            {"intent": "purchase_arex_ticket", "poi": "poi-express-tickets"},
+            {
+                "intent": bought_at["intent"],
+                "poi": (bought_at.get("destination") or {}).get("poi_id"),
+            },
+        )
+
+        exit_api = Api(http)
+        exit_api.say("1번 출구로 가고 싶어요")
+        exit_api.say("가지고 있어요")
+        before_return = exit_api.say("아직 안 했어요")
+        check(
+            "API-22-exit-persisted-slots",
+            {
+                "intent": "navigate_to_exit",
+                "exit_number": "1",
+                "has_single_use_card": "yes",
+                "single_use_card_returned": "no",
+                "poi": "poi-single-use-card-refund",
+            },
+            {
+                "intent": before_return["intent"],
+                **{
+                    key: before_return["slots"][key]
+                    for key in (
+                        "exit_number",
+                        "has_single_use_card",
+                        "single_use_card_returned",
+                    )
+                },
+                "poi": (before_return.get("destination") or {}).get("poi_id"),
+            },
+        )
+        returned = exit_api.say("반납했어요")
+        check(
+            "API-23-exit-after-return",
+            {"exit_number": "1", "returned": "yes", "poi": "poi-exit-1"},
+            {
+                "exit_number": returned["slots"]["exit_number"],
+                "returned": returned["slots"]["single_use_card_returned"],
+                "poi": (returned.get("destination") or {}).get("poi_id"),
+            },
+        )
+
+        board = Api(http)
+        board.say("공항철도 타러 가고 싶어요")
+        board.say("직통열차")
+        no_ticket = board.say("아직 안 샀어요")
+        check(
+            "API-24-boarding-without-ticket",
+            {"intent": "board_arex", "ticket": "no", "poi": "poi-express-tickets"},
+            {
+                "intent": no_ticket["intent"],
+                "ticket": no_ticket["slots"]["has_ticket"],
+                "poi": (no_ticket.get("destination") or {}).get("poi_id"),
+            },
+        )
+        ticket_ready = board.say("구입했어요")
+        check(
+            "API-25-boarding-ticket-persisted",
+            {"intent": "board_arex", "ticket": "yes", "poi": "poi-express-platform"},
+            {
+                "intent": ticket_ready["intent"],
+                "ticket": ticket_ready["slots"]["has_ticket"],
+                "poi": (ticket_ready.get("destination") or {}).get("poi_id"),
+            },
+        )
+
+        plan_reply = http.get(
+            "/api/v1/sessions/" + exit_api.sid + "/plan",
+            headers={"Authorization": "Bearer " + exit_api.token},
+        )
+        plan_state = plan_reply.json()
+        check(
+            "API-26-plan-follows-reported-refund",
+            {
+                "http": 200,
+                "refund_status": "REFUNDED",
+                "unfinished_refund_steps": 0,
+            },
+            {
+                "http": plan_reply.status_code,
+                "refund_status": plan_state.get("facts", {}).get("refund_status"),
+                "unfinished_refund_steps": sum(
+                    step["type"] == "REFUND_SINGLE_USE_CARD"
+                    and step["status"] not in ("COMPLETED", "SKIPPED")
+                    for step in (plan_state.get("plan") or {}).get("steps", [])
+                ),
+            },
+        )
+
     if rag_metadata is not None:
         _, final_metadata = load_rag(root, args.rag_min_score)
         if final_metadata != rag_metadata:
             raise InputError("RAG input changed during API probe; report not published")
 
     report = {
+        "probe_version": "r6-boundary-v2",
         "executed_at_utc": datetime.now(UTC).isoformat(),
         "commits": commits,
         "map": map_info,

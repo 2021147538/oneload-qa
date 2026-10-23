@@ -10,7 +10,16 @@
 작업자는 [AGENTS.md](AGENTS.md)의 인수인계 갱신 절차를 따릅니다. 설계 사본은 [참고 자료](docs/reference/README.md)에 있습니다.
 [repos.lock.json](repos.lock.json)은 최근 관찰 버전과 마지막 검증 버전을 구분합니다. 표준 QA와 별도 RAG 검사의 커밋·범위를 구분합니다. 소스 커밋 기록은 Frontend UI·Infra 배포 검증을 뜻하지 않습니다.
 
-## 최신 아키텍처·회귀 확인 (2026-10-23 16:16 KST)
+## 최신 Data·Backend 확인 (2026-10-23 17:00 KST)
+
+[새 검토 증거](reports/data-backend-review-20261023.json) · [현재 아키텍처](docs/architecture-current-20261023.md).
+Backendb1aa5f5는 행동 계획·규칙 엔진·경유지 경로·단계 API와 Agent 계약 수정을 추가했다. Data9fc786e는 구역/폐쇄 스키마를 추가했지만 실제 지도 통로는 동일하다. 기존500·슬롯 유실은 해결 확인, Data #2 경로 단절은 유지한다.
+
+**QA44·Agent47·Backend68·Data3·component20/21 통과, 경계v2 모의 API26/27·RAG API27/28**이다. 유일한 API 실패는 사용자가 반납 완료를 말해도 계획의NOT_REFUNDED가 유지되는 [Backend #2](https://github.com/team-onetruck/oneload-backend/issues/2)다. 전체exit1은 이 실패와 운영 RAG 미연결(INT-07)이다. 새7개 검사로 버전을 구분했으며 동결된 평가 질문/정답은 바꾸지 않았다.
+
+최신 Backend CI와 Agent 재실행·배포 성공, 배포 GET200·DB ok·지도2026-10-23.1·intent9개를 확인했다. App 생성 타입은구계약이고 행동 계획 화면은미연결이다. 실제 모델 호출0회·실제 모바일/현장 인수는미실행이다. 아래16:16의 실패·구지도/배포skipped 기록은 과거 관찰이다.
+
+## 이전 아키텍처·회귀 확인 (2026-10-23 16:16 KST)
 
 [전체 아키텍처](docs/architecture-current-20261023.md) · [새 증거](reports/architecture-review-20261023.json).
 Agent eca420e와 Data3b5ef0e가 추가됐다. QA44·Agent47·Data3·component20/21은 통과했지만 **Backend50/51·INT-02 실패**다. 새 intent의 messages500 및 다음 턴 슬롯 소실은 [Agent #7](https://github.com/team-onetruck/oneload_agent/issues/7), 새 출구/반납기 경로 단절은 [Data #2](https://github.com/team-onetruck/oneload-data/issues/2)에 재현 근거를 등록했다. 운영 RAG는 여전히 demo이고 새 verify는 근거 사실성을 검사하지 않는다.
