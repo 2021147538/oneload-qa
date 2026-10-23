@@ -1,4 +1,15 @@
-# 현재 통합 점검 결과
+# 최신 통합 점검: 2026-10-23 16:16 KST
+
+**INT-02 재발, P0:** Agenteca420e의 intent3개·슬롯4개 확장과 Backend15ddd9f의 공개 계약이 다르다. 기존 API 시험에서500, 다음 context에서 슬롯 소실을 확인했다. [Agent #7](https://github.com/team-onetruck/oneload_agent/issues/7), [새 감사](../reports/architecture-contract-audit-20261023.json).
+
+**새 목적지 그래프 단절:** Data3b5ef0e의 반납기/1번 출구로 가는 경로가 line1-gates 외 주요 출발점에서 없다. [Data #2](https://github.com/team-onetruck/oneload-data/issues/2), [실제 경로 함수 증거](../reports/architecture-boundaries-20261023.json).
+
+INT-07 partial·DATA-01·Agent #5는 그대로다. QA44·Agent47·Data3·component20/21 통과, Backend50/51·후속 API NOT_RUN이다. baseline은 과거 완결 실행으로 보존했다. [현재 전체 아키텍처](architecture-current-20261023.md)를 따른다. 아래의 INT-02 해결·API20/21 통과 등은 **15:42 이전 조합의 기록**이며 최신 조합 판정에 적용하지 않는다.
+
+---
+
+## 이전 통합 점검 결과
+
 
 후속 의존성 검토: Backend15ddd9f·Agent5038b5c·Infra6cf4a65에서 QA42/Backend51/Agent43·모의 API20·RAG 주입 API21을 다시 확인했다. 기능 코드와 아래 INT-07 partial 판정은 동일하다. [최신 증거](../reports/dependency-review-20261023.json)를 따른다.
 

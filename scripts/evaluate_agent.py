@@ -22,20 +22,20 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def agent_assets(repo, version, prompt_dir, mock_dir):
+def agent_assets(repo, version, prompt_dir, mock_dir, *, requires_verify=False):
     """Record the assets the imported Agent actually reads, including packages."""
     repo, prompt_dir, mock_dir = (
         Path(path).resolve() for path in (repo, prompt_dir, mock_dir)
     )
     if any(not path.is_relative_to(repo) for path in (prompt_dir, mock_dir)):
         raise InputError("Imported Agent assets must belong to the selected checkout")
-    prompts = [
-        prompt_dir / f"{name}_{version}.md"
-        for name in ("understand", "compose", "scene")
-    ]
+    roles = ("understand", "compose", "scene") + (
+        ("verify",) if requires_verify else ()
+    )
+    prompts = [prompt_dir / f"{name}_{version}.md" for name in roles]
     if any(not path.is_file() for path in prompts):
         raise InputError(
-            "Requested prompt version must include understand, compose and scene files"
+            "Requested prompt version must include files for: " + ", ".join(roles)
         )
     mocks = sorted(mock_dir.rglob("*.json"))
     if not (mock_dir / "knowledge.json").is_file():
@@ -50,7 +50,7 @@ def main() -> int:
     ap.add_argument("--cases", type=Path, required=True)
     ap.add_argument("--output", type=Path, required=True)
     ap.add_argument("--mode", choices=["fake", "openai"], default="fake")
-    ap.add_argument("--prompt-version", default="v3")
+    ap.add_argument("--prompt-version", help="Default: selected Agent's code default")
     args = ap.parse_args()
     root = args.project_root.resolve()
     repo, backend = root / "oneload_agent", root / "oneload-backend"
@@ -68,8 +68,8 @@ def main() -> int:
     if out.exists() and any(out.iterdir()):
         ap.error("Use a new output directory; evidence is not overwritten")
     out.mkdir(parents=True, exist_ok=True)
+    os.environ.pop("PROMPT_VERSION", None)
     os.environ.update(
-        PROMPT_VERSION=args.prompt_version,
         LANGSMITH_TRACING="false",
         LANGCHAIN_TRACING_V2="false",
     )
@@ -84,11 +84,18 @@ def main() -> int:
         ToolUnavailable,
     )
     from hangil_r2.knowledge import MOCK_DIR
-    from hangil_r2.llm import PROMPT_DIR
+    from hangil_r2.llm import LLM, PROMPT_DIR, prompt_version
+
+    args.prompt_version = args.prompt_version or prompt_version()
+    os.environ["PROMPT_VERSION"] = args.prompt_version
 
     try:
         required_prompts, mock_files = agent_assets(
-            repo, args.prompt_version, PROMPT_DIR, MOCK_DIR
+            repo,
+            args.prompt_version,
+            PROMPT_DIR,
+            MOCK_DIR,
+            requires_verify=hasattr(LLM, "verify"),
         )
     except InputError as exc:
         ap.error(str(exc))

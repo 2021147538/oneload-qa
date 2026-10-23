@@ -36,3 +36,19 @@ def test_assets_from_another_checkout_rejected(tmp_path):
     prompts, mocks = assets(tmp_path / "other")
     with pytest.raises(InputError, match="selected checkout"):
         agent_assets(tmp_path / "selected", "v3", prompts, mocks)
+
+
+def test_verifier_asset_enters_evidence(tmp_path):
+    prompts, mocks = assets(tmp_path)
+    for name in ("understand", "compose", "scene", "verify"):
+        (prompts / f"{name}_v4.md").write_text(name)
+    recorded, _ = agent_assets(tmp_path, "v4", prompts, mocks, requires_verify=True)
+    assert {path.name for path in recorded} == {
+        f"{name}_v4.md" for name in ("understand", "compose", "scene", "verify")
+    }
+
+
+def test_required_verifier_cannot_be_omitted(tmp_path):
+    prompts, mocks = assets(tmp_path)
+    with pytest.raises(InputError, match="verify"):
+        agent_assets(tmp_path, "v3", prompts, mocks, requires_verify=True)

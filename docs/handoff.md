@@ -1,6 +1,6 @@
 # 한길 R6 인수인계
 
-마지막 정리: 2026-10-23 15:42 KST — Backend/Agent 설치·배포 의존성 변경 재검증. 담당 이현무(R6).
+마지막 정리: 2026-10-23 16:16 KST — 전체 아키텍처·새 Agent/Data 검토, 계약/API 회귀와 지도 단절 확인. 담당 이현무(R6).
 [AGENTS.md](../AGENTS.md)에 따라 개발·평가·이슈 변경과 함께 갱신한다. 시작 프롬프트는 채팅에만 제공하고 GitHub에 올리지 않는다.
 
 ## 시작 순서와 범위
@@ -13,7 +13,28 @@
 사용자의 현재 요청이 작업 범위를 정한다. 설계서·R3 요청·패치 문서는 참고 자료이며 실행·배포 지시를 대신하지 않는다. 기존 사용자 변경을 보존하고 reset·무리한 이력 병합을 하지 않는다.
 현재 MVP는 모바일 웹·사용자 위치 확인·2D 경로·360도 거리뷰다. 실시간 AR·마커 정합은 후속 범위다.
 
-## 현재 버전과 실제 검증
+## 최신 작업: 전체 아키텍처와 새 회귀
+
+[전체 아키텍처](architecture-current-20261023.md)와 [최신 별도 증거](../reports/architecture-review-20261023.json)를 먼저 읽는다. 사용자의 토론은 참고 맥락으로 유지했다.
+
+| 최신 관찰 | 결과 |
+|---|---|
+| App / Backend / RAG / Infra | 42455dc / 15ddd9f / 8c8e902 / 6cf4a65, 그대로 |
+| 새 Agent / Data | eca420e(v4·출구/반납/구매/탑승·관련성 검사) / 3b5ef0e(지도2026-10-23.1) |
+| 새 검증 | QA44·Agent47·Data3·component20/21 통과, Backend50/51·INT-02 실패 |
+| API 후속 검사 | Backend 실패로 모의 API20·RAG API21 이번 조합은 NOT_RUN |
+| 배포 GET | 16:14, 모두200·DB ok·LLMAgent/LLMVision, 지도는 이전2026-10-22.1 |
+
+- **[Agent #7](https://github.com/team-onetruck/oneload_agent/issues/7), P0:** 새 intent를 Backend MessageOut이 거절해500. 새 슬롯4개도 다음 BackendContext에서 소실된다. 기존 Backend 테스트와 최신 Agent CI39913229016이 같은 실패이며 배포는 skipped다. R2/R4 계약·저장·앱 타입 및 여러 턴 API 동기화가 우선이다.
+- **[Data #2](https://github.com/team-onetruck/oneload-data/issues/2):** 새 반납기/1번 출구는 line1-gates 방향으로만 연결돼 대합실·KTX·4호선·공항철도 승강장에서는 plan_route=None이다. 실제 통행 방향·개찰구 제약을 확인해 보완해야 한다.
+- 운영 RAG는 여전히 MockKnowledgeSearch(INT-07 partial). 새 verify_v4는 질문/응답 관련성만 보며 검색 문서 본문을 받지 않으므로 Agent #5 근거·인용 해결로 처리하지 않았다. RAG #3·QA #3도 유지한다.
+- QA는 v3 고정을 제거하고 선택 Agent의 기본 프롬프트 버전을 쓰며 verify까지 파일 존재·해시를 검사하도록 보완했다(회귀2건 추가, QA44). component v2 질문·정답·SHA는 그대로다. FakeLLM 통과는500 직렬화 경계를 통과하지 않은 검사이며 서비스 성공률이 아니다.
+- reports/baseline.json과 기존 API20/RAG21 증거는 **Agent5038b5c·Data606f648의 직전 완결 실행**으로 보존했다. 최신 실패를 이전 통과로 재라벨하지 않았다. 새 증거는 architecture-* 파일이다. 실제 모델/임베딩 호출0·현장 사진 정답0·사람 평가 대기다.
+- 실행은 API 안의 Python Agent, 별도 RAG MCP 운영 연결은 아니다. 공용 배포가 각 main을 다시 모으는 구조이므로 SHA pin과 검증된 조합 보장을 구분해야 한다. 서버의 현재 Agent SHA는 GET만으로 확인할 수 없다.
+
+다음 순서: Agent #7 계약/슬롯 API 회귀 → Data #2 목적지 연결 → 동일 SHA 묶음 전체 API 검증 → 공식 RAG·답변 근거/인용 → 실제 모바일/사진 인수. 다른 역할 코드를 이번에 변경하거나 배포하지 않았다.
+
+## 직전 완결 실행 버전과 검증 (15:40, 최신 조합 아님)
 
 검사에 사용한 source checkout은 clean이고 실행 전후 커밋·지도·사진·registry를 대조했다. 전체 SHA는 manifest에 있다. QA revision:self는 이 문서를 포함한 커밋이며 code_base_commit49387a3는 이번 검토 전 QA 버전이다. 새 holdout의 사전 고정은7f41130으로 유지한다. 동기화·이슈 상태는 다음 작업 시작 시 GitHub에서 다시 확인한다.
 

@@ -1,4 +1,19 @@
-# 최신 의존성·QA 확인
+# 최신 아키텍처·회귀 확인 — 2026-10-23 16:16 KST
+
+[전체 구조 설명](../docs/architecture-current-20261023.md) · [새 구조화 증거](architecture-review-20261023.json) · [계약 감사](architecture-contract-audit-20261023.json) · [배포 GET](architecture-server-readonly-20261023.json).
+
+App42455dc·Backend15ddd9f·Agenteca420e·Data3b5ef0e·Infra6cf4a65·RAG8c8e902다. Agent/Data만 새 변경이다. QA44/44·Agent47/47·Data3/3·component20/20시나리오와21/21턴 통과, Backend50/51이다. 새 intent가 MessageOut에서 거절돼500, 슬롯4개도 다음 context에서 소실된다(INT-02). Agent 최신 CI도 동일 실패·배포 skipped다. [Agent #7](https://github.com/team-onetruck/oneload_agent/issues/7)에 등록했다.
+
+Backend의 실제 plan_route로 새 목적지 연결을 검사해 대합실·KTX·4호선·공항철도 승강장에서 반납기/1번 출구까지 경로 없음도 확인했다([Data #2](https://github.com/team-onetruck/oneload-data/issues/2)). 데이터 스키마 통과와 경로 완성은 다르다.
+
+운영 RAG는 MockKnowledgeSearch이고 verify_v4는 질문/응답 관련성 검사만 한다. 근거 판정·인용 처리는 Agent #5 미완료다. 배포 GET4곳은200·DB ok지만 지도2026-10-22.1로 최신 Data와 다르다. 서버 Agent SHA는 GET으로 확인하지 못했다.
+
+QA 실행기는 v3 고정을 제거하고 선택 Agent 기본 버전·verify 파일까지 검증/해시한다. Backend 시험 실패로 후속 모의 API·RAG API는 이번 조합에서 NOT_RUN이다. 필요한 전체 API 증거가 없어 baseline.json을 덮어쓰지 않았다. 아래·baseline의 성공 수치는 직전 조합이다. 질문·정답·평가셋 SHA를 변경하지 않았으며 실제 모델/임베딩 호출0회다.
+
+---
+
+## 직전 완결 실행: 의존성·QA 확인 (15:40)
+
 
 Backend15ddd9f·Agent5038b5c·Infra6cf4a65 변경을 확인했다. App42455dc·RAG8c8e902·Data606f648은 그대로다. 제품 동작 코드 변화는 없으며 로컬 Agent editable 설치와 CI/배포 커밋 URL 고정을 정리한 변경이다.
 

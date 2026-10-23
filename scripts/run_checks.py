@@ -194,8 +194,6 @@ def main() -> int:
             str(qa / "eval/component_cases.json"),
             "--mode",
             "fake",
-            "--prompt-version",
-            "v3",
             "--output",
             str(out / "component"),
         ],

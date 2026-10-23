@@ -10,7 +10,14 @@
 작업자는 [AGENTS.md](AGENTS.md)의 인수인계 갱신 절차를 따릅니다. 설계 사본은 [참고 자료](docs/reference/README.md)에 있습니다.
 [repos.lock.json](repos.lock.json)은 최근 관찰 버전과 마지막 검증 버전을 구분합니다. 표준 QA와 별도 RAG 검사의 커밋·범위를 구분합니다. 소스 커밋 기록은 Frontend UI·Infra 배포 검증을 뜻하지 않습니다.
 
-## 마지막 전체 QA 확인 결과
+## 최신 아키텍처·회귀 확인 (2026-10-23 16:16 KST)
+
+[전체 아키텍처](docs/architecture-current-20261023.md) · [새 증거](reports/architecture-review-20261023.json).
+Agent eca420e와 Data3b5ef0e가 추가됐다. QA44·Agent47·Data3·component20/21은 통과했지만 **Backend50/51·INT-02 실패**다. 새 intent의 messages500 및 다음 턴 슬롯 소실은 [Agent #7](https://github.com/team-onetruck/oneload_agent/issues/7), 새 출구/반납기 경로 단절은 [Data #2](https://github.com/team-onetruck/oneload-data/issues/2)에 재현 근거를 등록했다. 운영 RAG는 여전히 demo이고 새 verify는 근거 사실성을 검사하지 않는다.
+
+v4·verify 자산까지 QA 검사/해시에 반영했다. Backend 실패로 후속 API 검사는 이번 조합에서 실행하지 않았다. **아래 baseline과 기존 API 통과 수치는 직전 Agent5038b5c·Data606f648 조합**이며 최신으로 재라벨하지 않았다. 현재 배포 GET은200·DB ok지만 지도는 이전2026-10-22.1이고 새 Agent 배포는 CI에서 skipped다. 실제 모델 호출0회다.
+
+## 직전 완결 QA 확인 결과 (15:40, 최신 조합 아님)
 
 2026-10-23 15:40 KST, App42455dc·Backend15ddd9f·Agent5038b5c·Data606f648·Infra6cf4a65에서 다시 실행했습니다. Backend 로컬 개발은 ../oneload_agent를 editable로 사용하고 CI/배포는 pin_agent.sh로 정확한 커밋 URL을 고정합니다. 두 설치 방식과 자산 포함을 별도 복사본에서 확인했습니다([최신 검토](reports/dependency-review-20261023.json)).
 

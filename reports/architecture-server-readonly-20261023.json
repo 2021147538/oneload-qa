@@ -1,0 +1,42 @@
+{
+  "checked_at_kst": "2026-10-23T16:14:16.968742+09:00",
+  "base_url": "https://baki-macbookpro.tail3286a4.ts.net:10000",
+  "method": "GET only; no sessions, messages, photos, deployments or model calls",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "title": "Hangil 한길 · demo"
+    },
+    {
+      "path": "/api/v1/health",
+      "status": 200,
+      "body": {
+        "status": "ok",
+        "api_version": "v1",
+        "dependencies": {
+          "database": "ok"
+        }
+      }
+    },
+    {
+      "path": "/api/v1/openapi.json",
+      "status": 200,
+      "ai_description": "- 대화: `LLMAgent` (`LLMAgent`는 OpenAI, `RuleAgent`는 키 미설정 시 대체 구현)\n- 사진: `LLMVision` (`LLMVision`은 OpenAI, `NoVision`은 503 후 수동 위치 선택)",
+      "supported_message_intents": [
+        "navigate_to_poi",
+        "ticket_purchase_and_navigation",
+        "payment_question",
+        "usage_question",
+        "report_off_route",
+        "out_of_scope"
+      ]
+    },
+    {
+      "path": "/api/v1/maps/seoul-station/graph",
+      "status": 200,
+      "map_version": "2026-10-22.1",
+      "node_count": 10
+    }
+  ]
+}
