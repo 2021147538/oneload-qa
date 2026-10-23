@@ -1,6 +1,6 @@
 # 한길 R6 인수인계
 
-마지막 정리: 2026-10-23 15:31 KST — 현재 App/Backend 조립·CI·배포 GET·전체 QA 확인. 담당 이현무(R6).
+마지막 정리: 2026-10-23 15:42 KST — Backend/Agent 설치·배포 의존성 변경 재검증. 담당 이현무(R6).
 [AGENTS.md](../AGENTS.md)에 따라 개발·평가·이슈 변경과 함께 갱신한다. 시작 프롬프트는 채팅에만 제공하고 GitHub에 올리지 않는다.
 
 ## 시작 순서와 범위
@@ -15,24 +15,34 @@
 
 ## 현재 버전과 실제 검증
 
-검사에 사용한 source checkout은 clean이고 실행 전후 커밋·지도·사진·registry를 대조했다. 전체 SHA는 manifest에 있다. QA revision:self는 이 문서를 포함한 커밋이며 code_base_commit0ea1beb는 이번 QA 보완 전 버전이다. 새 holdout의 사전 고정은7f41130으로 유지한다. 동기화·이슈 상태는 다음 작업 시작 시 GitHub에서 다시 확인한다.
+검사에 사용한 source checkout은 clean이고 실행 전후 커밋·지도·사진·registry를 대조했다. 전체 SHA는 manifest에 있다. QA revision:self는 이 문서를 포함한 커밋이며 code_base_commit49387a3는 이번 검토 전 QA 버전이다. 새 holdout의 사전 고정은7f41130으로 유지한다. 동기화·이슈 상태는 다음 작업 시작 시 GitHub에서 다시 확인한다.
 
 | 저장소 | 검증 커밋 | 범위 |
 |---|---|---|
 | oneload-qa / qa | 이 문서 포함 커밋 | 회귀42·운영 entrypoint 검사·새 의존성 경로 보완 |
 | oneload-app | 42455dc | ApiAdapter 단일 흐름·Live/Demo 라벨·이벤트 outbox. 소스 wired·CI429+E2E11, 공용 배포 통과 |
-| oneload-backend | f9d790f | 기존51·모의 API20·RAG 주입 API21, 운영 Agent/Vision 연결·검색은 demo |
-| oneload_agent | a089746 / 개발 pin7f116de | 패키지 코드/자산 동일, CI/문서 차이. 배포는 Agent main 사용. 43건·component20/21·주입 API |
+| oneload-backend | 15ddd9f | 기존51·모의 API20·RAG 주입 API21, 운영 Agent/Vision 연결·검색은 demo |
+| oneload_agent | 5038b5c / local editable | Backend가 형제 checkout 사용. CI/배포는 정확한 main SHA URL 고정. 43건·component20/21·주입 API |
 | oneload-data | 606f648 | 지도2026-10-22.1·모델/참조·스키마·사진3건 |
-| oneload-infra | 8f03327 | API+웹 이미지·Caddy 배포 구성. Backend CI 배포 성공 관찰 |
+| oneload-infra | 6cf4a65 | API+웹 이미지·Caddy 배포 구성. Backend CI 배포 성공 관찰 |
 | oneload-rag | 8c8e902 | 공식 MemorySearch0.25 주입 API21. 검색 품질은 이전e6c03f2 노출 v2 결과 보존 |
 
-2026-10-23 15:29 KST 전체 결과: QA42/42(skip0), 데이터3/3, Agent43/43, Backend51/51, component v2 20/20시나리오·21/21턴, 모의 API20/20, RAG API21/21. 전체 exit1은 R3 운영 검색 미연결(INT-07) 때문이다.
+2026-10-23 15:40 KST 전체 결과: QA42/42(skip0), 데이터3/3, Agent43/43, Backend51/51, component v2 20/20시나리오·21/21턴, 모의 API20/20, RAG API21/21. 전체 exit1은 R3 운영 검색 미연결(INT-07) 때문이다.
 
 [기준선](../reports/baseline.json) · [감사](../reports/contract-audit.json) · [RAG API](../reports/rag-integration-probe.json).
 FakeLLM·합성 JPEG·자신이 만든 일회용 DB다. 실제 모델/임베딩 호출0회, 현장 사진 정답0건, 컴포넌트21턴 사람 검토 대기·품질 점수null이다. 기능 TC의 PARTIAL/NOT_RUN은 유지했다.
 
-## 이번 작업: 현재 구현 재확인
+## 이번 작업: 개발·배포 Agent 설치 방식
+
+[새 검토 증거](../reports/dependency-review-20261023.json)를 따른다. Backend15ddd9f는 ../oneload_agent를 editable로 설치해 로컬 변경이 다음 실행에 반영된다. CI/배포/이미지 빌드에는 그 형제 경로가 없으므로 scripts/pin_agent.sh가 지정한 Agent SHA의 archive URL로 pyproject/lock을 바꾼다. Infra6cf4a65도 같은 도구를 사용하고 Agent5038b5c CI는 올바른 형제 폴더명으로 uv sync한다.
+
+원본 저장소가 아닌 고정 Git 복사본에서 두 모드의 uv sync --frozen·실제 import·동일 코드 SHA·프롬프트v3/데모 지식 포함을 확인했다. 잘못된 SHA는 source/lock 수정 전에 거절된다. 이 pin 도구는 복사본에서만 실행했고 배포 스크립트는 실행하지 않았다.
+
+QA42/Agent43/Backend51·component20/21·모의 API20·RAG 주입 API21을 새 일회용 DB로 재검증했다. 최신 Backend와 Agent CI/공용 배포도 통과했고 로그의 backend15ddd9f·agent5038b5c·data606f648·web42455dc 및 healthy를 확인했다. App/RAG/지도·Python 동작 코드는 직전과 같다. 새 확정 결함은 없으며 RAG 운영 미연결·답변 근거/인용·사람 검토 대기를 유지한다.
+
+초기 개발용 Agent7f116de URL pin 설명은 아래 과거 기록이다. 현재 로컬 기본은 editable이며 최신 배포 Agent는5038b5c다. 실제 모델 호출/사진 평가·브라우저 인수를 새로 실행한 결과는 아니다.
+
+## 직전 작업: 현재 구현 재확인
 
 [현재 구현 정리](current-implementation-20261023.md)와 [소스·CI·QA 증거](../reports/current-system-review-20261023.json)를 먼저 읽는다. 사용자가 제공한 토론은 참고 맥락이며 더미 위치·텍스트 전용 안내·가상 역 등을 확정 요구로 적용하거나 인수조건을 낮추지 않았다.
 
@@ -103,7 +113,7 @@ App2666e44는 목적지 목록 GET /maps/{id}/pois와 서버 poi_id를 사용하
 ## 이전 증거와 구분
 
 - retrieval-evaluation.json·retrieval-review-20261023.json은 이전 RAG의 v1/후보0.35 기록이다. 이번 고정0.25·새 v2 전후 결과는 rag-issue3-revalidation.json이다. 수치를 직접 이어 붙이지 않는다.
-- app-review-2666e44.json은 이전 App CI·별도 QA28 관찰이다. 최신 전체 QA38의 커밋·범위는 baseline.json이다.
+- app-review-2666e44.json은 이전 App CI·별도 QA28 관찰이다. 최신 전체 QA의 실제 커밋·수치는 baseline.json이다.
 - source-review-20261023.json은11:26 당시 Appb5d6835·RAG47ab39f 관찰이며 최신 전체 결과로 재사용하지 않는다.
 - contract-audit-review-20261023.json의 INT-06 P0는 QA #4 수정 전 거짓 판정 재현이다. 최신 contract-audit.json이 대체한다.
 - app-review.json의 App8c88f89·RAGf1ec584·Backenda82b7be 결과는 과거 기록이다. QA #1/#2/#4·Agent #1/#2/#3·RAG #1/#2의 해결도 이후 변경의 자동 합격이 아니다.

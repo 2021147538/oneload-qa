@@ -1,4 +1,16 @@
-# 최신 QA — 2026-10-23 15:29 KST
+# 최신 의존성·QA 확인
+
+Backend15ddd9f·Agent5038b5c·Infra6cf4a65 변경을 확인했다. App42455dc·RAG8c8e902·Data606f648은 그대로다. 제품 동작 코드 변화는 없으며 로컬 Agent editable 설치와 CI/배포 커밋 URL 고정을 정리한 변경이다.
+
+별도 Git 복사본에서 uv sync --frozen의 editable 설치, 정확한 SHA로 pin_agent.sh 실행 후 archive 설치, 코드·프롬프트3종·mock 지식 포함, 잘못된 SHA의 수정 전 차단을 확인했다. 원본 Backend source/lock과 배포는 변경하지 않았다.
+
+최신 QA42·Agent43·Backend51·데이터3·component20시나리오/21턴·모의 API20·RAG 주입 API21 통과. 현재 Backend CI(39912151867)·Agent CI(39912174444)의 시험·이미지/호환·배포도 성공이다. 전체 exit1은 운영 검색이 demo인 INT-07 partial 때문이다. 실제 모델/임베딩 호출0회다.
+
+[설치·CI·실행 증거](dependency-review-20261023.json) · [현재 기준선](baseline.json) · [RAG API](rag-integration-probe.json)
+
+아래는 직전 기능/배포 변경 검토다. 각 기록의 커밋과 시각을 구분한다.
+
+## 직전 QA — 2026-10-23 15:29 KST
 
 [현재 구현과 토론 맥락](../docs/current-implementation-20261023.md) · [소스·CI·검증 범위](current-system-review-20261023.json) · [배포 GET 확인](server-readonly-20261023.json)
 

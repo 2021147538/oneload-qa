@@ -12,7 +12,7 @@
 
 ## 마지막 전체 QA 확인 결과
 
-2026-10-23 15:29 KST, App42455dc·Backendf9d790f·Agenta089746·Data606f648·Infra8f03327에서 다시 실행했습니다. 로컬 개발 pin은 Agent7f116de지만 CI/배포가 체크아웃한 Agent main(a089746)으로 덮어씁니다. 패키지 동작 코드는 같습니다.
+2026-10-23 15:40 KST, App42455dc·Backend15ddd9f·Agent5038b5c·Data606f648·Infra6cf4a65에서 다시 실행했습니다. Backend 로컬 개발은 ../oneload_agent를 editable로 사용하고 CI/배포는 pin_agent.sh로 정확한 커밋 URL을 고정합니다. 두 설치 방식과 자산 포함을 별도 복사본에서 확인했습니다([최신 검토](reports/dependency-review-20261023.json)).
 
 | 검증 | 결과 | 의미 |
 |---|---|---|

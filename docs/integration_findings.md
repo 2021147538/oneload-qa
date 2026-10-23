@@ -1,5 +1,7 @@
 # 현재 통합 점검 결과
 
+후속 의존성 검토: Backend15ddd9f·Agent5038b5c·Infra6cf4a65에서 QA42/Backend51/Agent43·모의 API20·RAG 주입 API21을 다시 확인했다. 기능 코드와 아래 INT-07 partial 판정은 동일하다. [최신 증거](../reports/dependency-review-20261023.json)를 따른다.
+
 기준: Agenta089746(개발 pin7f116de와 패키지 코드 동일), Backendf9d790f, Data606f648, Frontend42455dc, RAG8c8e902 (2026-10-23 15:29 KST).
 [계약 검사](../reports/contract-audit.json)와 [실제 API 연결 검사](../reports/integration-probe.json)를 함께 봅니다.
 

@@ -1,0 +1,100 @@
+{
+  "checked_at_kst": "2026-10-23T15:42:24.077599+09:00",
+  "scope": "Dependency/source/CI/deploy review, isolated editable + commit-archive installation and current FakeLLM QA; no new product feature or requirement change.",
+  "commits": {
+    "oneload-app": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+    "oneload-backend": "15ddd9feb7bd60f9fdc141b449e1bd1b98c2d506",
+    "oneload_agent": "5038b5cdbc871a2036087be23fbc14490c22ac48",
+    "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
+    "oneload-infra": "6cf4a65ca6e34f0e673dadf428e2c2e925d20107"
+  },
+  "rag_commit": "8c8e902013fc12a1790762b38a34e282930cb667",
+  "previous_qa_commit": "49387a3f3dcac324f97bd42476f033f88141af4d",
+  "changes": {
+    "backend": "15ddd9f: local source is ../oneload_agent editable; scripts/pin_agent.sh rewrites source/lock to exact archive SHA for CI/build/deploy.",
+    "agent": "5038b5c: Backend CI uses actual oneload_agent sibling directory and uv sync, including new Agent dependencies.",
+    "infra": "6cf4a65: deploy calls Backend pin_agent.sh with its checked-out Agent SHA.",
+    "unchanged": "App42455dc, RAG8c8e902, Data606f648 unchanged; Backend application/tests and Agent package code/assets unchanged relative to previous review."
+  },
+  "packaging": {
+    "isolated_git_snapshots": true,
+    "no_env_or_secrets_copied": true,
+    "editable_install": {
+      "mode": "editable",
+      "agent_revision": "5038b5cdbc871a2036087be23fbc14490c22ac48",
+      "imports_selected_sibling_checkout": true,
+      "editable_metadata": true,
+      "prompt_v3_complete": true,
+      "mock_knowledge_shipped": true,
+      "agent_sha256": "8ad98adfd3dbb6bba126b0b255424a02cfb2dfffdf270d32fe7376c94e999348",
+      "invalid_pin_rejected_before_mutation": true,
+      "live_model_calls": 0
+    },
+    "commit_archive_install": {
+      "mode": "commit_archive",
+      "pinned_commit": "5038b5cdbc871a2036087be23fbc14490c22ac48",
+      "direct_url_matches_requested_commit": true,
+      "not_editable": true,
+      "imports_installed_site_package": true,
+      "prompt_v3_complete": true,
+      "mock_knowledge_shipped": true,
+      "same_agent_code_sha256": "8ad98adfd3dbb6bba126b0b255424a02cfb2dfffdf270d32fe7376c94e999348",
+      "live_model_calls": 0
+    },
+    "uv_sync_frozen": "success in both modes",
+    "pin_helper_run_only_in_isolated_copy": true,
+    "original_backend_source_or_lock_modified": false
+  },
+  "ci": {
+    "backend": {
+      "commit": "15ddd9feb7bd60f9fdc141b449e1bd1b98c2d506",
+      "url": "https://github.com/team-onetruck/oneload-backend/actions/runs/39912151867",
+      "test": "success",
+      "image": "success",
+      "deploy": "success"
+    },
+    "agent": {
+      "commit": "5038b5cdbc871a2036087be23fbc14490c22ac48",
+      "url": "https://github.com/team-onetruck/oneload_agent/actions/runs/39912174444",
+      "test": "success",
+      "backend_compatibility_api": "success",
+      "deploy": "success"
+    },
+    "app": {
+      "commit": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
+      "url": "https://github.com/team-onetruck/oneload-app/actions/runs/39911399631",
+      "status": "same unchanged commit; prior reviewed429 unit/11 E2E and deploy success",
+      "new_local_browser_run": false
+    },
+    "deploy_log_versions": {
+      "backend": "15ddd9f",
+      "agent": "5038b5c",
+      "data": "606f648",
+      "web": "42455dc",
+      "services": "API/Caddy healthy in both current Backend and Agent deployment logs"
+    }
+  },
+  "qa": {
+    "executed_at_kst": "2026-10-23T15:40:01.663529+09:00",
+    "qa_tests": 42,
+    "agent_tests": 43,
+    "backend_tests": 51,
+    "component_scenarios": 20,
+    "component_turns": 21,
+    "mock_api": 20,
+    "rag_injected_api": 21,
+    "overall_exit_code": 1,
+    "evidence": "reports/baseline.json",
+    "rag_evidence": "reports/rag-integration-probe.json"
+  },
+  "remaining": [
+    "INT-07 partial: production Agent/Vision wired, knowledge still MockKnowledgeSearch",
+    "RAG issue3 / Agent issue5 / QA issue3 remain open; exposed v2 retrieval failures not relabelled",
+    "DATA-01 and human review; no field-photo accuracy or actual-model quality measured by R6"
+  ],
+  "new_confirmed_defects": [],
+  "live_model_calls": 0,
+  "live_embedding_calls": 0,
+  "deployment_executed_by_R6": false,
+  "new_remote_HTTP_check": "Not repeated; latest deployment health read from completed CI logs; prior GET evidence retains its original time."
+}

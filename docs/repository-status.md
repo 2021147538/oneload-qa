@@ -1,5 +1,7 @@
 # 저장소 구조와 현재 버전
 
+최신 의존성 검토는 Backend15ddd9f·Agent5038b5c·Infra6cf4a65이며 App42455dc·RAG8c8e902·Data606f648은 그대로다. 로컬 editable/배포 SHA 고정 설치와 전체 QA를 다시 확인했다. [최신 설치·CI 증거](../reports/dependency-review-20261023.json)와 manifest를 따른다. 아래는 직전 기능 변경의 기준 커밋과 구조 기록이다.
+
 2026-10-23 15:29 KST 최신 구성·커밋·검증은 [현재 구현](current-implementation-20261023.md), [repos.lock.json](../repos.lock.json), [기준선](../reports/baseline.json)을 따른다. App42455dc·Backendf9d790f·Agenta089746·Data606f648·Infra8f03327·RAG8c8e902다. Backend 개발 pin7f116de와 Agenta089746은 패키지 코드/자산이 같고 CI/문서가 다르다. 공용 CI/배포가 Agent main을 사용한다.
 
 QA42/Agent43/Backend51·모의 API20·RAG 주입 API21을 재검증했다. 운영 Agent/Vision은 연결됐으나 검색이 demo여서 INT-07 partial이다. App mock은 ApiAdapter 구현이며 store/screens는 모드와 관계없이 같은 호출을 쓴다. R6는 실제 모델·사진 호출/배포를 하지 않았다.

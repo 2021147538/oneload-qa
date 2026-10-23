@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
+  "observed_at_kst": "2026-10-23T15:42:24.077599+09:00",
   "purpose": "Observed remote-main versions; standard FakeLLM baseline and separate MemorySearch evidence have distinct scopes.",
   "qa": {
     "repository": "team-onetruck/oneload-qa",
     "directory": "qa",
     "url": "https://github.com/team-onetruck/oneload-qa.git",
     "revision": "self",
-    "code_base_commit": "0ea1bebfb9f2f91ad14e0957230a18ffcd4c1a73",
-    "note": "self means this report commit; code_base_commit is the QA revision before this review. Frozen v2 remains 7f41130; actual runners are pinned by baseline hashes."
+    "code_base_commit": "49387a3f3dcac324f97bd42476f033f88141af4d",
+    "note": "self means this report commit; code_base_commit is the preceding QA revision. Exact tested scripts are bound by baseline runner hashes; frozen v2 remains7f41130."
   },
   "qa_baseline": "reports/baseline.json",
   "rag_issue_review_evidence": [
@@ -23,29 +23,29 @@
       "observed_main_commit": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
       "qa_baseline_commit": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
       "rag_issue_review_commit": null,
-      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
-      "review_evidence": "reports/current-system-review-20261023.json",
+      "observed_at_kst": "2026-10-23T15:42:24.077599+09:00",
+      "review_evidence": "reports/dependency-review-20261023.json",
       "historical_review_evidence": "reports/app-review.json"
     },
     {
       "repository": "team-onetruck/oneload-backend",
       "directory": "oneload-backend",
       "url": "https://github.com/team-onetruck/oneload-backend.git",
-      "observed_main_commit": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
-      "qa_baseline_commit": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
+      "observed_main_commit": "15ddd9feb7bd60f9fdc141b449e1bd1b98c2d506",
+      "qa_baseline_commit": "15ddd9feb7bd60f9fdc141b449e1bd1b98c2d506",
       "rag_issue_review_commit": "a82b7befa6509c28c843a0dc84af46d75143a047",
-      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
-      "review_evidence": "reports/current-system-review-20261023.json"
+      "observed_at_kst": "2026-10-23T15:42:24.077599+09:00",
+      "review_evidence": "reports/dependency-review-20261023.json"
     },
     {
       "repository": "team-onetruck/oneload_agent",
       "directory": "oneload_agent",
       "url": "https://github.com/team-onetruck/oneload_agent.git",
-      "observed_main_commit": "a089746d925e7c7e80da66287fcc0af998ecbb58",
-      "qa_baseline_commit": "a089746d925e7c7e80da66287fcc0af998ecbb58",
+      "observed_main_commit": "5038b5cdbc871a2036087be23fbc14490c22ac48",
+      "qa_baseline_commit": "5038b5cdbc871a2036087be23fbc14490c22ac48",
       "rag_issue_review_commit": "250271edb6c50e8cc71cd1443143e94cb9191a74",
-      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
-      "review_evidence": "reports/current-system-review-20261023.json"
+      "observed_at_kst": "2026-10-23T15:42:24.077599+09:00",
+      "review_evidence": "reports/dependency-review-20261023.json"
     },
     {
       "repository": "team-onetruck/oneload-data",
@@ -54,18 +54,18 @@
       "observed_main_commit": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
       "qa_baseline_commit": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
       "rag_issue_review_commit": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
-      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
-      "review_evidence": "reports/current-system-review-20261023.json"
+      "observed_at_kst": "2026-10-23T15:42:24.077599+09:00",
+      "review_evidence": "reports/dependency-review-20261023.json"
     },
     {
       "repository": "team-onetruck/oneload-infra",
       "directory": "oneload-infra",
       "url": "https://github.com/team-onetruck/oneload-infra.git",
-      "observed_main_commit": "8f03327db463f09f7a26439280771002c7cf9fcc",
-      "qa_baseline_commit": "8f03327db463f09f7a26439280771002c7cf9fcc",
+      "observed_main_commit": "6cf4a65ca6e34f0e673dadf428e2c2e925d20107",
+      "qa_baseline_commit": "6cf4a65ca6e34f0e673dadf428e2c2e925d20107",
       "rag_issue_review_commit": null,
-      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
-      "review_evidence": "reports/current-system-review-20261023.json"
+      "observed_at_kst": "2026-10-23T15:42:24.077599+09:00",
+      "review_evidence": "reports/dependency-review-20261023.json"
     },
     {
       "repository": "team-onetruck/oneload-rag",
@@ -74,14 +74,14 @@
       "observed_main_commit": "8c8e902013fc12a1790762b38a34e282930cb667",
       "qa_baseline_commit": null,
       "rag_issue_review_commit": "f1ec584634cdbc2eca5da0e1aa8eeff13e13cfc0",
-      "observed_at_kst": "2026-10-23T15:31:32.066477+09:00",
+      "observed_at_kst": "2026-10-23T15:42:24.077599+09:00",
       "rag_profile_review_commit": "8c8e902013fc12a1790762b38a34e282930cb667",
-      "review_evidence": "reports/current-system-review-20261023.json",
+      "review_evidence": "reports/dependency-review-20261023.json",
       "retrieval_review_commit": "e6c03f242482151a69d00ce94056c502d724c205",
       "historical_review_evidence": "reports/source-review-20261023.json"
     }
   ],
-  "updated_at_kst": "2026-10-23T15:31:32.066477+09:00",
+  "updated_at_kst": "2026-10-23T15:42:24.077599+09:00",
   "rag_profile_evidence": [
     "reports/rag-integration-probe.json",
     "reports/rag-issue3-revalidation.json"
@@ -95,7 +95,10 @@
     "decision": "keep_open; fresh holdout top3 17/20, out-of-scope empty 17/20",
     "protocol": "official-only MemorySearch min_score0.25 k3 relative0.5; no sweep"
   },
-  "current_update_review": "reports/current-system-review-20261023.json",
-  "backend_local_development_agent_pin": "7f116deac946479cdacaa5d9ade87d5e9829d051",
-  "backend_deployed_agent_commit": "a089746d925e7c7e80da66287fcc0af998ecbb58"
+  "current_update_review": "reports/dependency-review-20261023.json",
+  "backend_deployed_agent_commit": "5038b5cdbc871a2036087be23fbc14490c22ac48",
+  "backend_development_agent_source": {
+    "path": "../oneload_agent",
+    "editable": true
+  }
 }

@@ -1,11 +1,11 @@
 {
-  "executed_at_utc": "2026-10-23T06:29:26.462789+00:00",
+  "executed_at_utc": "2026-10-23T06:40:01.361105+00:00",
   "commits": {
     "oneload-app": "42455dc8e08cc34a596b58fc70431bd25c8dd5e5",
-    "oneload-backend": "f9d790f50682386372c7a25ca93f6699cce2ac7f",
-    "oneload_agent": "a089746d925e7c7e80da66287fcc0af998ecbb58",
+    "oneload-backend": "15ddd9feb7bd60f9fdc141b449e1bd1b98c2d506",
+    "oneload_agent": "5038b5cdbc871a2036087be23fbc14490c22ac48",
     "oneload-data": "606f6485e4e83cdf673e61b29fbd5458bb998bce",
-    "oneload-infra": "8f03327db463f09f7a26439280771002c7cf9fcc"
+    "oneload-infra": "6cf4a65ca6e34f0e673dadf428e2c2e925d20107"
   },
   "map": {
     "source_repository": "oneload-data",
